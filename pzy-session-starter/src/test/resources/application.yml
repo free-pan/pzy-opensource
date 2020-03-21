@@ -1,0 +1,7 @@
+spring:
+  session:
+    store-type: redis # session的存储类型
+    timeout: 15s # session超时时间. 可用单位:h小时, m:分钟, s:秒
+    redis:
+      flush-mode: on_save # session刷新模式. on_save: 保存时刷新，即响应结束后刷新。默认是 on_save  immediate:实时刷新
+      namespace: "redis-session" # 存储 Session的命名空间，默认是spring:session
