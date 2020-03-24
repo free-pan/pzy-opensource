@@ -31,11 +31,11 @@ public class HttpResponseUtl {
     }
 
     /**
-     * 通过spring获取HttpServletResponse对象<br/>
+     * 通过spring获取HttpServletResponse对象
+     * <p>
+     * 前提条件: 需要配置监听器 `org.springframework.web.context.request.RequestContextListener`
      *
-     * <strong>前提条件: </strong>需要配置监听器 `org.springframework.web.context.request.RequestContextListener`
-     *
-     * @return
+     * @return 响应对象
      */
     public static HttpServletResponse loadHttpServletResponse() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -45,7 +45,7 @@ public class HttpResponseUtl {
     /**
      * 禁用缓存
      *
-     * @param response
+     * @param response 响应对象
      */
     public static void disableCache(HttpServletResponse response) {
         response.setDateHeader(HttpHeaders.EXPIRES, 0L);
@@ -56,7 +56,8 @@ public class HttpResponseUtl {
     /**
      * 允许跨域
      *
-     * @param response
+     * @param response           响应对象
+     * @param httpServletRequest 请求对象
      */
     public static void allowHttpCross(HttpServletResponse response, HttpServletRequest httpServletRequest) {
         response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, HttpRequestUtil.extractOrigin(httpServletRequest));
@@ -70,18 +71,18 @@ public class HttpResponseUtl {
     /**
      * 允许跨域
      *
-     * @param response
+     * @param response 响应对象
      */
     public static void allowCross(ServletResponse response, ServletRequest request) {
-        allowHttpCross((HttpServletResponse)response, (HttpServletRequest)request);
+        allowHttpCross((HttpServletResponse) response, (HttpServletRequest) request);
     }
 
 
     /**
      * 输出gif图片设置
      *
-     * @param response
-     * @param request
+     * @param response 响应对象
+     * @param request  请求对象
      */
     public static void gifPicSettings(HttpServletResponse response, HttpServletRequest request) {
         // 禁用缓存
@@ -96,8 +97,8 @@ public class HttpResponseUtl {
     /**
      * 输出json设置
      *
-     * @param response
-     * @param request
+     * @param response 响应对象
+     * @param request  请求对象
      */
     public static void jsonSettings(HttpServletResponse response, HttpServletRequest request) {
         // 设置输入出类型为json
@@ -109,9 +110,9 @@ public class HttpResponseUtl {
     /**
      * 直接将obj转换为json字符串,输出. http的响应状态码为200
      *
-     * @param request
-     * @param response
-     * @param obj
+     * @param request    请求对象
+     * @param response   响应对象
+     * @param obj        待转化为json字符串对象
      * @param allowCross 是否允许跨域
      */
     public static void printJson(HttpServletRequest request, HttpServletResponse response, Object obj, boolean allowCross) {
@@ -121,9 +122,9 @@ public class HttpResponseUtl {
     /**
      * 直接将obj转换为json字符串,输出
      *
-     * @param request
-     * @param response
-     * @param obj
+     * @param request    请求对象
+     * @param response   响应对象
+     * @param obj        待转化对象
      * @param httpStatus http的响应状态码
      * @param allowCross 是否允许跨域
      */
@@ -170,7 +171,7 @@ public class HttpResponseUtl {
      * @param fileName 下载的文件名
      * @param response HttpServletResponse实例
      * @return 输出流(将要下载的文件输出到该输出流即可实现文件的下载)
-     * @throws IOException
+     * @throws IOException IO操作失败时,抛出该异常
      */
     public static OutputStream downloadSettings(String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String encodeFileName = URLEncoder.encode(fileName, GlobalConstant.DEFAULT_CHARSET);

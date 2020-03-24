@@ -21,7 +21,7 @@ public class CookieUtil {
     /**
      * 根据名称获取cookie值
      *
-     * @param request
+     * @param request 请求对象
      * @param name    cookie名称
      * @return 存在时, 返回cookie值, 不存在时,返回null
      */
@@ -36,7 +36,7 @@ public class CookieUtil {
     /**
      * 删除cookie
      *
-     * @param response
+     * @param response 响应对象
      * @param name     cookie名称
      */
     public static final void remove(HttpServletResponse response, String name) {
@@ -46,9 +46,9 @@ public class CookieUtil {
     /**
      * 根据名称获取cookie
      *
-     * @param request
+     * @param request 请求对象
      * @param name    cookie名称
-     * @return
+     * @return cookie对象或null
      */
     public static final Cookie get(HttpServletRequest request, String name) {
         for (Cookie cookie : request.getCookies()) {
@@ -62,7 +62,7 @@ public class CookieUtil {
     /**
      * 设置cookie
      *
-     * @param response
+     * @param response 响应对象
      * @param name     名称
      * @param value    值
      * @param httpOnly 为true时,js无法读写该cookie
@@ -78,7 +78,7 @@ public class CookieUtil {
     /**
      * 设置超时时间为-1的cookie
      *
-     * @param response
+     * @param response 响应对象
      * @param name     名称
      * @param value    值
      * @param httpOnly 为true时,js无法读写该cookie
@@ -90,8 +90,8 @@ public class CookieUtil {
     /**
      * 清除所有cookie
      *
-     * @param request
-     * @param response
+     * @param request  请求对象
+     * @param response 响应对象
      */
     public static void clearAll(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();

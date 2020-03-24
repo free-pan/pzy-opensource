@@ -18,15 +18,18 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.pzy.opensource.domain.GlobalConstant;
 
 import java.util.Date;
 
 /**
+ * 基础实体: 包含公共字段 id, create_time, edit_time, creator_id, editor_id, creator_name, editor_name
  * @author pan
  * @date 2019-12-11
  */
 @Data
+@Accessors(chain = true)
 public class BaseEntity extends SimpleBaseEntity {
 
     private static final long serialVersionUID = 3714369808680042179L;

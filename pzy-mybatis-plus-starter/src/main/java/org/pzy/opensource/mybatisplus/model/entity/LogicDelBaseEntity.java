@@ -21,6 +21,7 @@ import lombok.Data;
 import java.util.Date;
 
 /**
+ * 基础实体. 包含公共字段: del_uid, del_time, deletor_name
  * @author pan
  * @date 2019-12-11
  */
@@ -29,7 +30,13 @@ public class LogicDelBaseEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1272777735771040750L;
 
+    /**
+     * 逻辑删除操作时填充的uuid
+     */
     public static final String DEL_UID = "del_uid";
+    /**
+     * 逻辑删除操作时记录的`当前操作时间`
+     */
     public static final String DEL_TIME = "del_time";
     /**
      * 删除人id

@@ -28,8 +28,8 @@ public class HttpRequestUtil {
     /**
      * 响应数据格式是否为json
      *
-     * @param request
-     * @return
+     * @param request 请求对象
+     * @return true是, false否
      */
     public static boolean isResponseJsonData(HttpServletRequest request) {
         String accept = extractAccept(request);
@@ -42,8 +42,8 @@ public class HttpRequestUtil {
     /**
      * 响应数据格式是否为xml
      *
-     * @param request
-     * @return
+     * @param request 请求对象
+     * @return true是, false否
      */
     public static boolean isResponseXmlData(HttpServletRequest request) {
         String accept = extractAccept(request);
@@ -56,8 +56,8 @@ public class HttpRequestUtil {
     /**
      * 获取响应数据格式
      *
-     * @param request
-     * @return
+     * @param request 请求对象
+     * @return 数据格式
      */
     public static String extractAccept(HttpServletRequest request) {
         String accept = request.getHeader("Accept");
@@ -73,8 +73,8 @@ public class HttpRequestUtil {
     /**
      * 获取请求头的Origin
      *
-     * @param request
-     * @return
+     * @param request 请求对象
+     * @return 请求头的origin
      */
     public static String extractOrigin(HttpServletRequest request) {
         String accept = request.getHeader("Origin");
@@ -88,11 +88,11 @@ public class HttpRequestUtil {
     }
 
     /**
-     * 通过spring获取HttpServletRequest对象<br/>
+     * 通过spring获取HttpServletRequest对象
      *
-     * <strong>前提条件: </strong>需要配置监听器 `org.springframework.web.context.request.RequestContextListener`
+     * 前提条件: 需要配置监听器 `org.springframework.web.context.request.RequestContextListener`
      *
-     * @return
+     * @return HttpServletRequest对象
      */
     public static HttpServletRequest loadHttpServletRequest() {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -102,8 +102,8 @@ public class HttpRequestUtil {
     /**
      * 获取访问用户的客户端IP(适用于公网与局域网)
      *
-     * @param request
-     * @return
+     * @param request 请求对象
+     * @return 访问用户的客户端ip
      */
     public String getIpAddr(HttpServletRequest request) {
         return IpUtil.getIpAddr(request);

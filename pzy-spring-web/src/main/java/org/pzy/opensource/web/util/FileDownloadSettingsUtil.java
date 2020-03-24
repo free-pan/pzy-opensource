@@ -29,7 +29,7 @@ public class FileDownloadSettingsUtil {
      * @param fileName 下载的文件名
      * @param response HttpServletResponse实例
      * @return 输出流(将要下载的文件输出到该输出流即可实现文件的下载)
-     * @throws IOException
+     * @throws IOException IO输出操作出问题时,将抛出此异常
      */
     public static OutputStream downloadSettings(String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String encodeFileName = URLEncoder.encode(fileName, DEFAULT_CHARSET);
