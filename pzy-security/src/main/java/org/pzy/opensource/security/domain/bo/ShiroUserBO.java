@@ -14,7 +14,7 @@ package org.pzy.opensource.security.domain.bo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -24,7 +24,7 @@ import java.io.Serializable;
  */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@Accessors(chain = true)
 public class ShiroUserBO implements Serializable {
 
     private static final long serialVersionUID = -2216198644853379021L;
@@ -58,5 +58,17 @@ public class ShiroUserBO implements Serializable {
      * 账户是否启用(未被逻辑删除). true表示可用(未被逻辑删除)
      */
     private Boolean enabled;
+
+    public ShiroUserBO() {
+        // 账号未过期
+        this.accountNonExpired = true;
+        // 账号未锁定
+        this.accountNonLocked = true;
+        // 密码未过期
+        this.credentialsNonExpired = true;
+        // 账号已启用
+        this.enabled = true;
+
+    }
 
 }

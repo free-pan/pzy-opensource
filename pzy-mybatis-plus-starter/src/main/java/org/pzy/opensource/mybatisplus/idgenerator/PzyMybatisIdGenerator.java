@@ -15,6 +15,7 @@ package org.pzy.opensource.mybatisplus.idgenerator;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,7 @@ import java.util.Map;
  * @author pan
  * @date 2019-12-11
  */
+@Slf4j
 public class PzyMybatisIdGenerator implements IdentifierGenerator {
 
     // 将表的id生成器缓存起来
@@ -34,7 +36,11 @@ public class PzyMybatisIdGenerator implements IdentifierGenerator {
     public Number nextId(Object entity) {
         String className = entity.getClass().getName();
         Snowflake snowflake = getSnowflake(className);
-        return snowflake.nextId();
+        long id = snowflake.nextId();
+        if (log.isDebugEnabled()) {
+            log.debug("为{}生成主键值->:{}", className, id);
+        }
+        return id;
     }
 
     /**

@@ -6,7 +6,7 @@
 
     <groupId>org.pzy.opensource</groupId>
     <artifactId>pzy-opensource</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.2</version>
     <packaging>pom</packaging>
     <modules>
         <module>pzy-current-user</module>
@@ -23,6 +23,7 @@
         <module>pzy-swagger-ui</module>
         <module>pzy-springboot-web-security-starter</module>
         <module>pzy-okhttp3</module>
+        <module>pzy-email</module>
     </modules>
 
     <parent>
@@ -73,6 +74,7 @@
         <commons-lang3.version>3.9</commons-lang3.version>
         <spring-data-redis.version>2.2.0.RELEASE</spring-data-redis.version>
         <spring-session.version>1.3.5.RELEASE</spring-session.version>
+        <email.version>1.5</email.version>
     </properties>
 
     <dependencyManagement>
@@ -101,6 +103,11 @@
             <dependency>
                 <groupId>org.pzy.opensource</groupId>
                 <artifactId>pzy-spring-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.pzy.opensource</groupId>
+                <artifactId>pzy-email</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -334,12 +341,36 @@
                 <version>${testng.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-email</artifactId>
+                <version>${email.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.activation</groupId>
+                        <artifactId>activation</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
+        <plugins>
+            <!-- 一键更新子模块版本号.  mvn -N versions:update-child-modules -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
+        </plugins>
         <pluginManagement>
             <plugins>
+
                 <!-- Compiler 插件, 设定 JDK 版本 -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

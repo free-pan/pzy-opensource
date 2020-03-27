@@ -13,6 +13,7 @@
 package org.pzy.opensource.springboot.configuration;
 
 import lombok.extern.slf4j.Slf4j;
+import org.pzy.opensource.comm.mapstruct.StringDataMapper;
 import org.pzy.opensource.comm.util.WinterSnowflake;
 import org.pzy.opensource.comm.util.WinterSnowflakeUtil;
 import org.pzy.opensource.springboot.errorhandler.WinterExceptionHandler;
@@ -101,5 +102,16 @@ public class PzySpringBootAutoConfiguration {
     @ConditionalOnMissingBean
     WinterExceptionHandler winterExceptionHandler() {
         return new WinterExceptionHandler();
+    }
+
+    /**
+     * 将string处理mapper注入到spring容器, 让mapStruct在spring模式下可以直接引用到.
+     *
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    StringDataMapper stringDataMapper() {
+        return new StringDataMapper();
     }
 }

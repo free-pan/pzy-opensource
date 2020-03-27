@@ -16,8 +16,7 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.pzy.opensource.currentuser.CurrentUserInfo;
-import org.pzy.opensource.mybatisplus.model.entity.BaseEntity;
-import org.pzy.opensource.mybatisplus.model.entity.SimpleBaseEntity;
+import org.pzy.opensource.domain.GlobalConstant;
 
 import java.util.Date;
 
@@ -34,20 +33,16 @@ public class CreatorEditorMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         log.debug("自动填充创建人相关信息...");
-        this.setFieldValByName(BaseEntity.CREATOR_ID, CurrentUserInfo.getUserId(), metaObject);
-        this.setFieldValByName(BaseEntity.CREATOR_NAME, CurrentUserInfo.getRealName(), metaObject);
-        this.setFieldValByName(BaseEntity.CREATE_TIME, new Date(), metaObject);
-        Object id = this.getFieldValByName(SimpleBaseEntity.ID, metaObject);
-        if (null == id) {
-            // TODO 自动填充id
-        }
+        this.setFieldValByName("creatorId", CurrentUserInfo.getUserId().orElse(0L), metaObject);
+        this.setFieldValByName("creatorName", CurrentUserInfo.getRealName().orElse(GlobalConstant.EMPTY_STRING), metaObject);
+        this.setFieldValByName("createTime", new Date(), metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         log.debug("自动填充编辑人相关信息...");
-        this.setFieldValByName(BaseEntity.EDITOR_ID, CurrentUserInfo.getUserId(), metaObject);
-        this.setFieldValByName(BaseEntity.EDITOR_NAME, CurrentUserInfo.getRealName(), metaObject);
-        this.setFieldValByName(BaseEntity.EDIT_TIME, new Date(), metaObject);
+        this.setFieldValByName("editorId", CurrentUserInfo.getUserId().orElse(0L), metaObject);
+        this.setFieldValByName("editorName", CurrentUserInfo.getRealName().orElse(GlobalConstant.EMPTY_STRING), metaObject);
+        this.setFieldValByName("editTime", new Date(), metaObject);
     }
 }

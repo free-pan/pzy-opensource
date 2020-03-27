@@ -15,8 +15,11 @@ package org.pzy.opensource.mybatisplus.configuration;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import lombok.extern.slf4j.Slf4j;
+import org.pzy.opensource.comm.mapstruct.StringDataMapper;
 import org.pzy.opensource.domain.GlobalConstant;
 import org.pzy.opensource.mybatisplus.idgenerator.PzyMybatisIdGenerator;
+import org.pzy.opensource.mybatisplus.objecthandler.CreatorEditorMetaObjectHandler;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,6 +46,23 @@ public class WinterMybatisPlusAutoConfig {
     public IdentifierGenerator idGenerator() {
         log.debug("mybatis plus已启用自定义的ID生成器!");
         return new PzyMybatisIdGenerator();
+    }
+
+    @Bean
+    public CreatorEditorMetaObjectHandler creatorEditorMetaObjectHandler() {
+        log.debug("mybatis plus已启用操作人信息自动填充器!");
+        return new CreatorEditorMetaObjectHandler();
+    }
+
+    /**
+     * 将string处理mapper注入到spring容器, 让mapStruct在spring模式下可以直接引用到.
+     *
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    StringDataMapper stringDataMapper() {
+        return new StringDataMapper();
     }
 
 }

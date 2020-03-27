@@ -26,30 +26,37 @@ import java.util.List;
  * @author pan
  * @date 2019-12-06
  */
-public interface BaseObjectMapper<AddVO, EditVO, Entity, DTO> {
+public interface SimpleBaseMapStruct<Source, Target> {
 
     /**
-     * 如有需要自定义该注解即可
-     * 例如：
-     *
+     * 将源对象转换为目标对象
      */
     @Mappings({})
-//    @InheritConfiguration
-    Entity addVOtoEntity(AddVO source);
+    Target sourceToTarget(Source source);
 
-    //    @InheritConfiguration
-    List<Entity> addVOtoEntity(Collection<AddVO> source);
+    /**
+     * 将源对象集合转换为目标对象
+     *
+     * @param sources 源对象集合
+     * @return 目标对象集合
+     */
+    List<Target> sourceToTarget(Collection<Source> sources);
 
+    /**
+     * 将目标对象转换为源对象
+     *
+     * @param target 目标对象
+     * @return 源对象
+     */
     @Mappings({})
-//    @InheritConfiguration
-    Entity editVOtoEntity(EditVO source);
+    Source targetToSource(Target target);
 
-    //    @InheritConfiguration
-    List<Entity> editVOtoEntity(Collection<EditVO> source);
+    /**
+     * 将目标对象集合转换为源对象集合
+     *
+     * @param targets 目标对象集合
+     * @return 源对象集合
+     */
+    List<Source> targetToSource(Collection<Target> targets);
 
-    //    @InheritInverseConfiguration
-    DTO toDTO(Entity source);
-
-    //    @InheritInverseConfiguration
-    List<DTO> toDTO(Collection<Entity> source);
 }

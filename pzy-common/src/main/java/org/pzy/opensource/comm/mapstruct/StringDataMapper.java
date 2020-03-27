@@ -13,7 +13,9 @@
 package org.pzy.opensource.comm.mapstruct;
 
 /**
- * 自定义基础类型映射
+ * 自定义基础类型映射.
+ * <p>
+ * 用法示例:@Mapper(uses=StringDataMapper.class)
  *
  * @author pan
  * @date 2018/9/14
@@ -21,7 +23,7 @@ package org.pzy.opensource.comm.mapstruct;
 public class StringDataMapper {
 
     /**
-     * 字符串映射
+     * 如果源字符串对象不为null,则去前后空格
      *
      * @param source 源字符串
      * @return 如果source为null, 则返回空字符串, 否则返回, 去掉了前后空格的字符串

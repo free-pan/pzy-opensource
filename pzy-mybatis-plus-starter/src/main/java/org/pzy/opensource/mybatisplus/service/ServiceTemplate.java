@@ -14,6 +14,7 @@ package org.pzy.opensource.mybatisplus.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.pzy.opensource.comm.mapstruct.BaseMapStruct;
 import org.pzy.opensource.domain.PageT;
 import org.pzy.opensource.domain.vo.PageVO;
 import org.pzy.opensource.mybatisplus.model.entity.BaseEntity;
@@ -30,7 +31,7 @@ import java.util.List;
  * @param <DTO>    查询返回值
  * @author 潘志勇
  */
-public interface ServiceTemplate<AddVO, EditVO, Entity extends BaseEntity, DTO, BaseDao extends BaseMapper<Entity>, BaseObjectMapper extends org.pzy.opensource.comm.mapstruct.BaseObjectMapper<AddVO, EditVO, Entity, DTO>> {
+public interface ServiceTemplate<AddVO, EditVO, Entity extends BaseEntity, DTO, BaseDao extends BaseMapper<Entity>, BaseObjectMapper extends BaseMapStruct<AddVO, EditVO, Entity, DTO>> {
 
     /**
      * 清除当前服务的查询缓存

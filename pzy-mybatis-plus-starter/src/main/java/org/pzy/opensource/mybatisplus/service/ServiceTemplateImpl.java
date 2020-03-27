@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import lombok.Getter;
 import org.apache.ibatis.session.SqlSession;
+import org.pzy.opensource.comm.mapstruct.BaseMapStruct;
 import org.pzy.opensource.domain.GlobalConstant;
 import org.pzy.opensource.domain.PageT;
 import org.pzy.opensource.domain.vo.PageVO;
@@ -42,7 +43,7 @@ import java.util.function.Consumer;
  * @date 2019-12-12
  */
 @Getter
-public class ServiceTemplateImpl<AddVO, EditVO, Entity extends BaseEntity, DTO, BaseDao extends BaseMapper<Entity>, BaseObjectMapper extends org.pzy.opensource.comm.mapstruct.BaseObjectMapper<AddVO, EditVO, Entity, DTO>> implements ServiceTemplate<AddVO, EditVO, Entity, DTO, BaseDao, BaseObjectMapper> {
+public class ServiceTemplateImpl<AddVO, EditVO, Entity extends BaseEntity, DTO, BaseDao extends BaseMapper<Entity>, BaseObjectMapper extends BaseMapStruct<AddVO, EditVO, Entity, DTO>> implements ServiceTemplate<AddVO, EditVO, Entity, DTO, BaseDao, BaseObjectMapper> {
 
     /**
      * 数据库操作类
@@ -228,7 +229,7 @@ public class ServiceTemplateImpl<AddVO, EditVO, Entity extends BaseEntity, DTO, 
     public PageT<DTO> searchPage(PageVO page, Wrapper<Entity> queryWrapper) {
         IPage<Entity> mybatisPlusPage = PageUtil.pageVO2MybatisPlusPage(page);
         IPage<Entity> pageResult = this.baseDao.selectPage(mybatisPlusPage, queryWrapper);
-        List<DTO> dtoList = this.baseObjectMapper.toDTO(pageResult.getRecords());
+        List<DTO> dtoList = this.baseObjectMapper.entityToDTO(pageResult.getRecords());
         PageT<DTO> result = new PageT<>();
         result.setList(dtoList);
         result.setTotal(pageResult.getTotal());
@@ -288,7 +289,7 @@ public class ServiceTemplateImpl<AddVO, EditVO, Entity extends BaseEntity, DTO, 
      * @return
      */
     public DTO toDTO(Entity entity) {
-        return this.getBaseObjectMapper().toDTO(entity);
+        return this.getBaseObjectMapper().entityToDTO(entity);
     }
 
     /**
@@ -298,7 +299,7 @@ public class ServiceTemplateImpl<AddVO, EditVO, Entity extends BaseEntity, DTO, 
      * @return
      */
     public List<DTO> toDTO(Collection<Entity> entityList) {
-        return this.getBaseObjectMapper().toDTO(entityList);
+        return this.getBaseObjectMapper().entityToDTO(entityList);
     }
 
     /**
@@ -308,7 +309,7 @@ public class ServiceTemplateImpl<AddVO, EditVO, Entity extends BaseEntity, DTO, 
      * @return
      */
     public Entity addVOtoEntity(AddVO vo) {
-        return this.getBaseObjectMapper().addVOtoEntity(vo);
+        return this.getBaseObjectMapper().addSourceToEntity(vo);
     }
 
     /**
@@ -318,7 +319,7 @@ public class ServiceTemplateImpl<AddVO, EditVO, Entity extends BaseEntity, DTO, 
      * @return
      */
     public List<Entity> addVOtoEntity(Collection<AddVO> voList) {
-        return this.getBaseObjectMapper().addVOtoEntity(voList);
+        return this.getBaseObjectMapper().addSourceToEntity(voList);
     }
 
     /**
@@ -328,7 +329,7 @@ public class ServiceTemplateImpl<AddVO, EditVO, Entity extends BaseEntity, DTO, 
      * @return
      */
     public Entity editVOtoEntity(EditVO vo) {
-        return this.getBaseObjectMapper().editVOtoEntity(vo);
+        return this.getBaseObjectMapper().editSourceToEntity(vo);
     }
 
     /**
@@ -338,6 +339,6 @@ public class ServiceTemplateImpl<AddVO, EditVO, Entity extends BaseEntity, DTO, 
      * @return
      */
     public List<Entity> editVOtoEntity(Collection<EditVO> voList) {
-        return this.getBaseObjectMapper().editVOtoEntity(voList);
+        return this.getBaseObjectMapper().editSourceToEntity(voList);
     }
 }

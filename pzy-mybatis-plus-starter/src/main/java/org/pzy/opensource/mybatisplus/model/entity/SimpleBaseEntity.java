@@ -14,8 +14,10 @@ package org.pzy.opensource.mybatisplus.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -26,11 +28,13 @@ import java.io.Serializable;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
 public class SimpleBaseEntity implements Serializable {
 
     private static final long serialVersionUID = 3714369808680042179L;
 
-    @TableId(type= IdType.INPUT)
+    @TableId(type= IdType.ASSIGN_ID)
     private Long id;
 
     public static final String ID = "ID";
