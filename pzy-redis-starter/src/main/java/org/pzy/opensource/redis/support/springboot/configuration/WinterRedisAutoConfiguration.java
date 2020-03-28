@@ -28,8 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,18 +49,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * redis操作帮助类自动实例化
+ * redis操作帮助类自动实例化. 只有当: spring.cache.type的值为redis时, 该配置类才生效.
+ * <p>即: 当spring.cache.type的值为none时会关闭自定义的redis缓存. 建议在开发阶段不要开启缓存, 只在测试阶段开启缓存.
  *
  * @author pan
  * @date 2019-03-23
  */
 @Slf4j
 @Configuration
+@ConditionalOnProperty(name = "spring.cache.type", havingValue = "redis")
 @EnableConfigurationProperties(CacheProperties.class)
-public class WinterRedisAutoConfiguration {
+public class WinterRedisAutoConfiguration extends CachingConfigurerSupport {
 
     @Autowired
     private CacheProperties cacheProperties;
+
+    public WinterRedisAutoConfiguration() {
+        log.debug("spring.cache.type为redis, spring cache启用redis缓存, 并使用自定义的缓存配置覆盖spring默认的配置!");
+    }
 
     @Bean(destroyMethod = "shutdown")
     @Primary
@@ -147,7 +155,8 @@ public class WinterRedisAutoConfiguration {
         log.debug("使用的是基于redis的缓存!");
         // 默认缓存配置
         RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration
-                .ofSeconds(cacheProperties.getDefaultExpire()));
+                .ofSeconds(cacheProperties.getDefaultExpire()))
+                .computePrefixWith(cacheName -> cacheProperties.getCacheKeyNamespace() + ":" + cacheName + ":");
         if (log.isDebugEnabled()) {
             log.debug("redis缓存全局配置:");
             log.debug("redis 缓存默认超时时间(秒):{}", cacheProperties.getDefaultExpire());
@@ -178,10 +187,9 @@ public class WinterRedisAutoConfiguration {
      *
      * @return
      */
-    @Bean
-    @Primary
+    @Override
     public KeyGenerator keyGenerator() {
-        return new WinterCacheKeyGenerator(cacheProperties.getCacheKeyNamespace());
+        return new WinterCacheKeyGenerator();
     }
 
 

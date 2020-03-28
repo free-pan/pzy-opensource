@@ -19,6 +19,7 @@ import org.pzy.opensource.comm.mapstruct.StringDataMapper;
 import org.pzy.opensource.domain.GlobalConstant;
 import org.pzy.opensource.mybatisplus.idgenerator.PzyMybatisIdGenerator;
 import org.pzy.opensource.mybatisplus.objecthandler.CreatorEditorMetaObjectHandler;
+import org.pzy.opensource.mybatisplus.util.SpringUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -65,4 +66,9 @@ public class WinterMybatisPlusAutoConfig {
         return new StringDataMapper();
     }
 
+    @Bean
+    @ConditionalOnMissingBean
+    SpringUtil springUtil(){
+        return SpringUtil.getInstance();
+    }
 }

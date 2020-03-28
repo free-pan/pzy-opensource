@@ -22,13 +22,7 @@ import java.lang.reflect.Method;
  */
 public class WinterCacheKeyGenerator implements KeyGenerator {
 
-    /**
-     * 缓存key的命名空间
-     */
-    private String cacheKeyNamespace;
-
-    public WinterCacheKeyGenerator(String cacheKeyNamespace) {
-        this.cacheKeyNamespace = cacheKeyNamespace;
+    public WinterCacheKeyGenerator() {
     }
 
     /**
@@ -41,8 +35,8 @@ public class WinterCacheKeyGenerator implements KeyGenerator {
      */
     @Override
     public Object generate(Object target, Method method, Object... params) {
-        StringBuilder stringBuilder = new StringBuilder(this.cacheKeyNamespace);
-        stringBuilder.append(target.getClass().getSimpleName()).append("#");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(target.getClass().getSimpleName()).append(":");
         stringBuilder.append(method.getName());
         if (params.length == 0) {
             return stringBuilder.toString();
@@ -50,11 +44,11 @@ public class WinterCacheKeyGenerator implements KeyGenerator {
         if (params.length == 1) {
             Object param = params[0];
             if (param != null && !param.getClass().isArray()) {
-                stringBuilder.append("#");
+                stringBuilder.append(":");
                 return stringBuilder.toString() + param;
             }
         }
-        stringBuilder.append("#");
+        stringBuilder.append(":");
         return new WinterSimpleKey(stringBuilder.toString(), params);
     }
 }

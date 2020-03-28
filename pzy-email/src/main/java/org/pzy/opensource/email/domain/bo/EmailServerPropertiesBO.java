@@ -1,8 +1,6 @@
 package org.pzy.opensource.email.domain.bo;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -12,9 +10,7 @@ import java.io.Serializable;
  * @author 潘志勇
  * @date 2019-02-03
  */
-@Setter
-@Getter
-@ToString
+@Data
 public class EmailServerPropertiesBO implements Serializable {
 
     private static final long serialVersionUID = -4284562129807293806L;

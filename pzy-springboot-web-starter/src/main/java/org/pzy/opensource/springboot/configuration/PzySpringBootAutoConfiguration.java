@@ -18,7 +18,9 @@ import org.pzy.opensource.comm.util.WinterSnowflake;
 import org.pzy.opensource.comm.util.WinterSnowflakeUtil;
 import org.pzy.opensource.springboot.errorhandler.WinterExceptionHandler;
 import org.pzy.opensource.springboot.factory.CorsFilterFactory;
-import org.pzy.opensource.springboot.properties.*;
+import org.pzy.opensource.springboot.properties.CrossPropeties;
+import org.pzy.opensource.springboot.properties.SnowflakeProperties;
+import org.pzy.opensource.springboot.properties.StaticMappingProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -114,4 +116,5 @@ public class PzySpringBootAutoConfiguration {
     StringDataMapper stringDataMapper() {
         return new StringDataMapper();
     }
+
 }

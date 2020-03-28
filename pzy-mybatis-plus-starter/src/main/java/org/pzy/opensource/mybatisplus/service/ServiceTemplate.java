@@ -13,25 +13,20 @@
 package org.pzy.opensource.mybatisplus.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.pzy.opensource.comm.mapstruct.BaseMapStruct;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.pzy.opensource.domain.PageT;
 import org.pzy.opensource.domain.vo.PageVO;
-import org.pzy.opensource.mybatisplus.model.entity.BaseEntity;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
- * 服务模板
+ * 服务模板接口. 将增,改,查与缓存操作关联起来
+ * <p>默认实现是: {@link org.pzy.opensource.mybatisplus.service.ServiceTemplateImpl}
  *
- * @param <AddVO>  用于新增的vo类
- * @param <EditVO> 用于编辑的vo类
- * @param <Entity> 实体类
- * @param <DTO>    查询返回值
  * @author 潘志勇
  */
-public interface ServiceTemplate<AddVO, EditVO, Entity extends BaseEntity, DTO, BaseDao extends BaseMapper<Entity>, BaseObjectMapper extends BaseMapStruct<AddVO, EditVO, Entity, DTO>> {
+public interface ServiceTemplate<T> extends IService<T> {
 
     /**
      * 清除当前服务的查询缓存
@@ -39,154 +34,52 @@ public interface ServiceTemplate<AddVO, EditVO, Entity extends BaseEntity, DTO, 
     void clearCache();
 
     /**
-     * 新增
+     * 按条件分页查找. 并将查询结果缓存
+     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
+     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
      *
-     * @param vo 待新增数据
-     * @return 新增成功, 则返回实际的id, 新增失败, 则返回0
+     * @param page
+     * @param queryWrapper
+     * @return
      */
-    Long save(AddVO vo);
+    PageT<T> searchPageAndCache(PageVO page, Wrapper<T> queryWrapper);
 
     /**
-     * 新增
+     * 新增, 并在真正的新增业务执行之前就清除与之关联的缓存
+     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
+     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
      *
-     * @param entity 待新增数据
-     * @return 新增成功, 则返回实际的id, 新增失败, 则返回0
+     * @param entity 待新增实体
+     * @return true表示新增成功.
      */
-    Long save(Entity entity);
+    boolean addAndClearCache(T entity);
 
     /**
-     * 批量保存VO对象
-     *
-     * @param dataList  待批量保存的数据
-     * @param batchSize 批处理大小
-     */
-    void saveBatch(List<AddVO> dataList, int batchSize);
-
-    /**
-     * 按id删除
-     *
-     * @param id
-     * @return 是否有删除到实际的数据
-     */
-    boolean deleteById(Long id);
-
-    /**
-     * 按条件删除
-     *
-     * @param wrapper
-     * @return 是否有删除到实际的数据
-     */
-    boolean delete(Wrapper<Entity> wrapper);
-
-    /**
-     * 按id更新
-     *
-     * @param vo
-     * @return 更新是否成功
-     */
-    boolean edit(EditVO vo);
-
-    /**
-     * 按id更新
+     * 编辑, 并在真正的新增业务执行之前就清除与之关联的缓存
+     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
+     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
      *
      * @param entity
-     * @return 更新是否成功
+     * @return true表示编辑成功.
      */
-    boolean edit(Entity entity);
+    boolean editAndClearCache(T entity);
 
     /**
-     * 按id查找
+     * 查询所有并缓存
+     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
+     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
      *
-     * @param id
-     * @return
+     * @return 所有匹配的数据
      */
-    DTO searchById(Long id);
+    List<T> searchAllAndCache();
 
     /**
-     * 按id查找
-     *
-     * @param id
-     * @return
-     */
-    Entity searchEntityById(Long id);
-
-    /**
-     * 按id集合,批量查找
-     *
-     * @param ids
-     * @return
-     */
-    List<DTO> searchByIds(Collection<Long> ids);
-
-    /**
-     * 按id集合,批量查找
-     *
-     * @param ids
-     * @return
-     */
-    List<Entity> searchEntityByIds(Collection<Long> ids);
-
-    /**
-     * 按条件查找
-     *
-     * @param queryWrapper
-     * @return
-     */
-    List<DTO> searchList(Wrapper<Entity> queryWrapper);
-
-    /**
-     * 按条件查找
-     *
-     * @param queryWrapper
-     * @return
-     */
-    List<Entity> searchEntityList(Wrapper<Entity> queryWrapper);
-
-    /**
-     * 按条件分页查找
-     *
-     * @param page
-     * @param queryWrapper
-     * @return
-     */
-    PageT<DTO> searchPage(PageVO page, Wrapper<Entity> queryWrapper);
-
-    /**
-     * 按条件分页查找
-     *
-     * @param page
-     * @param queryWrapper
-     * @return
-     */
-    PageT<Entity> searchEntityPage(PageVO page, Wrapper<Entity> queryWrapper);
-
-    /**
-     * 查询所有
-     *
-     * @return
-     */
-    List<DTO> searchAll();
-
-    /**
-     * 查找所有
-     *
-     * @return
-     */
-    List<Entity> searchEntityAll();
-
-    /**
-     * 按条件查找单个结果
+     * 按条件查找并缓存
+     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
+     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
      *
      * @param queryWrapper 查询条件
-     * @return
+     * @return 所有匹配的数据
      */
-    DTO searchOne(Wrapper<Entity> queryWrapper);
-
-    /**
-     * 按条件查找单个结果
-     *
-     * @param queryWrapper
-     * @return
-     */
-    Entity searchEntityOne(Wrapper<Entity> queryWrapper);
+    List<T> searchAllAndCache(QueryWrapper<T> queryWrapper);
 }
