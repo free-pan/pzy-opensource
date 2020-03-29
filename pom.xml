@@ -24,6 +24,7 @@
         <module>pzy-springboot-web-security-starter</module>
         <module>pzy-okhttp3</module>
         <module>pzy-email</module>
+        <module>pzy-code-generator</module>
     </modules>
 
     <parent>

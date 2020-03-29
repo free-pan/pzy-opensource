@@ -32,6 +32,9 @@ public class ResultT<T> implements Serializable {
     @ApiModelProperty("业务执行结果状态码")
     private String code;
 
+    @ApiModelProperty("业务是否执行成功")
+    private Boolean success;
+
     @ApiModelProperty("结果数据")
     private T resp;
 
@@ -44,11 +47,12 @@ public class ResultT<T> implements Serializable {
     private ResultT() {
     }
 
-    private ResultT(String code, T resp, List<String> msgList, String uri) {
+    private ResultT(Boolean success, String code, T resp, List<String> msgList, String uri) {
         this.code = code;
         this.resp = resp;
         this.msgList = msgList;
         this.uri = uri;
+        this.success = success;
     }
 
     /**
@@ -59,7 +63,7 @@ public class ResultT<T> implements Serializable {
      * @return
      */
     public static final <T> ResultT<T> success(T resp) {
-        return new ResultT<>(String.valueOf(RespCodeEnum.SUCCESS_CODE.getCode()), resp, null, null);
+        return new ResultT<>(true, String.valueOf(RespCodeEnum.SUCCESS_CODE.getCode()), resp, null, null);
     }
 
     /**
@@ -68,22 +72,24 @@ public class ResultT<T> implements Serializable {
      * @return
      */
     public static final ResultT success() {
-        return new ResultT<>(String.valueOf(RespCodeEnum.SUCCESS_CODE.getCode()), null, null, null);
+        return new ResultT<>(true, String.valueOf(RespCodeEnum.SUCCESS_CODE.getCode()), null, null, null);
     }
 
     /**
      * 失败
+     *
      * @param code 错误码
      * @param msg  错误提示信息
      * @param <T>
      * @return
      */
     public static final <T> ResultT<T> error(RespCodeEnum code, String msg) {
-        return new ResultT<>(String.valueOf(code.getCode()), null, Arrays.asList(msg), null);
+        return new ResultT<>(false, String.valueOf(code.getCode()), null, Arrays.asList(msg), null);
     }
 
     /**
      * 失败
+     *
      * @param code 错误码
      * @param msg  错误提示信息
      * @param uri  当前请求uri
@@ -91,11 +97,12 @@ public class ResultT<T> implements Serializable {
      * @return
      */
     public static final <T> ResultT<T> error(RespCodeEnum code, String msg, String uri) {
-        return new ResultT<>(String.valueOf(code.getCode()), null, Arrays.asList(msg), uri);
+        return new ResultT<>(false, String.valueOf(code.getCode()), null, Arrays.asList(msg), uri);
     }
 
     /**
      * 失败
+     *
      * @param code 错误码
      * @param msg  错误提示信息
      * @param uri  当前请求uri
@@ -103,11 +110,12 @@ public class ResultT<T> implements Serializable {
      * @return
      */
     public static final <T> ResultT<T> error(String code, String msg, String uri) {
-        return new ResultT<>(code, null, Arrays.asList(msg), uri);
+        return new ResultT<>(false, code, null, Arrays.asList(msg), uri);
     }
 
     /**
      * 失败
+     *
      * @param code    错误码
      * @param msgList 错误提示信息
      * @param uri     当前请求uri
@@ -115,6 +123,6 @@ public class ResultT<T> implements Serializable {
      * @return
      */
     public static final <T> ResultT<T> error(String code, List<String> msgList, String uri) {
-        return new ResultT<>(code, null, msgList, uri);
+        return new ResultT<>(false, code, null, msgList, uri);
     }
 }

@@ -37,6 +37,6 @@ public class SimpleBaseEntity implements Serializable {
     @TableId(type= IdType.ASSIGN_ID)
     private Long id;
 
-    public static final String ID = "ID";
+    public static final String ID = "id";
 
 }

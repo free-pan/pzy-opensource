@@ -29,6 +29,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -98,6 +99,13 @@ public abstract class ServiceTemplateImpl<M extends BaseMapper<T>, T> extends Se
     @Override
     public List<T> searchAllAndCache(QueryWrapper<T> queryWrapper) {
         return super.list(queryWrapper);
+    }
+
+    @Cacheable(sync = true)
+    @Transactional(readOnly = true, rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    @Override
+    public T searchByIdAndCache(Serializable id) {
+        return super.getById(id);
     }
 
     /**

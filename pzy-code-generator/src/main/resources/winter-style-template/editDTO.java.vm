@@ -1,0 +1,71 @@
+package ${package.DTO};
+
+#foreach($pkg in ${table.importPackages})
+import ${pkg};
+#end
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+/**
+ * $!{table.name} 表DTO类: 用于编辑操作时接收客户端参数
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName("${table.name}")
+@ApiModel
+public class ${entity}EditDTO implements Serializable {
+
+    private static final long serialVersionUID=1L;
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag})##生成主键排在第一位
+    #if(${swagger2})
+    @ApiModelProperty(value = "${field.comment}")
+    #else
+    /**
+     * ${field.comment}
+     */
+    #end
+    private ${field.propertyType} ${field.propertyName};
+    #end
+#end
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+
+  #if(${field.keyFlag})
+#set($keyPropertyName=${field.propertyName})
+#end
+#if("$!field.comment" != "")
+  #if(${swagger2})
+    @ApiModelProperty(value = "${field.comment}")
+  #else
+    /**
+     * ${field.comment}
+     */
+  #end
+#end
+    private ${field.propertyType} ${field.propertyName};
+#end
+## ----------  END 字段循环遍历  ----------
+#foreach($field in ${table.commonFields})##生成公共字段
+#if(${field.propertyName}=="id")
+
+    #if(${swagger2})
+    @ApiModelProperty(value = "${field.comment}")
+    #else
+    /**
+     * ${field.comment}
+     */
+    #end
+    private ${field.propertyType} ${field.propertyName};
+#end
+#end
+
+}

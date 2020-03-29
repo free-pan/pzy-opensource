@@ -18,6 +18,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.pzy.opensource.domain.PageT;
 import org.pzy.opensource.domain.vo.PageVO;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -63,6 +64,16 @@ public interface ServiceTemplate<T> extends IService<T> {
      * @return true表示编辑成功.
      */
     boolean editAndClearCache(T entity);
+
+    /**
+     * 根据id查找, 并将结果进行缓存
+     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
+     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
+     *
+     * @param id
+     * @return
+     */
+    T searchByIdAndCache(Serializable id);
 
     /**
      * 查询所有并缓存
