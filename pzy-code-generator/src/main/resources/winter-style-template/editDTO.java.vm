@@ -1,4 +1,4 @@
-package ${package.DTO};
+package ${cfg.DTO};
 
 #foreach($pkg in ${table.importPackages})
 import ${pkg};

@@ -77,6 +77,42 @@ public class CodeGeneratorUtil {
                         + "/vo/" + tableInfo.getEntityName() + "VO" + StringPool.DOT_JAVA;
             }
         });
+        otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/restApp.java.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator)
+                        + "/RestApp" + StringPool.DOT_JAVA;
+            }
+        });
+        otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/application.yml.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/resources/application.yml";
+            }
+        });
+        otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/logback.xml.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/resources/logback.xml";
+            }
+        });
+        otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/redisson.yml.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/resources/redisson.yml";
+            }
+        });
+        otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/spy.properties.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/resources/spy.properties";
+            }
+        });
         codeTemplateInfoBO.setOtherExtendsCodeTemplate(otherExtendsCodeTemplate);
 
         CodeGeneratorUtil.execute(codeGeneratorConfigBO, codeTemplateInfoBO);
@@ -150,6 +186,7 @@ public class CodeGeneratorUtil {
                 String voPackage = modulePackage + "." + "vo";
                 customParamMap.put("DTO", dtoPackage);
                 customParamMap.put("VO", voPackage);
+                customParamMap.put("BasePackage", codeGeneratorConfigBO.getParentPackage());
                 this.setMap(customParamMap);
             }
         };
