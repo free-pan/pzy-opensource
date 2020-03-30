@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class DbConnectionInfo implements Serializable {
 
     /**
-     * 数据库驱动类. 如:com.mysql.jdbc.Driver/com.mysql.cj.jdbc.Driver
+     * 数据库驱动类.
      */
     private String driverName;
     /**
@@ -28,7 +28,7 @@ public class DbConnectionInfo implements Serializable {
      */
     private String password;
     /**
-     * 数据库连接url. 如:jdbc:mysql://localhost:3306/pzy-acl?useUnicode=true&characterEncoding=UTF8&allowMultiQueries=true&useSSL=false
+     * 数据库连接url.
      */
     private String url;
 }

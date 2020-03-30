@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 
 /**
- * 基础实体. 包含公共字段: del_uid, del_time, deletor_name
+ * 基础实体. 包含公共字段: disabled_time, disabled_opt_id, disabled_opt_name, disabled
  * @author pan
  * @date 2019-12-11
  */
@@ -33,61 +33,52 @@ public class LogicDelBaseEntity extends BaseEntity {
     private static final long serialVersionUID = 1272777735771040750L;
 
     /**
-     * 逻辑删除操作时填充的uuid
+     * 禁用操作的操作时间
      */
-    public static final String DEL_UID = "del_uid";
+    public static final String DISABLED_TIME = "disabled_time";
     /**
-     * 逻辑删除操作时记录的`当前操作时间`
+     * 禁用操作的操作人id
      */
-    public static final String DEL_TIME = "del_time";
+    public static final String DISABLED_OPT_ID = "disabled_opt_id";
     /**
-     * 删除人id
+     * 禁用操作的操作人姓名
      */
-    public static final String DELETOR_ID = "deletor_id";
+    public static final String DISABLED_OPT_NAME = "disabled_opt_name";
     /**
-     * 删除人姓名
+     * 是否禁用. 0.已禁用 1.未禁用
      */
-    public static final String DELETOR_NAME = "deletor_name";
-    /**
-     * 逻辑删除标识. 0.未删除 1.已删除
-     */
-    public static final String DELETED = "deleted";
+    public static final String DISABLED = "disabled";
 
     /**
-     * 删除uid. 当删除时,则将delUid设置一个uuid值,主要是用于有唯一约束的情况
+     * 是否禁用. 0.已禁用 1.未禁用
      */
-    @TableField(value = DEL_UID)
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
-    private String delUid;
-
     @TableLogic
-    @TableField(value = DELETED)
+    @TableField(value = DISABLED)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
-    private Short deleted;
+    private Short disabled;
 
     /**
-     * 删除时间
+     * 禁用操作的操作时间
      */
-    @TableField(value = DEL_TIME)
+    @TableField(value = DISABLED_TIME)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
-    private Date delTime;
+    private Date disabledTime;
 
     /**
-     * 删除人id
+     * 禁用操作的操作人id
      */
-    @TableField(value = DELETOR_ID)
+    @TableField(value = DISABLED_OPT_ID)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
-    private Long deletorId;
+    private Long disabledOptId;
 
     /**
-     * 删除人姓名
+     * 禁用操作的操作人姓名
      */
-    @TableField(value = DELETOR_NAME)
+    @TableField(value = DISABLED_OPT_NAME)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
-    private String deletorName;
+    private String disabledOptName;
 }

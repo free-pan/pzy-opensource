@@ -30,7 +30,7 @@ public class CodeGeneratorUtil {
     /**
      * 根据配置生成Winter风格的代码
      *
-     * @param winterCodeGeneratorConfigBO
+     * @param winterCodeGeneratorConfigBO 代码生成配置
      */
     public static void generateWinterStyle(WinterCodeGeneratorConfigBO winterCodeGeneratorConfigBO) {
         SuperEntityInfoBO superEntityInfoBO = new SuperEntityInfoBO(winterCodeGeneratorConfigBO.getSuperEntityInfoBO().getEntityClassName(), winterCodeGeneratorConfigBO.getSuperEntityInfoBO().getEntityColumns());
@@ -121,7 +121,7 @@ public class CodeGeneratorUtil {
     /**
      * 根据配置生成mybatis plus风格的代码
      *
-     * @param codeGeneratorConfigBO
+     * @param codeGeneratorConfigBO 代码生成配置
      */
     public static void generate(CodeGeneratorConfigBO codeGeneratorConfigBO) {
         CodeGeneratorUtil.execute(codeGeneratorConfigBO, null);
@@ -130,7 +130,8 @@ public class CodeGeneratorUtil {
     /**
      * 根据配置执行代码生成
      *
-     * @param codeGeneratorConfigBO
+     * @param codeGeneratorConfigBO 代码生成配置
+     * @param codeTemplateInfoBO    代码生成模板配置
      */
     public static void execute(CodeGeneratorConfigBO codeGeneratorConfigBO, CodeTemplateInfoBO codeTemplateInfoBO) {
         DbConnectionInfo dbConnectionInfo = codeGeneratorConfigBO.getDbConnectionInfo();
