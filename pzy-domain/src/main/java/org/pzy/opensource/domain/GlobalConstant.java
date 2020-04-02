@@ -43,6 +43,10 @@ public interface GlobalConstant {
      */
     int AOP_ORDER_CACHE = 99850;
     /**
+     * 方法参数验证切面执行优先级
+     */
+    int AOP_ORDER_METHOD_VALIDATE = 99900;
+    /**
      * 锁切面执行优先级
      */
     int AOP_ORDER_LOCK = 99950;

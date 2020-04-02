@@ -26,7 +26,7 @@ import org.pzy.opensource.redis.support.springboot.annotation.WinterLocks;
 import org.redisson.RedissonMultiLock;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.core.annotation.Order;
+import org.springframework.core.Ordered;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -49,9 +49,9 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/1/10
  */
 @Aspect
-@Order(GlobalConstant.AOP_ORDER_LOCK) //值越大,执行优先级越低
+//@Order(GlobalConstant.AOP_ORDER_LOCK) //值越大,执行优先级越低
 @Slf4j
-public class WinterLockAop {
+public class WinterLockAop implements Ordered {
 
     /**
      * 锁大分类名. 所有使用注解方式加的锁, 都以这个为前缀
@@ -302,5 +302,10 @@ public class WinterLockAop {
         context.setRootObject(arguments);
         Expression expression = EXPRESSION_PARSER.parseExpression(springEl);
         return expression.getValue(context, Boolean.class);
+    }
+
+    @Override
+    public int getOrder() {
+        return GlobalConstant.AOP_ORDER_LOCK;
     }
 }

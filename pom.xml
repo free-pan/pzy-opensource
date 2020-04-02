@@ -83,6 +83,12 @@
             <!-- pzy模块:开始 -->
             <dependency>
                 <groupId>org.pzy.opensource</groupId>
+                <artifactId>pzy-code-generator</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.pzy.opensource</groupId>
                 <artifactId>pzy-current-user</artifactId>
                 <version>${project.version}</version>
             </dependency>

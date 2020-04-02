@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
 import org.pzy.opensource.codegenerator.domain.bo.*;
+import org.pzy.opensource.codegenerator.domain.enums.WinterStyleSuperEntityEnum;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,9 +42,6 @@ public class CodeGeneratorUtil {
         codeTemplateInfoBO.setEntityJavaTemplate("/winter-style-template/entity.java");
         codeTemplateInfoBO.setDaoJavaTemplate("/winter-style-template/dao.java");
         codeTemplateInfoBO.setDaoXmlTemplate(null);
-        codeTemplateInfoBO.setServiceJavaTemplate("/winter-style-template/service.java");
-        codeTemplateInfoBO.setServiceImplJavaTemplate("/winter-style-template/serviceImpl.java");
-        codeTemplateInfoBO.setControllerJavaTemplate("/winter-style-template/controller.java");
         List<FileOutConfig> otherExtendsCodeTemplate = new ArrayList<>();
         otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/dao.xml.vm") {
             @Override
@@ -51,30 +49,6 @@ public class CodeGeneratorUtil {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
                 return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/resources/mapper/" + winterCodeGeneratorConfigBO.getModuleName()
                         + "/" + tableInfo.getEntityName() + "DAO" + StringPool.DOT_XML;
-            }
-        });
-        otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/addDTO.java.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + "/" + winterCodeGeneratorConfigBO.getModuleName()
-                        + "/dto/" + tableInfo.getEntityName() + "AddDTO" + StringPool.DOT_JAVA;
-            }
-        });
-        otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/editDTO.java.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + "/" + winterCodeGeneratorConfigBO.getModuleName()
-                        + "/dto/" + tableInfo.getEntityName() + "EditDTO" + StringPool.DOT_JAVA;
-            }
-        });
-        otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/vo.java.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + "/" + winterCodeGeneratorConfigBO.getModuleName()
-                        + "/vo/" + tableInfo.getEntityName() + "VO" + StringPool.DOT_JAVA;
             }
         });
         otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/restApp.java.vm") {
@@ -113,7 +87,43 @@ public class CodeGeneratorUtil {
                 return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/resources/spy.properties";
             }
         });
-        codeTemplateInfoBO.setOtherExtendsCodeTemplate(otherExtendsCodeTemplate);
+
+
+        if (WinterStyleSuperEntityEnum.None != winterCodeGeneratorConfigBO.getSuperEntityInfoBO()) {
+            codeTemplateInfoBO.setServiceJavaTemplate("/winter-style-template/service.java");
+            codeTemplateInfoBO.setServiceImplJavaTemplate("/winter-style-template/serviceImpl.java");
+            codeTemplateInfoBO.setControllerJavaTemplate("/winter-style-template/controller.java");
+            otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/addDTO.java.vm") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                    return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + "/" + winterCodeGeneratorConfigBO.getModuleName()
+                            + "/dto/" + tableInfo.getEntityName() + "AddDTO" + StringPool.DOT_JAVA;
+                }
+            });
+            otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/editDTO.java.vm") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                    return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + "/" + winterCodeGeneratorConfigBO.getModuleName()
+                            + "/dto/" + tableInfo.getEntityName() + "EditDTO" + StringPool.DOT_JAVA;
+                }
+            });
+            otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/vo.java.vm") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                    return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + "/" + winterCodeGeneratorConfigBO.getModuleName()
+                            + "/vo/" + tableInfo.getEntityName() + "VO" + StringPool.DOT_JAVA;
+                }
+            });
+            codeTemplateInfoBO.setOtherExtendsCodeTemplate(otherExtendsCodeTemplate);
+        } else {
+            // 当父类实体为none时, 表示不使用父类实体, 表示当前实体为多对多关系类, 因此只需要生成实体和dao操作类
+            codeTemplateInfoBO.setServiceJavaTemplate(null);
+            codeTemplateInfoBO.setServiceImplJavaTemplate(null);
+            codeTemplateInfoBO.setControllerJavaTemplate(null);
+        }
 
         CodeGeneratorUtil.execute(codeGeneratorConfigBO, codeTemplateInfoBO);
     }

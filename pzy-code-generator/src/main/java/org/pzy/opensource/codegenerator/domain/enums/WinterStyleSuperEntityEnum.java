@@ -8,7 +8,7 @@ package org.pzy.opensource.codegenerator.domain.enums;
  */
 public enum WinterStyleSuperEntityEnum {
     /**
-     * 无父类实体
+     * 无父类实体(适用于对应表为多对多关系表的情况,其它情况均不适用)
      */
     None(null, null),
     /**
@@ -22,7 +22,7 @@ public enum WinterStyleSuperEntityEnum {
     /**
      * 逻辑删除实体
      */
-    LogicDelBaseEntity("org.pzy.opensource.mybatisplus.model.entity.BaseEntity", new String[]{"id", "create_time", "edit_time", "creator_id", "editor_id", "creator_name", "editor_name", "disabled_time", "disabled_opt_id", "disabled_opt_name", "disabled"});
+    LogicDelBaseEntity("org.pzy.opensource.mybatisplus.model.entity.LogicDelBaseEntity", new String[]{"id", "create_time", "edit_time", "creator_id", "editor_id", "creator_name", "editor_name", "disabled_time", "disabled_opt_id", "disabled_opt_name", "disabled"});
 
     /**
      * 构造方法

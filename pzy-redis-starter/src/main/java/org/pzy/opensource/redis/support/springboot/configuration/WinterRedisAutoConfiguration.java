@@ -13,7 +13,9 @@
 package org.pzy.opensource.redis.support.springboot.configuration;
 
 import lombok.extern.slf4j.Slf4j;
+import org.pzy.opensource.domain.GlobalConstant;
 import org.pzy.opensource.redis.support.springboot.aop.WinterLockAop;
+import org.pzy.opensource.redis.support.springboot.aop.WinterMethodValidationPostProcessor;
 import org.pzy.opensource.redis.support.springboot.cache.WinterCacheKeyGenerator;
 import org.pzy.opensource.redis.support.springboot.properties.CacheItemConfig;
 import org.pzy.opensource.redis.support.springboot.properties.CacheProperties;
@@ -35,29 +37,29 @@ import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
+import javax.validation.Validator;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * redis操作帮助类自动实例化. 只有当: spring.cache.type的值为redis时, 该配置类才生效.
- * <p>即: 当spring.cache.type的值为none时会关闭自定义的redis缓存. 建议在开发阶段不要开启缓存, 只在测试阶段开启缓存.
- *
  * @author pan
  * @date 2019-03-23
  */
 @Slf4j
 @Configuration
-@ConditionalOnProperty(name = "spring.cache.type", havingValue = "redis")
 @EnableConfigurationProperties(CacheProperties.class)
 public class WinterRedisAutoConfiguration extends CachingConfigurerSupport {
 
@@ -65,7 +67,7 @@ public class WinterRedisAutoConfiguration extends CachingConfigurerSupport {
     private CacheProperties cacheProperties;
 
     public WinterRedisAutoConfiguration() {
-        log.debug("spring.cache.type为redis, spring cache启用redis缓存, 并使用自定义的缓存配置覆盖spring默认的配置!");
+        log.debug("已启用自定义redis组件!");
     }
 
     @Bean(destroyMethod = "shutdown")
@@ -149,6 +151,7 @@ public class WinterRedisAutoConfiguration extends CachingConfigurerSupport {
     }
 
     @Bean
+    @ConditionalOnProperty(name = "spring.cache.type", havingValue = "redis")
     @ConditionalOnBean(RedisConnectionFactory.class)
     @Primary
     CacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {
@@ -197,5 +200,19 @@ public class WinterRedisAutoConfiguration extends CachingConfigurerSupport {
     @ConditionalOnMissingBean
     WinterLockAop lockAop(RedissonClient redissonClient) {
         return new WinterLockAop(redissonClient);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public static MethodValidationPostProcessor methodValidationPostProcessor(Environment environment,
+                                                                              @Lazy Validator validator) {
+        log.debug("使用自定义的MethodValidationPostProcessor代替springboot默认的MethodValidationPostProcessor!");
+        MethodValidationPostProcessor processor = new WinterMethodValidationPostProcessor();
+        // 自定义切面执行优先级
+        processor.setOrder(GlobalConstant.AOP_ORDER_METHOD_VALIDATE);
+        boolean proxyTargetClass = environment.getProperty("spring.aop.proxy-target-class", Boolean.class, true);
+        processor.setProxyTargetClass(proxyTargetClass);
+        processor.setValidator(validator);
+        return processor;
     }
 }
