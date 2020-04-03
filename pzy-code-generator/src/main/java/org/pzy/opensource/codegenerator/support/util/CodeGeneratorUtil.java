@@ -41,6 +41,7 @@ public class CodeGeneratorUtil {
 
         CodeTemplateInfoBO codeTemplateInfoBO = new CodeTemplateInfoBO();
         codeTemplateInfoBO.setDaoXmlTemplate(null);
+        codeTemplateInfoBO.setDaoJavaTemplate(null);
         List<FileOutConfig> otherExtendsCodeTemplate = new ArrayList<>();
         if (winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.EXCEPT_CONTROLLER || winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.ALL) {
             otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/dao.xml.vm") {
@@ -49,6 +50,14 @@ public class CodeGeneratorUtil {
                     // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
                     return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/resources/mapper/" + winterCodeGeneratorConfigBO.getModuleName()
                             + "/" + tableInfo.getEntityName() + "DAO" + StringPool.DOT_XML;
+                }
+            });
+            otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/dao.java.vm") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+                    return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + File.separator + winterCodeGeneratorConfigBO.getModuleName()
+                            + "/dao/" + tableInfo.getEntityName() + "DAO" + StringPool.DOT_JAVA;
                 }
             });
             otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/application.yml.vm") {
@@ -92,13 +101,12 @@ public class CodeGeneratorUtil {
             });
         }
 
-        if(winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.EXCEPT_CONTROLLER){
+        if (winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.EXCEPT_CONTROLLER) {
             codeTemplateInfoBO.setControllerJavaTemplate(null);
             codeTemplateInfoBO.setServiceJavaTemplate("/winter-style-template/service.java");
             codeTemplateInfoBO.setServiceImplJavaTemplate("/winter-style-template/serviceImpl.java");
             codeTemplateInfoBO.setEntityJavaTemplate("/winter-style-template/entity.java");
-            codeTemplateInfoBO.setDaoJavaTemplate("/winter-style-template/dao.java");
-        } else if(winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.ONLY_CONTROLLER){
+        } else if (winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.ONLY_CONTROLLER) {
             codeTemplateInfoBO.setControllerJavaTemplate("/winter-style-template/controller.java");
             codeTemplateInfoBO.setServiceJavaTemplate(null);
             codeTemplateInfoBO.setServiceImplJavaTemplate(null);
