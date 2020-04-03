@@ -1,7 +1,7 @@
 package org.pzy.opensource.codegenerator.domain.bo;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.pzy.opensource.codegenerator.domain.enums.CodeGeneratorModelEnum;
 import org.pzy.opensource.codegenerator.domain.enums.WinterStyleSuperEntityEnum;
 
 /**
@@ -11,13 +11,16 @@ import org.pzy.opensource.codegenerator.domain.enums.WinterStyleSuperEntityEnum;
  * @date 2020/3/29
  */
 @Data
-@NoArgsConstructor
 public class WinterCodeGeneratorConfigBO extends AbstractCodeGeneratorConfigBO {
 
     /**
      * 父类实体信息
      */
     private WinterStyleSuperEntityEnum superEntityInfoBO;
+    /**
+     * 代码生成模式.默认为:CodeGeneratorModelEnum.EXCEPT_CONTROLLER;
+     */
+    private CodeGeneratorModelEnum codeGeneratorModelEnum;
 
     /**
      * 不需要指定作者时使用该构造方法
@@ -32,6 +35,7 @@ public class WinterCodeGeneratorConfigBO extends AbstractCodeGeneratorConfigBO {
     public WinterCodeGeneratorConfigBO(DbConnectionInfo dbConnectionInfo, String moduleName, String parentPackage, String projectPath, WinterStyleSuperEntityEnum superEntityInfoBO, TableInfoBO tableInfoBO) {
         super(dbConnectionInfo, moduleName, parentPackage, projectPath, tableInfoBO);
         this.superEntityInfoBO = superEntityInfoBO;
+        this.codeGeneratorModelEnum = CodeGeneratorModelEnum.EXCEPT_CONTROLLER;
     }
 
     /**
@@ -46,5 +50,10 @@ public class WinterCodeGeneratorConfigBO extends AbstractCodeGeneratorConfigBO {
     public WinterCodeGeneratorConfigBO(DbConnectionInfo dbConnectionInfo, String moduleName, String parentPackage, String projectPath, TableInfoBO tableInfoBO) {
         super(dbConnectionInfo, moduleName, parentPackage, projectPath, tableInfoBO);
         this.superEntityInfoBO = WinterStyleSuperEntityEnum.None;
+        this.codeGeneratorModelEnum = CodeGeneratorModelEnum.EXCEPT_CONTROLLER;
+    }
+
+    public WinterCodeGeneratorConfigBO() {
+        this.codeGeneratorModelEnum = CodeGeneratorModelEnum.EXCEPT_CONTROLLER;
     }
 }
