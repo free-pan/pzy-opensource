@@ -7,6 +7,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiImplicitParam;
 import ${package.Service}.${table.serviceName};
 import ${package.Entity}.*;
+import org.pzy.opensource.domain.PageT;
+import org.pzy.opensource.domain.ResultT;
+import org.pzy.opensource.domain.vo.PageVO;
 
 /**
  * ${entity} 的rest服务

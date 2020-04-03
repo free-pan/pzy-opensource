@@ -4,6 +4,7 @@ package ${package.Entity};
 import ${pkg};
 #end
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.time.*;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
