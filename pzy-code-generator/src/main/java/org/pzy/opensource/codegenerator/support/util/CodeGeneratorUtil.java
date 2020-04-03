@@ -40,8 +40,6 @@ public class CodeGeneratorUtil {
         codeGeneratorConfigBO.setAuthor(winterCodeGeneratorConfigBO.getAuthor());
 
         CodeTemplateInfoBO codeTemplateInfoBO = new CodeTemplateInfoBO();
-        codeTemplateInfoBO.setEntityJavaTemplate("/winter-style-template/entity.java");
-        codeTemplateInfoBO.setDaoJavaTemplate("/winter-style-template/dao.java");
         codeTemplateInfoBO.setDaoXmlTemplate(null);
         List<FileOutConfig> otherExtendsCodeTemplate = new ArrayList<>();
         if (winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.EXCEPT_CONTROLLER || winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.ALL) {
@@ -96,7 +94,12 @@ public class CodeGeneratorUtil {
 
         if(winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.EXCEPT_CONTROLLER){
             codeTemplateInfoBO.setControllerJavaTemplate(null);
+            codeTemplateInfoBO.setServiceJavaTemplate("/winter-style-template/service.java");
+            codeTemplateInfoBO.setServiceImplJavaTemplate("/winter-style-template/serviceImpl.java");
+            codeTemplateInfoBO.setEntityJavaTemplate("/winter-style-template/entity.java");
+            codeTemplateInfoBO.setDaoJavaTemplate("/winter-style-template/dao.java");
         } else if(winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.ONLY_CONTROLLER){
+            codeTemplateInfoBO.setControllerJavaTemplate("/winter-style-template/controller.java");
             codeTemplateInfoBO.setServiceJavaTemplate(null);
             codeTemplateInfoBO.setServiceImplJavaTemplate(null);
             codeTemplateInfoBO.setEntityJavaTemplate(null);
@@ -105,9 +108,6 @@ public class CodeGeneratorUtil {
         }
 
         if (WinterStyleSuperEntityEnum.None != winterCodeGeneratorConfigBO.getSuperEntityInfoBO()) {
-            codeTemplateInfoBO.setServiceJavaTemplate("/winter-style-template/service.java");
-            codeTemplateInfoBO.setServiceImplJavaTemplate("/winter-style-template/serviceImpl.java");
-            codeTemplateInfoBO.setControllerJavaTemplate("/winter-style-template/controller.java");
             otherExtendsCodeTemplate.add(new FileOutConfig("/winter-style-template/addDTO.java.vm") {
                 @Override
                 public String outputFile(TableInfo tableInfo) {
