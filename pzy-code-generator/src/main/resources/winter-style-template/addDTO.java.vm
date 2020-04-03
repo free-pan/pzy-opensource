@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import java.io.Serializable;
 
 /**
  * $!{table.name} 表DTO类: 用于新增操作时接收客户端参数
