@@ -10,6 +10,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+import java.time.*;
+
 /**
  * $!{table.name} 表VO类: 用于服务端返回客户端数据
  *

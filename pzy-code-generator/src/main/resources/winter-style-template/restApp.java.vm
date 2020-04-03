@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan(value = "${cfg.BasePackage}.**.dao", annotationClass = Repository.class)
 public class RestApp {
     public static void main(String[] args) {
-        SpringApplication springApplication = new SpringApplication(AclTestApp.class);
+        SpringApplication springApplication = new SpringApplication(RestApp.class);
         springApplication.setBannerMode(Banner.Mode.OFF);
         springApplication.run(args);
     }
