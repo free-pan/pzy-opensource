@@ -27,7 +27,6 @@ import java.util.Date;
  * @date 2019-12-11
  */
 @Data
-@Accessors(chain = true)
 public class LogicDelBaseEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1272777735771040750L;

@@ -29,7 +29,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 public class SimpleBaseEntity implements Serializable {
 
     private static final long serialVersionUID = 3714369808680042179L;

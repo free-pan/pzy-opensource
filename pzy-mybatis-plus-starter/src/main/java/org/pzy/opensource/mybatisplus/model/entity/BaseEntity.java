@@ -20,7 +20,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import org.pzy.opensource.domain.GlobalConstant;
 
 import java.util.Date;
@@ -33,7 +32,6 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 public class BaseEntity extends SimpleBaseEntity {
 
     private static final long serialVersionUID = 3714369808680042179L;
