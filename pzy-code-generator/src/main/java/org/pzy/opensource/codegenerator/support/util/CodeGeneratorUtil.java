@@ -81,7 +81,6 @@ public class CodeGeneratorUtil {
                     return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/resources/spy.properties";
                 }
             });
-
         }
 
         if (winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.ONLY_CONTROLLER || winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.ALL) {
@@ -95,6 +94,15 @@ public class CodeGeneratorUtil {
             });
         }
 
+        if(winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.EXCEPT_CONTROLLER){
+            codeTemplateInfoBO.setControllerJavaTemplate(null);
+        } else if(winterCodeGeneratorConfigBO.getCodeGeneratorModelEnum() == CodeGeneratorModelEnum.ONLY_CONTROLLER){
+            codeTemplateInfoBO.setServiceJavaTemplate(null);
+            codeTemplateInfoBO.setServiceImplJavaTemplate(null);
+            codeTemplateInfoBO.setEntityJavaTemplate(null);
+            codeTemplateInfoBO.setDaoXmlTemplate(null);
+            codeTemplateInfoBO.setDaoJavaTemplate(null);
+        }
 
         if (WinterStyleSuperEntityEnum.None != winterCodeGeneratorConfigBO.getSuperEntityInfoBO()) {
             codeTemplateInfoBO.setServiceJavaTemplate("/winter-style-template/service.java");
