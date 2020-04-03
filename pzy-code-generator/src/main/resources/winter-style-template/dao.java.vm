@@ -1,4 +1,4 @@
-package ${package.Mapper};
+package ${cfg.DAO};
 
 import ${package.Entity}.${entity};
 import ${superMapperClassPackage};

@@ -218,8 +218,10 @@ public class CodeGeneratorUtil {
                 String modulePackage = codeGeneratorConfigBO.getParentPackage() + "." + codeGeneratorConfigBO.getModuleName();
                 String dtoPackage = modulePackage + "." + "dto";
                 String voPackage = modulePackage + "." + "vo";
+                String daoPackage = modulePackage + "." + "dao";
                 customParamMap.put("DTO", dtoPackage);
                 customParamMap.put("VO", voPackage);
+                customParamMap.put("DAO", daoPackage);
                 customParamMap.put("BasePackage", codeGeneratorConfigBO.getParentPackage());
                 this.setMap(customParamMap);
             }
