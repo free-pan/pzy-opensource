@@ -19,7 +19,6 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("${table.name}")
 @ApiModel
 public class ${entity}AddDTO implements Serializable {
 
