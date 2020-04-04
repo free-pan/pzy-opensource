@@ -28,12 +28,12 @@ public class PageVO implements Serializable {
     private static final long serialVersionUID = -3151144130513721711L;
 
     /**
-     * 分页大小
+     * 分页大小. 默认: 10
      */
     @ApiModelProperty(value = "分页大小", example = "10")
     private Long size;
     /**
-     * 页号
+     * 页号. 默认: 1
      */
     @ApiModelProperty(value = "页号", example = "1")
     private Long page;

@@ -25,6 +25,13 @@ public class ${table.controllerName} {
     @Autowired
     private ${table.serviceName} service;
 
+    @DeleteMapping("clear-cache")
+    @ApiOperation(value = "${entity}清除缓存")
+    public ResultT clearCache() {
+        service.clearCache();
+        return ResultT.success();
+    }
+
     @GetMapping
     @ApiOperation(value = "${entity}分页查找")
     public ResultT<PageT<${entity}>> searchPage(PageVO page) {
