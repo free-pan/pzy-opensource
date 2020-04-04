@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -150,5 +151,27 @@ public abstract class ServiceTemplateImpl<M extends BaseMapper<T>, T> extends Se
      */
     public QueryWrapper<T> buildQueryWrapper() {
         return new QueryWrapper<T>();
+    }
+
+    /**
+     * 构建日期的范围查询条件
+     *
+     * @param queryWrapper 原始查询条件
+     * @param field        查询字段
+     * @param beginDate    开始日期时间
+     * @param endDate      结束日期时间
+     * @return
+     */
+    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, Date beginDate, Date endDate) {
+        if (beginDate != null && endDate != null) {
+            Date fromDate = beginDate.getTime() > endDate.getTime() ? endDate : beginDate;
+            Date toDate = beginDate.getTime() > endDate.getTime() ? beginDate : endDate;
+            queryWrapper.between(field, fromDate, toDate);
+        } else if (beginDate != null && endDate == null) {
+            queryWrapper.ge(field, beginDate);
+        } else if (beginDate == null && endDate != null) {
+            queryWrapper.le(field, endDate);
+        }
+        return queryWrapper;
     }
 }
