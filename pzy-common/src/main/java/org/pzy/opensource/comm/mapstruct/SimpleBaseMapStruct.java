@@ -35,6 +35,22 @@ public interface SimpleBaseMapStruct<Source, Target> {
     Target sourceToTarget(Source source);
 
     /**
+     * source转source
+     *
+     * @param source
+     * @return
+     */
+    Source sourceToSource(Source source);
+
+    /**
+     * target转target
+     *
+     * @param source
+     * @return
+     */
+    Target targetToTarget(Target source);
+
+    /**
      * 将源对象集合转换为目标对象
      *
      * @param sources 源对象集合
