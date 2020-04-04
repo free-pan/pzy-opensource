@@ -56,14 +56,6 @@ public abstract class ServiceTemplateImpl<M extends BaseMapper<T>, T> extends Se
         return MybatisPlusUtil.computeHashSize(elementCount, loadFactor);
     }
 
-    @CacheEvict(allEntries = true, beforeInvocation = true)
-    @Override
-    public void clearCache() {
-        if (log.isDebugEnabled()) {
-            log.debug(String.format("清除[%s]服务类缓存!", this.getClass().getName()));
-        }
-    }
-
     @Cacheable(sync = true)
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override

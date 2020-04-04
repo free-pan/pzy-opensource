@@ -24,4 +24,12 @@ import org.springframework.cache.annotation.CacheConfig;
 public class ${table.serviceImplName} extends ServiceTemplateImpl<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
     public static final String CACHE_NAME = "${table.serviceImplName}";
+
+    @CacheEvict(allEntries = true, beforeInvocation = true)
+    @Override
+    public void clearCache() {
+        if (log.isDebugEnabled()) {
+            log.debug(String.format("清除[%s]服务类缓存!", this.getClass().getName()));
+        }
+    }
 }
