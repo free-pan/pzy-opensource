@@ -1,5 +1,6 @@
 package ${package.ServiceImpl};
 
+import lombok.extern.slf4j.Slf4j;
 import ${package.Entity}.${entity};
 import ${cfg.DAO}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
@@ -10,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 
 /**
  * $!{table.name} 表相关服务实现类
@@ -17,6 +19,7 @@ import org.springframework.cache.annotation.CacheConfig;
  * @author ${author}
  * @since ${date}
  */
+@Slf4j
 @Service
 @Validated
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
