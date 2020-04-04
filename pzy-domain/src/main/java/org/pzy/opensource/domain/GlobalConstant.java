@@ -66,6 +66,10 @@ public interface GlobalConstant {
      * 日期时间字符串
      */
     String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    /**
+     * 日期时间字符串
+     */
+    String DATE_TIME_PATTERN_B = "yyyy-MM-dd HH:mm";
 
     /**
      * 默认分页大小
