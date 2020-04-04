@@ -20,6 +20,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.pzy.opensource.domain.PageT;
+import org.pzy.opensource.domain.dto.DateRangeSearchDTO;
+import org.pzy.opensource.domain.dto.DateTimeRangeSearchDTO;
 import org.pzy.opensource.domain.vo.PageVO;
 import org.pzy.opensource.mybatisplus.util.MybatisPlusUtil;
 import org.pzy.opensource.mybatisplus.util.PageUtil;
@@ -151,6 +153,38 @@ public abstract class ServiceTemplateImpl<M extends BaseMapper<T>, T> extends Se
      */
     public QueryWrapper<T> buildQueryWrapper() {
         return new QueryWrapper<T>();
+    }
+
+    /**
+     * 构建日期的范围查询条件
+     *
+     * @param queryWrapper 原始查询条件
+     * @param field        查询字段
+     * @param dateRange    日期范围
+     * @return
+     */
+    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, DateRangeSearchDTO dateRange) {
+        if (null != dateRange) {
+            return this.between(queryWrapper, field, dateRange.getBeginDate(), dateRange.getEndDate());
+        } else {
+            return queryWrapper;
+        }
+    }
+
+    /**
+     * 构建日期时间的范围查询条件
+     *
+     * @param queryWrapper           原始查询条件
+     * @param field                  查询字段
+     * @param dateTimeRangeSearchDTO 日期时间范围
+     * @return
+     */
+    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, DateTimeRangeSearchDTO dateTimeRangeSearchDTO) {
+        if (null != dateTimeRangeSearchDTO) {
+            return this.between(queryWrapper, field, dateTimeRangeSearchDTO.getBeginDateTime(), dateTimeRangeSearchDTO.getEndDateTime());
+        } else {
+            return queryWrapper;
+        }
     }
 
     /**
