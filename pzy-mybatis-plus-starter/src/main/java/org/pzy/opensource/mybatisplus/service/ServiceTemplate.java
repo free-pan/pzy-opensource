@@ -14,6 +14,7 @@ package org.pzy.opensource.mybatisplus.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.pzy.opensource.domain.PageT;
 import org.pzy.opensource.domain.vo.PageVO;
@@ -39,11 +40,20 @@ public interface ServiceTemplate<T> extends IService<T> {
      * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
      * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
      *
-     * @param page
-     * @param queryWrapper
+     * @param page         分页条件
+     * @param queryWrapper 查询条件
      * @return
      */
     PageT<T> searchPageAndCache(PageVO page, Wrapper<T> queryWrapper);
+
+    /**
+     * 分页查询
+     *
+     * @param page         分页条件
+     * @param queryWrapper 查询条件
+     * @return
+     */
+    IPage<T> searchPageVO(PageVO page, Wrapper<T> queryWrapper);
 
     /**
      * 新增, 并在真正的新增业务执行之前就清除与之关联的缓存

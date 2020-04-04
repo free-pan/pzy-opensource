@@ -66,11 +66,17 @@ public abstract class ServiceTemplateImpl<M extends BaseMapper<T>, T> extends Se
     @Override
     public PageT<T> searchPageAndCache(PageVO page, Wrapper<T> queryWrapper) {
         // 系统的分页条件转换为mybatis plus的分页条件
-        IPage<T> mybatisPlusPageCondition = PageUtil.pageVO2MybatisPlusPage(page);
+        IPage<T> mybatisPlusPageCondition = toMybatisPlusPage(page);
         // mybatis plus分页查询
         IPage<T> entityPageResult = super.page(mybatisPlusPageCondition, queryWrapper);
         // mybatis plus分页结果转换为系统分页结果
-        return PageUtil.mybatisPlusPage2PageT(entityPageResult);
+        return toPageT(entityPageResult);
+    }
+
+    @Override
+    public IPage<T> searchPageVO(PageVO page, Wrapper<T> queryWrapper) {
+        IPage<T> mybatisPlusPageCondition = toMybatisPlusPage(page);
+        return super.page(mybatisPlusPageCondition, queryWrapper);
     }
 
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
@@ -135,5 +141,14 @@ public abstract class ServiceTemplateImpl<M extends BaseMapper<T>, T> extends Se
      */
     public PageT<T> toPageT(IPage<T> mybatisPlusPageResult) {
         return PageUtil.mybatisPlusPage2PageT(mybatisPlusPageResult);
+    }
+
+    /**
+     * 构建mybatis plus查询条件
+     *
+     * @return
+     */
+    public QueryWrapper<T> buildQueryWrapper() {
+        return new QueryWrapper<T>();
     }
 }
