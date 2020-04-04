@@ -85,12 +85,32 @@ public interface GlobalConstant {
     /**
      * 逻辑删除标识: 已删除(不可用)
      */
-    Short LOGIC_DEL_YES = 1;
+    Short LOGIC_DEL_YES = 0;
 
     /**
      * 逻辑删除标识: 未删除(可用)
      */
-    Short LOGIC_DEL_NO = 0;
+    Short LOGIC_DEL_NO = 1;
+
+    /**
+     * 启用
+     */
+    Short ENABLE = 1;
+
+    /**
+     * 禁用
+     */
+    Short DISABLE = 0;
+
+    /**
+     * 已激活
+     */
+    Short ACTIVE = 1;
+
+    /**
+     * 未激活
+     */
+    Short NOT_ACTIVE = 0;
 
     /**
      * 0
