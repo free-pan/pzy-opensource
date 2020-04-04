@@ -81,13 +81,13 @@ public class SwaggerProperties extends SwaggerInfoBO {
     private Map<Integer, String> httpCodeDescMap = new HashMap<>();
 
     /**
-     * 需要swagger忽略的类集合<br/>
-     * 存储的是需要被清除所有属性的类的类全名
+     * <p>需要swagger忽略的类集合
+     * <p>存储的是需要被清除所有属性的类的类全名
      */
     private List<String> cleanClassList;
     /**
-     * 需要被swagger以另外方式映射的类<br/>
-     * 存储的是key为无swagger注解的类的类全名,value为有swagger注解的类的类全名<br/>
+     * <p>需要被swagger以另外方式映射的类
+     * <p>存储的是key为无swagger注解的类的类全名,value为有swagger注解的类的类全名
      */
     private Map<String, String> mappingClass;
     /**
@@ -98,7 +98,7 @@ public class SwaggerProperties extends SwaggerInfoBO {
     public SwaggerProperties() {
         httpCodeDescMap.put(200, "服务器已收到请求,并执行.");
         httpCodeDescMap.put(201, "添加成功.");
-        httpCodeDescMap.put(400, "请求数据未通过验证或请求不符合系统规范.");
+        httpCodeDescMap.put(400, "请求数据不符合规范.");
         httpCodeDescMap.put(401, "认证失败(需要登录/重新登录).");
         httpCodeDescMap.put(403, "权限不足.");
         httpCodeDescMap.put(404, "资源/服务不存在.");

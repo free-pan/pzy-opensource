@@ -77,8 +77,8 @@ public class WinterExceptionHandler {
     /**
      * 提取请求uri
      *
-     * @param req
-     * @return
+     * @param req 请求对象
+     * @return 请求uri
      */
     private String getReqUrl(HttpServletRequest req) {
         HttpRequestUriInfoBO requestUriInfoBO = HttpRequestUtil.extractHttpRequestUriInfo(req);
@@ -103,10 +103,11 @@ public class WinterExceptionHandler {
     /**
      * 记录日志
      *
-     * @param req
-     * @param e
-     * @param expMsg
-     * @return
+     * @param req      请求对象
+     * @param e        异常
+     * @param expMsg   异常信息
+     * @param errorLog 是打印错误日志还是打印警告日志
+     * @return 请求uri
      */
     private String recordLog(HttpServletRequest req, Exception e, String expMsg, boolean errorLog) {
         String uri = getReqUrl(req);
@@ -127,8 +128,9 @@ public class WinterExceptionHandler {
      *
      * @param req      请求对象
      * @param response 响应对象
-     * @param e        自定义异常
-     * @throws IOException
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = AbstractBusinessException.class)
@@ -145,10 +147,11 @@ public class WinterExceptionHandler {
     /**
      * 文件上传异常处理
      *
-     * @param req
-     * @param response
-     * @param e
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = MaxUploadSizeExceededException.class)
@@ -163,10 +166,11 @@ public class WinterExceptionHandler {
     /**
      * 请求头的accept值指定异常处理
      *
-     * @param req
-     * @param response
-     * @param e
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = HttpMediaTypeNotAcceptableException.class)
@@ -182,10 +186,11 @@ public class WinterExceptionHandler {
     /**
      * path传参或uri传参,传递的参数类型与实际的参数类型不匹配时,抛出此异常
      *
-     * @param req
-     * @param response
-     * @param e
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
@@ -200,10 +205,11 @@ public class WinterExceptionHandler {
     /**
      * request body传参无法通过验证时,抛出此异常
      *
-     * @param req
-     * @param response
-     * @param e
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
@@ -217,11 +223,11 @@ public class WinterExceptionHandler {
     /**
      * 当使用spring的MethodValidationPostProcessor进行数据验证,但数据未通过验证时,抛出该异常
      *
-     * @param req
-     * @param response
-     * @param e
-     * @return
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = ConstraintViolationException.class)
@@ -256,10 +262,11 @@ public class WinterExceptionHandler {
     /**
      * 当uri参数无法通过数据验证时,将抛出此异常
      *
-     * @param req
-     * @param response
-     * @param e
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = BindException.class)
@@ -278,10 +285,11 @@ public class WinterExceptionHandler {
     /**
      * request body传参无法解析
      *
-     * @param req
-     * @param response
-     * @param e
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
@@ -296,10 +304,11 @@ public class WinterExceptionHandler {
     /**
      * 请求类型不被服务器支持
      *
-     * @param req
-     * @param response
-     * @param e
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
@@ -314,10 +323,11 @@ public class WinterExceptionHandler {
     /**
      * 错误的contentType类型值处理
      *
-     * @param req
-     * @param response
-     * @param e
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = HttpMediaTypeNotSupportedException.class)
@@ -332,10 +342,11 @@ public class WinterExceptionHandler {
     /**
      * 缺少请求参数
      *
-     * @param req
-     * @param response
-     * @param e
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
@@ -350,10 +361,11 @@ public class WinterExceptionHandler {
     /**
      * sql异常
      *
-     * @param req
-     * @param response
-     * @param e
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = BadSqlGrammarException.class)
@@ -368,9 +380,11 @@ public class WinterExceptionHandler {
     /**
      * 当spring无法创建事务时,将抛出此异常(可能是数据库宕机也可能是数据库压力过大,单个连接超时了,也可能是等待数据库连接池返回可用连接直到达到了最大等待时间依然未获取到可用数据库连接)
      *
-     * @param req
-     * @param e
-     * @return
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = CannotCreateTransactionException.class)
@@ -385,9 +399,11 @@ public class WinterExceptionHandler {
     /**
      * 当客户端数据不符合数据库索引约束,且程序中未对该异常进行捕获处理, 则会执行到这里.
      *
-     * @param req
-     * @param e
-     * @return
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = SQLIntegrityConstraintViolationException.class)
@@ -406,9 +422,11 @@ public class WinterExceptionHandler {
     /**
      * 当客户端数据不符合数据库索引约束,且程序中未对该异常进行捕获处理, 则会执行到这里.
      *
-     * @param req
-     * @param e
-     * @return
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = DuplicateKeyException.class)
@@ -420,9 +438,11 @@ public class WinterExceptionHandler {
     /**
      * 当客户端的数据,不符合数据库表约束时,将抛出此异常
      *
-     * @param req
-     * @param e
-     * @return
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = DataIntegrityViolationException.class)
@@ -437,10 +457,11 @@ public class WinterExceptionHandler {
     /**
      * 业务代码尝试在只读事务中,进行当前读操作
      *
-     * @param req
-     * @param response
-     * @param e
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = TransientDataAccessResourceException.class)
@@ -455,11 +476,11 @@ public class WinterExceptionHandler {
     /**
      * shiro登录异常处理
      *
-     * @param req
-     * @param response
-     * @param e
-     * @return
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = AuthenticationException.class)
@@ -474,11 +495,11 @@ public class WinterExceptionHandler {
     /**
      * shiro权限验证未通过时,抛出该异常
      *
-     * @param req
-     * @param response
-     * @param e
-     * @return
-     * @throws IOException
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = UnauthorizedException.class)
@@ -493,9 +514,11 @@ public class WinterExceptionHandler {
     /**
      * 出现该异常说明,系统中存在未预料到的异常(业务逻辑实现不严谨)
      *
-     * @param req
-     * @param e
-     * @return
+     * @param req      请求对象
+     * @param response 响应对象
+     * @param e        异常
+     * @return 响应结果
+     * @throws IOException 抛出异常
      */
     @ResponseBody
     @ExceptionHandler(value = Exception.class)

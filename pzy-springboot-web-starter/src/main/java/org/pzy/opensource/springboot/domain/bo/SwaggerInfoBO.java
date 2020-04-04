@@ -12,10 +12,9 @@
 
 package org.pzy.opensource.springboot.domain.bo;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +22,8 @@ import java.util.List;
  * @author pzy
  * @date 2018/12/16
  */
-@Setter
-@Getter
-@ToString
-public class SwaggerInfoBO {
+@Data
+public class SwaggerInfoBO implements Serializable {
 
     /**
      * 文档标题
