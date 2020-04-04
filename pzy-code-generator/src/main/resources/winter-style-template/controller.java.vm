@@ -32,7 +32,7 @@ public class ${table.controllerName} {
         return ResultT.success(pageResult);
     }
 
-    @GetMapping("${id}")
+    @GetMapping("{id}")
     @ApiOperation(value = "${entity}详细查找")
     @ApiImplicitParam(name = "id", value = "唯一标识", dataType = "Long", paramType = "path", required = true)
     public ResultT<${entity}> searchById(@PathVariable("id") Long id) {
