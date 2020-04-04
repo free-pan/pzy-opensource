@@ -131,4 +131,9 @@ public interface GlobalConstant {
      * 存放于session的强制踢出标识,当session中存在这个值时,说明该session应该强制注销(适用于同一个账户session达到最大数量的自动强制踢出)
      */
     String MAX_SESSION_FORCE_LOGOUT_KEY = "MAX_SESSION_FORCE_LOGOUT";
+
+    /**
+     * 默认时区: GMT是格林威治标准时间的英文缩写(Greenwich Mean Time). gmt+8 是格林威治时间+8小时. 中国所在时区就是gmt+8
+     */
+    String TIME_ZONE = "GMT+8";
 }

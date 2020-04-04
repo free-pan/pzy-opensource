@@ -33,6 +33,14 @@ spring:
           statement-close-after-log-enabled: false
           result-set-open-after-log-enabled: false
           result-set-close-after-log-enabled: false
+  jackson:
+    time-zone: "GMT+8" # 设置默认时区(东八区)
+    date-format: "yyyy-MM-dd HH:mm:ss" #设置日期格式
+    # JsonInclude.Include.ALWAYS            默认(所有属性都输出,无论是否为null或空)
+    # JsonInclude.Include.NON_DEFAULT       属性为默认值不序列化
+    # JsonInclude.Include.NON_EMPTY         属性为 空（””） 或者为 NULL 都不序列化
+    # JsonInclude.Include.NON_NULL          属性为NULL不序列化
+    default-property-inclusion: ALWAYS
 
 ##################### 数据库连接池配置:结束 #######################
 
