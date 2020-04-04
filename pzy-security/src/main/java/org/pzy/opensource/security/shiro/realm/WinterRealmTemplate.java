@@ -66,7 +66,7 @@ public class WinterRealmTemplate extends AbstractWinterRealm {
             throw new ExpiredCredentialsException("密码已过期!");
         }
         if (!shiroUserBO.getEnabled()) {
-            throw new DisabledAccountException("账号被删除或禁用");
+            throw new DisabledAccountException("账号尚未激活或已被被禁用,删除!");
         }
         return new SimpleAuthenticationInfo(shiroUserBO, shiroUserBO.getPassword(), REALM_NAME);
     }

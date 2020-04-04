@@ -55,7 +55,7 @@ public class ShiroUserBO implements Serializable {
      */
     private Boolean credentialsNonExpired;
     /**
-     * 账户是否启用(未被逻辑删除). true表示可用(未被逻辑删除)
+     * 账户是否启用(未被逻辑删除). true表示可用(未被逻辑删除,已激活)
      */
     private Boolean enabled;
 
