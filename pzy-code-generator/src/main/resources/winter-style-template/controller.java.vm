@@ -34,7 +34,7 @@ public class ${table.controllerName} {
 
     @GetMapping("{id}")
     @ApiOperation(value = "${entity}详细查找")
-    @ApiImplicitParam(name = "id", value = "唯一标识", dataType = "Long", paramType = "path", required = true)
+    @ApiImplicitParam(name = "id", value = "唯一标识", dataType = "Long", paramType = "path", required = true, example = "1")
     public ResultT<${entity}> searchById(@PathVariable("id") Long id) {
         ${entity} result = service.getById(id);
         return ResultT.success(result);
