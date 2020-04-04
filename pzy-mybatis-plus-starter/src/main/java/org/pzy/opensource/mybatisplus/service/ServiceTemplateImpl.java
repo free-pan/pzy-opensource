@@ -116,4 +116,24 @@ public abstract class ServiceTemplateImpl<M extends BaseMapper<T>, T> extends Se
     public Object getCurrentBeanProxy() {
         return SpringUtil.getBean(this.getClass());
     }
+
+    /**
+     * 将系统的分页对象转换为mybatis plus的分页参数
+     *
+     * @param page 系统的分页条件
+     * @return mybatis plus的分页条件
+     */
+    public IPage<T> toMybatisPlusPage(PageVO page) {
+        return PageUtil.pageVO2MybatisPlusPage(page);
+    }
+
+    /**
+     * 将mybatis plus的分页结果, 转换为系统的分页结果
+     *
+     * @param mybatisPlusPageResult mybatis plus的分页结果
+     * @return 系统的分页结果
+     */
+    public PageT<T> toPageT(IPage<T> mybatisPlusPageResult) {
+        return PageUtil.mybatisPlusPage2PageT(mybatisPlusPageResult);
+    }
 }
