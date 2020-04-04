@@ -64,6 +64,21 @@ public class RandomPasswordUtil {
     }
 
     /**
+     * 生成6位随机的数字+小写英文字母的验证码
+     *
+     * @return
+     */
+    public final static String generateSixRandomNumberWordVerifyCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(randomLengthStr(1, ENGLISH));
+        stringBuilder.append(randomLengthStr(2, NUM));
+        stringBuilder.append(randomLengthStr(1, ENGLISH));
+        stringBuilder.append(randomLengthStr(1, NUM));
+        stringBuilder.append(randomLengthStr(1, ENGLISH));
+        return stringBuilder.toString();
+    }
+
+    /**
      * 生成8位随机密码
      *
      * @return
