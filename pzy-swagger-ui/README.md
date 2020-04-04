@@ -10,4 +10,4 @@
 
 ## 前端swagger-ui源码
 
-https://gitee.com/free_pan/swagger-ui-theme
+https://gitee.com/free_pan/winter-swagger-ui
