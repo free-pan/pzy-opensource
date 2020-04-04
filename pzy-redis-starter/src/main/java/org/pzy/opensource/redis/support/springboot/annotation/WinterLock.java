@@ -30,22 +30,16 @@ public @interface WinterLock {
 
     /**
      * 锁构建方式
-     *
-     * @return
      */
     LockBuilder lockBuilder();
 
     /**
      * 等待获取锁的时间. 单位: 秒  默认:3秒
-     *
-     * @return
      */
     long waitTime() default 3;
 
     /**
      * 锁占用时间. 单位:秒 默认15秒
-     *
-     * @return
      */
     long leaseTime() default 15;
 

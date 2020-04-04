@@ -17,6 +17,8 @@ import org.springframework.cache.interceptor.KeyGenerator;
 import java.lang.reflect.Method;
 
 /**
+ * 自定义spring-cache的key生成方式
+ *
  * @author pan
  * @date 2019-07-17
  */
@@ -31,7 +33,7 @@ public class WinterCacheKeyGenerator implements KeyGenerator {
      * @param target 缓存注解所在类实例
      * @param method 缓存注解所在的方法
      * @param params 缓存注解所在方法的参数
-     * @return
+     * @return key对象
      */
     @Override
     public Object generate(Object target, Method method, Object... params) {

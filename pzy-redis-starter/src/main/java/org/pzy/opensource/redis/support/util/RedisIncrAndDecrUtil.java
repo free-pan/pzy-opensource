@@ -51,8 +51,8 @@ public class RedisIncrAndDecrUtil {
     /**
      * 自增操作
      *
-     * @param key
-     * @return
+     * @param key 存储的key
+     * @return 自增后的结果
      */
     public static Long incr(String key) {
         return REDIS_TEMPLATE_VALUE_JSON_STRING.opsForValue().increment(key);
@@ -61,9 +61,9 @@ public class RedisIncrAndDecrUtil {
     /**
      * 自增操作
      *
-     * @param key
+     * @param key  存储的key
      * @param step 自增步长
-     * @return
+     * @return 自增后的结果
      */
     public static Long incr(String key, Integer step) {
         return REDIS_TEMPLATE_VALUE_JSON_STRING.opsForValue().increment(key, step);

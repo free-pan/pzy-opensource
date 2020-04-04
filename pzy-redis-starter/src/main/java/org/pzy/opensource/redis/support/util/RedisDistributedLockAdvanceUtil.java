@@ -81,7 +81,7 @@ public class RedisDistributedLockAdvanceUtil {
      * @param maxTryCount     当未获取到锁时的最大重试次数[必须大于0]
      * @param sleepMilliscond 重试间隔的休眠时间(毫秒)[至少100毫秒](最长休眠:sleepMilliscond毫秒,最少休眠:sleepMilliscond-90毫秒)
      * @param operateFlag     操作标识
-     * @return
+     * @return 是否获取到锁
      * @throws InterruptedException 当休眠被中断时,抛出该异常
      */
     public static boolean tryLock(String lockKey, String clientId, Long expireSecond, Integer maxTryCount, Long sleepMilliscond, String operateFlag) throws InterruptedException {
@@ -116,7 +116,7 @@ public class RedisDistributedLockAdvanceUtil {
      * @param clientId     客户端标识
      * @param expireSecond 锁定的时间(单位:秒)[必须大于0]
      * @param operateFlag  操作标识
-     * @return
+     * @return 是否获取到锁
      * @throws InterruptedException 当休眠被中断时,抛出该异常
      */
     public static boolean tryLock(String lockKey, String clientId, Long expireSecond, String operateFlag) throws InterruptedException {
@@ -128,6 +128,7 @@ public class RedisDistributedLockAdvanceUtil {
      *
      * @param lockKey  锁的key
      * @param clientId 客户端标识
+     * @param operateFlag 操作标识
      */
     public static void releaseLock(String lockKey, String clientId, String operateFlag) {
         clientId = operateFlag + ":" + clientId;

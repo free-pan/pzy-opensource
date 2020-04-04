@@ -188,7 +188,7 @@ public class WinterRedisAutoConfiguration extends CachingConfigurerSupport {
     /**
      * 替换默认的key生成方式
      *
-     * @return
+     * @return key生成对象
      */
     @Override
     public KeyGenerator keyGenerator() {
