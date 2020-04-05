@@ -19,14 +19,21 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.pzy.opensource.comm.util.DateUtil;
+import org.pzy.opensource.domain.GlobalConstant;
 import org.pzy.opensource.domain.PageT;
 import org.pzy.opensource.domain.dto.DateRangeSearchDTO;
 import org.pzy.opensource.domain.dto.DateTimeRangeSearchDTO;
+import org.pzy.opensource.domain.enums.LocalDatePatternEnum;
+import org.pzy.opensource.domain.enums.LocalDateTimePatternEnum;
 import org.pzy.opensource.domain.vo.PageVO;
 import org.pzy.opensource.mybatisplus.util.MybatisPlusUtil;
 import org.pzy.opensource.mybatisplus.util.PageUtil;
 import org.pzy.opensource.mybatisplus.util.SpringUtil;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -85,6 +92,39 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
     }
 
     /**
+     * 日期格式化
+     *
+     * @param date    日期
+     * @param pattern 格式化模板
+     * @return 格式化之后的字符串
+     */
+    public String format(Date date, LocalDateTimePatternEnum pattern) {
+        return DateUtil.format(date, pattern);
+    }
+
+    /**
+     * LocalDate格式化
+     *
+     * @param localDate 日期
+     * @param pattern   格式化模板
+     * @return 格式化之后的字符串
+     */
+    public String format(LocalDate localDate, LocalDatePatternEnum pattern) {
+        return DateUtil.format(localDate, pattern);
+    }
+
+    /**
+     * LocalDateTime格式化
+     *
+     * @param localDateTime 日期
+     * @param pattern       格式化模板
+     * @return 格式化之后的字符串
+     */
+    public String format(LocalDateTime localDateTime, LocalDateTimePatternEnum pattern) {
+        return DateUtil.format(localDateTime, pattern);
+    }
+
+    /**
      * 构建mybatis plus查询条件
      *
      * @return
@@ -103,7 +143,7 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      */
     public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, DateRangeSearchDTO dateRange) {
         if (null != dateRange) {
-            return this.between(queryWrapper, field, dateRange.getBeginDate(), dateRange.getEndDate());
+            return this.between(queryWrapper, field, dateRange.getBeginDate(), dateRange.getEndDate(), dateRange.getTargetFieldIsDatetime());
         } else {
             return queryWrapper;
         }
@@ -126,6 +166,68 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
     }
 
     /**
+     * 交换beginDate和endDate的值, 如果beginDate的时间戳小于endDate的时间戳
+     *
+     * @param dateRangeSearchDTO 待转换数据
+     * @return 转换之后的结果
+     */
+    public DateRangeSearchDTO switchDateRangeSearchIfNecessary(DateRangeSearchDTO dateRangeSearchDTO) {
+        return DateUtil.switchDateRangeSearchIfNecessary(dateRangeSearchDTO);
+    }
+
+    /**
+     * 交换beginDateTime和endDateTime的值, 如果beginDateTime的时间戳小于endDateTime的时间戳
+     *
+     * @param dateRangeSearchDTO 待转换数据
+     * @return 转换之后的结果
+     */
+    public DateTimeRangeSearchDTO switchDateTimeRangeSearchIfNecessary(DateTimeRangeSearchDTO dateRangeSearchDTO) {
+        return DateUtil.switchDateTimeRangeSearchIfNecessary(dateRangeSearchDTO);
+    }
+
+    /**
+     * 构建日期的范围查询条件
+     *
+     * @param queryWrapper          原始查询条件
+     * @param field                 查询字段
+     * @param beginDate             开始日期时间
+     * @param endDate               结束日期时间
+     * @param targetFieldIsDatetime 目标查询字段是否为datetime类型. <p>如果值为true, 则会将beginDate和endDate转换为. yyyy-MM-dd 00:00:00, yyyy-MM-dd 23:59:59 格式. <p>如果值为false, 则会将beginDate和endDate转换为. yyyy-MM-dd, yyyy-MM-dd 格式
+     * @return
+     */
+    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, LocalDate beginDate, LocalDate endDate, boolean targetFieldIsDatetime) {
+        if (beginDate != null && endDate != null) {
+            LocalDate fromDate = null;
+            LocalDate toDate = null;
+            if (beginDate.isAfter(endDate)) {
+                fromDate = endDate;
+                toDate = beginDate;
+            } else {
+                fromDate = beginDate;
+                toDate = endDate;
+            }
+            if (targetFieldIsDatetime) {
+                queryWrapper.between(field, fromDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_E)), toDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_F)));
+            } else {
+                queryWrapper.between(field, fromDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)), toDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)));
+            }
+        } else if (beginDate != null && endDate == null) {
+            if (targetFieldIsDatetime) {
+                queryWrapper.ge(field, beginDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_E)));
+            } else {
+                queryWrapper.ge(field, beginDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)));
+            }
+        } else if (beginDate == null && endDate != null) {
+            if (targetFieldIsDatetime) {
+                queryWrapper.le(field, endDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_F)));
+            } else {
+                queryWrapper.le(field, endDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)));
+            }
+        }
+        return queryWrapper;
+    }
+
+    /**
      * 构建日期的范围查询条件
      *
      * @param queryWrapper 原始查询条件
@@ -134,15 +236,22 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      * @param endDate      结束日期时间
      * @return
      */
-    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, Date beginDate, Date endDate) {
+    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, LocalDateTime beginDate, LocalDateTime endDate) {
         if (beginDate != null && endDate != null) {
-            Date fromDate = beginDate.getTime() > endDate.getTime() ? endDate : beginDate;
-            Date toDate = beginDate.getTime() > endDate.getTime() ? beginDate : endDate;
-            queryWrapper.between(field, fromDate, toDate);
+            LocalDateTime fromDate = null;
+            LocalDateTime toDate = null;
+            if (beginDate.isAfter(endDate)) {
+                fromDate = endDate;
+                toDate = beginDate;
+            } else {
+                fromDate = beginDate;
+                toDate = endDate;
+            }
+            queryWrapper.between(field, fromDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_C)), toDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_D)));
         } else if (beginDate != null && endDate == null) {
-            queryWrapper.ge(field, beginDate);
+            queryWrapper.ge(field, beginDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_C)));
         } else if (beginDate == null && endDate != null) {
-            queryWrapper.le(field, endDate);
+            queryWrapper.le(field, endDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_D)));
         }
         return queryWrapper;
     }

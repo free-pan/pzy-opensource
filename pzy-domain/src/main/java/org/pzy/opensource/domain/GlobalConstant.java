@@ -59,17 +59,47 @@ public interface GlobalConstant {
 
     String DEFAULT_CHARSET = "UTF-8";
     /**
-     * 日期模式字符串
+     * 日期模式字符串: yyyy-MM-dd
      */
     String DATE_PATTERN = "yyyy-MM-dd";
     /**
-     * 日期时间字符串
+     * 日期时间字符串: yyyy-MM-dd HH:mm:ss
      */
     String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
     /**
-     * 日期时间字符串
+     * 日期时间字符串: yyyy-MM-dd HH:mm
      */
     String DATE_TIME_PATTERN_B = "yyyy-MM-dd HH:mm";
+
+    /**
+     * 日期时间字符串: yyyy-MM-dd HH:mm:00
+     */
+    String DATE_TIME_PATTERN_C = "yyyy-MM-dd HH:mm:00";
+
+    /**
+     * 日期时间字符串: yyyy-MM-dd HH:mm:59
+     */
+    String DATE_TIME_PATTERN_D = "yyyy-MM-dd HH:mm:59";
+
+    /**
+     * 日期时间字符串: yyyy-MM-dd 00:00:00
+     */
+    String DATE_TIME_PATTERN_E = "yyyy-MM-dd 00:00:00";
+
+    /**
+     * 日期时间字符串: yyyy-MM-dd 23:59:59
+     */
+    String DATE_TIME_PATTERN_F = "yyyy-MM-dd 23:59:59";
+
+    /**
+     * 日期时间字符串: yyyy-MM-dd 00:00
+     */
+    String DATE_TIME_PATTERN_G = "yyyy-MM-dd 00:00";
+
+    /**
+     * 日期时间字符串: yyyy-MM-dd 23:59
+     */
+    String DATE_TIME_PATTERN_H = "yyyy-MM-dd 23:59";
 
     /**
      * 默认分页大小
