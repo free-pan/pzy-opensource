@@ -85,6 +85,9 @@ public class ${table.serviceImplName} extends ServiceTemplate<${table.mapperName
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly=true)
     @Override
     public ${entity}VO getByIdAndCache(Serializable id){
+        if (null == id) {
+            return null;
+        }
         ${entity} entity = super.getById(id);
         return this.mapStruct.entityToDTO(entity);
     }
