@@ -14,15 +14,18 @@ package org.pzy.opensource.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.pzy.opensource.domain.vo.PageVO;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author pan
  * @date 2019-12-11
  */
 @Data
+@Accessors(chain = true)
 public class PageT<T> extends PageVO {
 
     private static final long serialVersionUID = -3963224962952214829L;
@@ -45,7 +48,7 @@ public class PageT<T> extends PageVO {
 
 
     public static <T>PageT<T> EMPTY(){
-        return new PageT<>();
+        return new PageT<>().setList(Collections.EMPTY_LIST);
     }
 
 }

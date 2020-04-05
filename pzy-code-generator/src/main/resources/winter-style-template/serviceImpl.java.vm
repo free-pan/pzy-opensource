@@ -59,6 +59,9 @@ public class ${table.serviceImplName} extends ServiceTemplate<${table.mapperName
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly=true)
     @Override
     public PageT<${entity}VO> pageAndCache(${entity}SearchDTO dto){
+        if(null==dto){
+            return PageT.EMPTY();
+        }
         // 系统的分页条件转换为mybatis plus的分页条件
         IPage<${entity}> mybatisPlusPageCondition = toMybatisPlusPage(dto.getPg());
         // 构建mybatis plus查询条件

@@ -59,8 +59,8 @@ public class PageVO implements Serializable {
 
     public Long getSize() {
         if (this.size == null || this.size <= 0) {
-            if (log.isDebugEnabled()) {
-                log.debug("实际的分页大小为[{}],不符合系统规范,将返回默认的分页大小[{}]", this.size, GlobalConstant.PAGE_SIZE);
+            if (log.isWarnEnabled()) {
+                log.warn("实际的分页大小为[{}],不符合系统规范,将返回默认的分页大小[{}]", this.size, GlobalConstant.PAGE_SIZE);
             }
             return GlobalConstant.PAGE_SIZE;
         }
@@ -73,8 +73,8 @@ public class PageVO implements Serializable {
 
     public Long getPage() {
         if (this.page == null || this.page <= 0) {
-            if (log.isDebugEnabled()) {
-                log.debug("实际的页号为[{}],不符合系统规范,将返回默认的分页大小[{}]", this.page, GlobalConstant.PAGE_NUM);
+            if (log.isWarnEnabled()) {
+                log.warn("实际的页号为[{}],不符合系统规范,将返回默认的分页大小[{}]", this.page, GlobalConstant.PAGE_NUM);
             }
             return GlobalConstant.PAGE_NUM;
         }
