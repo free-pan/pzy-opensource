@@ -43,4 +43,9 @@ public class PageT<T> extends PageVO {
         this.total = GlobalConstant.ZERO;
     }
 
+
+    public static <T>PageT<T> EMPTY(){
+        return new PageT<>();
+    }
+
 }

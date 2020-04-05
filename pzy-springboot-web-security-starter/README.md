@@ -14,7 +14,7 @@
 
 ### 如何实现授权与认证
 
-向spring注入自定义`org.pzy.opensource.security.shiro.realm.WinterRealmTemplate`的bean实例, 
+向spring注入自定义`org.pzy.opensource.security.shiro.realm.WinterRealmTemplate`的子类bean实例, 
 并注入`org.pzy.opensource.security.service.ShiroWinterUserService`的自定义实现类即可
 
 ### 如何向shiro注入自定义过滤器
