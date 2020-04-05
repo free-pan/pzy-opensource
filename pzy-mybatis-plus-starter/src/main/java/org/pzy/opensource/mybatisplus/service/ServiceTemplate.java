@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.pzy.opensource.comm.util.DateUtil;
+import org.pzy.opensource.comm.util.MySqlUtil;
 import org.pzy.opensource.domain.GlobalConstant;
 import org.pzy.opensource.domain.PageT;
 import org.pzy.opensource.domain.dto.DateRangeSearchDTO;
@@ -60,6 +61,16 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      */
     protected int computeHashSize(int elementCount, Float loadFactor) {
         return MybatisPlusUtil.computeHashSize(elementCount, loadFactor);
+    }
+
+    /**
+     * 查询关键词特殊字符转义
+     *
+     * @param kw 原始的查询关键词
+     * @return 转义之后的查询关键词
+     */
+    public String keywordEscape(String kw) {
+        return MySqlUtil.escape(kw);
     }
 
     /**
