@@ -31,6 +31,7 @@ import org.pzy.opensource.domain.vo.PageVO;
 import org.pzy.opensource.mybatisplus.util.MybatisPlusUtil;
 import org.pzy.opensource.mybatisplus.util.PageUtil;
 import org.pzy.opensource.mybatisplus.util.SpringUtil;
+import org.springframework.context.ApplicationEvent;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -71,6 +72,18 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      */
     public String keywordEscape(String kw) {
         return MySqlUtil.escape(kw);
+    }
+
+    /**
+     * 如果当前上线文存在事务则在当前事务提交完毕之后进行事件发布, 否则立刻进行事件发布
+     * <p>事件发布/监听机制会将一些次要逻辑从主逻辑中抽取出来. 通常会结合异步任务使用.
+     * 但此时要注意如果主逻辑中的事务如果提交比较慢, 可能会导致异步任务中, 无法从数据库中获取到主事务中的数据的问题. 该方法解决了这个问题
+     * <p>详细参考: https://www.jyoryo.com/archives/155.html
+     *
+     * @param applicationEvent
+     */
+    public static void publishEventOnAfterCommitIfNecessary(ApplicationEvent applicationEvent) {
+        SpringUtil.publishEventOnAfterCommitIfNecessary(applicationEvent);
     }
 
     /**
