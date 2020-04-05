@@ -12,11 +12,14 @@
 
 package org.pzy.opensource.redis.support.util;
 
+import org.pzy.opensource.domain.GlobalConstant;
 import org.pzy.opensource.redis.support.springboot.redis.StringKeyObjectByteArrayValueRedisTemplate;
+import org.pzy.opensource.spring.util.ResourceFileLoadUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +48,20 @@ public class RedisUtil {
     private static RedisTemplate<String, Object> REDIS_TEMPLATE_VALUE_JSON_STRING;
 
     private static StringKeyObjectByteArrayValueRedisTemplate STRING_KEY_OBJECT_BYTE_ARRAY_VALUE_REDIS_TEMPLATE;
+
+    /**
+     * 按前缀删除redis数据的lua脚本
+     */
+    private static String DEL_KEY_PREFIX = null;
+
+    static {
+        String scriptFile = "classpath:script/DelKeyByPrefix.lua";
+        try {
+            DEL_KEY_PREFIX = ResourceFileLoadUtil.loadAsString(scriptFile, GlobalConstant.DEFAULT_CHARSET);
+        } catch (IOException e) {
+            throw new RuntimeException(String.format("lua脚本文件[%s]读取异常!", scriptFile));
+        }
+    }
 
     private RedisUtil() {
     }
@@ -153,6 +170,16 @@ public class RedisUtil {
      */
     public static void remove(String key) {
         REDIS_TEMPLATE_VALUE_JSON_STRING.delete(key);
+    }
+
+    /**
+     * 删除指定key前缀的数据
+     *
+     * @param key key写法示例. test*, apple*
+     * @return 删除的数据数量
+     */
+    public static Long removeByKeyPrefix(String key) {
+        return RedisUtil.executeScript(DEL_KEY_PREFIX, Arrays.asList(key), Long.class);
     }
 
     /**

@@ -35,6 +35,9 @@ public class RedisDistributedLockAdvanceUtil {
      * 释放redis锁的lua脚本
      */
     private static String RELEASE_LOCK_SCRIPT = null;
+    /**
+     * 获取redis锁的lua脚本
+     */
     private static String TRY_LOCK_SCRIPT = null;
 
     static {
