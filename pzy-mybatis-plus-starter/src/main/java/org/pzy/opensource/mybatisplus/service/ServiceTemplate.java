@@ -12,95 +12,138 @@
 
 package org.pzy.opensource.mybatisplus.service;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.pzy.opensource.domain.PageT;
+import org.pzy.opensource.domain.dto.DateRangeSearchDTO;
+import org.pzy.opensource.domain.dto.DateTimeRangeSearchDTO;
 import org.pzy.opensource.domain.vo.PageVO;
+import org.pzy.opensource.mybatisplus.util.MybatisPlusUtil;
+import org.pzy.opensource.mybatisplus.util.PageUtil;
+import org.pzy.opensource.mybatisplus.util.SpringUtil;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 
 /**
- * 服务模板接口. 将增,改,查与缓存操作关联起来
- * <p>默认实现是: {@link org.pzy.opensource.mybatisplus.service.ServiceTemplateImpl}
+ * 服务模板实现
  *
- * @author 潘志勇
+ * @author pan
+ * @date 2019-12-12
  */
-public interface ServiceTemplate<T> extends IService<T> {
+@Getter
+@Slf4j
+public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends ServiceImpl<M, T> implements IService<T> {
 
     /**
      * 清除当前服务的查询缓存
      */
-    void clearCache();
+    public abstract void clearCache();
 
     /**
-     * 按条件分页查找. 并将查询结果缓存
-     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
-     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
+     * 计算hash表的实际大小
      *
-     * @param page         分页条件
-     * @param queryWrapper 查询条件
+     * @param elementCount hash表中实际要存放的元素个数
+     * @param loadFactor   加载因子[可不指定].默认:0.75
      * @return
      */
-    PageT<T> searchPageAndCache(PageVO page, Wrapper<T> queryWrapper);
+    protected int computeHashSize(int elementCount, Float loadFactor) {
+        return MybatisPlusUtil.computeHashSize(elementCount, loadFactor);
+    }
 
     /**
-     * 分页查询
+     * 获取当前bean在spring容器中的代理对象
      *
-     * @param page         分页条件
-     * @param queryWrapper 查询条件
+     * @return 当前bean在spring容器中的代理对象
+     */
+    public Object getCurrentBeanProxy() {
+        return SpringUtil.getBean(this.getClass());
+    }
+
+    /**
+     * 将系统的分页对象转换为mybatis plus的分页参数
+     *
+     * @param page 系统的分页条件
+     * @return mybatis plus的分页条件
+     */
+    public IPage<T> toMybatisPlusPage(PageVO page) {
+        return PageUtil.pageVO2MybatisPlusPage(page);
+    }
+
+    /**
+     * 将mybatis plus的分页结果, 转换为系统的分页结果
+     *
+     * @param mybatisPlusPageResult mybatis plus的分页结果
+     * @return 系统的分页结果
+     */
+    public PageT<T> toPageT(IPage<T> mybatisPlusPageResult) {
+        return PageUtil.mybatisPlusPage2PageT(mybatisPlusPageResult);
+    }
+
+    /**
+     * 构建mybatis plus查询条件
+     *
      * @return
      */
-    IPage<T> searchPageVO(PageVO page, Wrapper<T> queryWrapper);
+    public QueryWrapper<T> buildQueryWrapper() {
+        return new QueryWrapper<T>();
+    }
 
     /**
-     * 新增, 并在真正的新增业务执行之前就清除与之关联的缓存
-     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
-     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
+     * 构建日期的范围查询条件
      *
-     * @param entity 待新增实体
-     * @return true表示新增成功.
-     */
-    boolean addAndClearCache(T entity);
-
-    /**
-     * 编辑, 并在真正的新增业务执行之前就清除与之关联的缓存
-     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
-     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
-     *
-     * @param entity
-     * @return true表示编辑成功.
-     */
-    boolean editAndClearCache(T entity);
-
-    /**
-     * 根据id查找, 并将结果进行缓存
-     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
-     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
-     *
-     * @param id
+     * @param queryWrapper 原始查询条件
+     * @param field        查询字段
+     * @param dateRange    日期范围
      * @return
      */
-    T searchByIdAndCache(Serializable id);
+    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, DateRangeSearchDTO dateRange) {
+        if (null != dateRange) {
+            return this.between(queryWrapper, field, dateRange.getBeginDate(), dateRange.getEndDate());
+        } else {
+            return queryWrapper;
+        }
+    }
 
     /**
-     * 查询所有并缓存
-     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
-     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
+     * 构建日期时间的范围查询条件
      *
-     * @return 所有匹配的数据
+     * @param queryWrapper           原始查询条件
+     * @param field                  查询字段
+     * @param dateTimeRangeSearchDTO 日期时间范围
+     * @return
      */
-    List<T> searchAllAndCache();
+    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, DateTimeRangeSearchDTO dateTimeRangeSearchDTO) {
+        if (null != dateTimeRangeSearchDTO) {
+            return this.between(queryWrapper, field, dateTimeRangeSearchDTO.getBeginDateTime(), dateTimeRangeSearchDTO.getEndDateTime());
+        } else {
+            return queryWrapper;
+        }
+    }
 
     /**
-     * 按条件查找并缓存
-     * <p>注意: 该方法必须使用 `对象名.方法名(...)` 调用会有缓存相关操作, 因为缓存相关操作是由spring走代理的时候添加的
-     * <p>在该类的子类进行 `this.方法名(...)` 或 `super.方法名(...)` 是不会包含spring代理层面的缓存相关逻辑的
+     * 构建日期的范围查询条件
      *
-     * @param queryWrapper 查询条件
-     * @return 所有匹配的数据
+     * @param queryWrapper 原始查询条件
+     * @param field        查询字段
+     * @param beginDate    开始日期时间
+     * @param endDate      结束日期时间
+     * @return
      */
-    List<T> searchAllAndCache(QueryWrapper<T> queryWrapper);
+    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, Date beginDate, Date endDate) {
+        if (beginDate != null && endDate != null) {
+            Date fromDate = beginDate.getTime() > endDate.getTime() ? endDate : beginDate;
+            Date toDate = beginDate.getTime() > endDate.getTime() ? beginDate : endDate;
+            queryWrapper.between(field, fromDate, toDate);
+        } else if (beginDate != null && endDate == null) {
+            queryWrapper.ge(field, beginDate);
+        } else if (beginDate == null && endDate != null) {
+            queryWrapper.le(field, endDate);
+        }
+        return queryWrapper;
+    }
 }

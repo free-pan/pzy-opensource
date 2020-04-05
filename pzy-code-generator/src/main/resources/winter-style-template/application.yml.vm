@@ -70,5 +70,7 @@ mybatis-plus:
 ##################### mybatis配置:结束 #######################
 
 component:
+  swagger:
+    enable: true
   cache: # 缓存详细配置
     cache-key-namespace: winter-cache # 缓存统一前缀

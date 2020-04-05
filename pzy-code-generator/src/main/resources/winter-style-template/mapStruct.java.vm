@@ -1,0 +1,20 @@
+package ${cfg.MapStruct};
+
+import org.mapstruct.Mapper;
+import ${cfg.VO}.*;
+import ${package.Entity}.*;
+import ${cfg.DTO}.*;
+import org.pzy.opensource.comm.mapstruct.ComplexMapStruct;
+import org.pzy.opensource.comm.mapstruct.StringDataMapper;
+
+/**
+ * $!{table.name}表相关领域对象转化类
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Mapper(componentModel = "spring", uses = {StringDataMapper.class})
+public interface ${entity}MapStruct extends ComplexMapStruct<${entity}SearchDTO, ${entity}AddDTO, ${entity}EditDTO, ${entity}, ${entity}VO> {
+
+
+}

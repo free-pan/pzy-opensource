@@ -1,0 +1,23 @@
+package ${cfg.DTO};
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import org.pzy.opensource.domain.dto.KeywordDateRangeSearchDTO;
+import org.pzy.opensource.domain.vo.PageVO;
+
+/**
+ * ${entity}查询条件
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+@Data
+public class ${entity}SearchDTO extends KeywordDateRangeSearchDTO {
+
+    @ApiModelProperty(value = "分页条件")
+    private PageVO pg;
+
+    public ${entity}SearchDTO() {
+        this.pg = new PageVO();
+    }
+}

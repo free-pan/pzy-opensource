@@ -1,17 +1,31 @@
 package ${package.ServiceImpl};
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+
+import org.pzy.opensource.domain.vo.PageVO;
+import org.pzy.opensource.domain.PageT;
+
 import lombok.extern.slf4j.Slf4j;
-import ${package.Entity}.${entity};
-import ${cfg.DAO}.${table.mapperName};
+import ${package.Entity}.*;
+import ${cfg.DAO}.*;
+import ${cfg.VO}.*;
+import ${cfg.DTO}.*;
+import ${cfg.MapStruct}.*;
 import ${package.Service}.${table.serviceName};
-import org.pzy.opensource.mybatisplus.service.ServiceTemplateImpl;
+import org.pzy.opensource.mybatisplus.service.ServiceTemplate;
+import org.pzy.opensource.mybatisplus.util.PageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.validation.annotation.*;
+import org.springframework.transaction.annotation.*;
+import org.springframework.cache.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * $!{table.name} 表相关服务实现类
@@ -22,11 +36,13 @@ import org.springframework.cache.annotation.CacheEvict;
 @Slf4j
 @Service
 @Validated
-@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 @CacheConfig(cacheNames = ${table.serviceImplName}.CACHE_NAME)
-public class ${table.serviceImplName} extends ServiceTemplateImpl<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+public class ${table.serviceImplName} extends ServiceTemplate<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
     public static final String CACHE_NAME = "${table.serviceImplName}";
+
+    @Autowired
+    private ${entity}MapStruct mapStruct;
 
     @CacheEvict(allEntries = true, beforeInvocation = true)
     @Override
@@ -34,5 +50,55 @@ public class ${table.serviceImplName} extends ServiceTemplateImpl<${table.mapper
         if (log.isDebugEnabled()) {
             log.debug(String.format("清除[%s]服务类缓存!", this.getClass().getName()));
         }
+    }
+
+    @Cacheable(sync = true)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly=true)
+    @Override
+    public PageT<${entity}VO> pageAndCache(${entity}SearchDTO dto){
+        // 系统的分页条件转换为mybatis plus的分页条件
+        IPage<${entity}> mybatisPlusPageCondition = toMybatisPlusPage(dto.getPg());
+        // 构建mybatis plus查询条件
+        QueryWrapper<${entity}> queryWrapper = buildQueryWrapper();
+        // mybatis plus分页查询
+        IPage<${entity}> mybatisPlusPageResult = super.page(mybatisPlusPageCondition, queryWrapper);
+        // mybatis plus分页结果, 转系统分页结果
+        List<${entity}VO> voList = this.mapStruct.entityToDTO(mybatisPlusPageResult.getRecords());
+        return PageUtil.mybatisPlusPage2PageT(mybatisPlusPageResult, voList);
+    }
+
+    @CacheEvict(allEntries = true, beforeInvocation = true)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    @Override
+    public Long saveAndClearCache(@Valid @NotNull ${entity}AddDTO dto){
+        // 对象转换
+        ${entity} entity = mapStruct.addSourceToEntity(dto);
+        // 持久化
+        boolean optSuc = super.save(entity);
+        return entity.getId();
+    }
+
+    @Cacheable(sync = true)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, readOnly=true)
+    @Override
+    public ${entity}VO getByIdAndCache(Serializable id){
+        ${entity} entity = super.getById(id);
+        return this.mapStruct.entityToDTO(entity);
+    }
+
+    @CacheEvict(allEntries = true, beforeInvocation = true)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    @Override
+    public boolean updateByIdAndClearCache(@Valid @NotNull ${entity}EditDTO dto){
+        // 对象转换
+        ${entity} entity = this.mapStruct.editSourceToEntity(dto);
+        return super.updateById(entity);
+    }
+
+    @CacheEvict(allEntries = true, beforeInvocation = true)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    @Override
+    public boolean removeByIdAndClearCache(Serializable id){
+        return super.removeById(id);
     }
 }
