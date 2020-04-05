@@ -17,9 +17,8 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 基础实体. 包含公共字段: disabled_time, disabled_opt_id, disabled_opt_name, disabled
@@ -63,7 +62,7 @@ public class LogicDelBaseEntity extends BaseEntity {
     @TableField(value = DISABLED_TIME)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
-    private Date disabledTime;
+    private LocalDateTime disabledTime;
 
     /**
      * 禁用操作的操作人id

@@ -10,7 +10,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import java.io.Serializable;
-import java.time.*;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 
 /**
  * $!{table.name} 表DTO类: 用于新增操作时接收客户端参数

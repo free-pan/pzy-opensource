@@ -22,7 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.pzy.opensource.domain.GlobalConstant;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 基础实体: 包含公共字段 id, create_time, edit_time, creator_id, editor_id, creator_name, editor_name
@@ -50,7 +50,7 @@ public class BaseEntity extends SimpleBaseEntity {
     @ApiModelProperty("创建时间. 格式:yyyy-MM-dd HH:mm:ss")
     @JSONField(format = GlobalConstant.DATE_TIME_PATTERN)
     @JsonFormat(pattern = GlobalConstant.DATE_TIME_PATTERN)
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 编辑时间
@@ -59,7 +59,7 @@ public class BaseEntity extends SimpleBaseEntity {
     @ApiModelProperty("编辑时间. 格式:yyyy-MM-dd HH:mm:ss")
     @JSONField(format = GlobalConstant.DATE_TIME_PATTERN)
     @JsonFormat(pattern = GlobalConstant.DATE_TIME_PATTERN)
-    private Date editTime;
+    private LocalDateTime editTime;
 
     /**
      * 创建人id
