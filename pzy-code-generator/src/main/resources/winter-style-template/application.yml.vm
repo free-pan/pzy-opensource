@@ -66,6 +66,10 @@ mybatis:
 mybatis-plus:
   global-config:
     banner: false #关闭mybatis plus的banner打印
+    db-config:
+      logic-not-delete-value: 1
+      logic-delete-value: 0
+      logic-delete-field: "disabled"
   mapper-locations: classpath*:mapper/**/*.xml
 ##################### mybatis配置:结束 #######################
 
