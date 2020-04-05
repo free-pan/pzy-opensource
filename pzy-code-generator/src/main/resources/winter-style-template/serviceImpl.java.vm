@@ -51,7 +51,7 @@ public class ${table.serviceImplName} extends ServiceTemplate<${table.mapperName
     @Override
     public void clearCache() {
         if (log.isDebugEnabled()) {
-            log.debug(String.format("清除[%s]服务类缓存!", this.getClass().getName()));
+            log.debug("清除[{}]服务类缓存!", this.getClass().getName());
         }
     }
 
