@@ -18,7 +18,7 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.pzy.opensource.currentuser.CurrentUserInfo;
 import org.pzy.opensource.domain.GlobalConstant;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 填充创建人/编辑人信息
@@ -30,19 +30,58 @@ import java.util.Date;
 public class CreatorEditorMetaObjectHandler implements MetaObjectHandler {
 
 
+    private static final String CREATOR_ID = "creatorId";
+    private static final String CREATOR_NAME = "creatorName";
+    private static final String CREATE_TIME = "createTime";
+    private static final String EDITOR_ID = "editorId";
+    private static final String EDITOR_NAME = "editorName";
+    private static final String EDIT_TIME = "editTime";
+
     @Override
     public void insertFill(MetaObject metaObject) {
         log.debug("自动填充创建人相关信息...");
-        this.setFieldValByName("creatorId", CurrentUserInfo.getUserId().orElse(0L), metaObject);
-        this.setFieldValByName("creatorName", CurrentUserInfo.getRealName().orElse(GlobalConstant.EMPTY_STRING), metaObject);
-        this.setFieldValByName("createTime", new Date(), metaObject);
+        Object obj = null;
+        if (metaObject.hasSetter(CREATOR_ID)) {
+            obj = getFieldValByName(CREATOR_ID, metaObject);
+            if (null == obj) {
+                this.setFieldValByName(CREATOR_ID, CurrentUserInfo.getUserId().orElse(0L), metaObject);
+            }
+        }
+        if (metaObject.hasSetter(CREATOR_NAME)) {
+            obj = getFieldValByName(CREATOR_NAME, metaObject);
+            if (null == obj) {
+                this.setFieldValByName(CREATOR_NAME, CurrentUserInfo.getRealName().orElse(GlobalConstant.EMPTY_STRING), metaObject);
+            }
+        }
+        if (metaObject.hasSetter(CREATE_TIME)) {
+            obj = getFieldValByName(CREATE_TIME, metaObject);
+            if (null == obj) {
+                this.setFieldValByName(CREATE_TIME, LocalDateTime.now(), metaObject);
+            }
+        }
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         log.debug("自动填充编辑人相关信息...");
-        this.setFieldValByName("editorId", CurrentUserInfo.getUserId().orElse(0L), metaObject);
-        this.setFieldValByName("editorName", CurrentUserInfo.getRealName().orElse(GlobalConstant.EMPTY_STRING), metaObject);
-        this.setFieldValByName("editTime", new Date(), metaObject);
+        Object obj = null;
+        if (metaObject.hasSetter(EDITOR_ID)) {
+            obj = getFieldValByName(EDITOR_ID, metaObject);
+            if (null == obj) {
+                this.setFieldValByName(EDITOR_ID, CurrentUserInfo.getUserId().orElse(0L), metaObject);
+            }
+        }
+        if (metaObject.hasSetter(EDITOR_NAME)) {
+            obj = getFieldValByName(EDITOR_NAME, metaObject);
+            if (null == obj) {
+                this.setFieldValByName(EDITOR_NAME, CurrentUserInfo.getRealName().orElse(GlobalConstant.EMPTY_STRING), metaObject);
+            }
+        }
+        if (metaObject.hasSetter(EDIT_TIME)) {
+            obj = getFieldValByName(EDIT_TIME, metaObject);
+            if (null == obj) {
+                this.setFieldValByName(EDIT_TIME, LocalDateTime.now(), metaObject);
+            }
+        }
     }
 }
