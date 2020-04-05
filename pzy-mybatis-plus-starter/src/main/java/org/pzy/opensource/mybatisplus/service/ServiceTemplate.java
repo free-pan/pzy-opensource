@@ -82,7 +82,7 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      *
      * @param applicationEvent
      */
-    public static void publishEventOnAfterCommitIfNecessary(ApplicationEvent applicationEvent) {
+    public void publishEventOnAfterCommitIfNecessary(ApplicationEvent applicationEvent) {
         SpringUtil.publishEventOnAfterCommitIfNecessary(applicationEvent);
     }
 
