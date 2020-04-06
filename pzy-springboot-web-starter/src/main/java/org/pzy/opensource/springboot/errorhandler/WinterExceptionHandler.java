@@ -15,6 +15,7 @@ package org.pzy.opensource.springboot.errorhandler;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.pzy.opensource.comm.exception.AbstractBusinessException;
 import org.pzy.opensource.comm.util.JsonUtil;
@@ -489,6 +490,16 @@ public class WinterExceptionHandler {
         String expMsg = "shiro登录异常!";
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error("SHIRO_LOGIN_EXCEPTION", e.getMessage(), uri);
+        return result;
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = IncorrectCredentialsException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, IncorrectCredentialsException e) throws IOException {
+        String expMsg = "shiro登录异常:账号或密码错误!";
+        String uri = recordLog(req, e, expMsg, true);
+        ResultT<Integer> result = ResultT.error("SHIRO_LOGIN_EXCEPTION", "账号或密码错误!", uri);
         return result;
     }
 

@@ -54,7 +54,10 @@ public class WinterRealmTemplate extends AbstractWinterRealm {
         String username = (String) token.getPrincipal();
         ShiroUserBO shiroUserBO = super.getShiroWinterUserService().loadUserInfoByUsername(username);
         if (null == shiroUserBO) {
-            throw new UnknownAccountException("账号不存在(用户名或密码错误)!");
+            if (log.isDebugEnabled()) {
+                log.debug("账号不存在或已被删除!");
+            }
+            throw new UnknownAccountException("用户名或密码错误!");
         }
         if (!shiroUserBO.getAccountNonExpired()) {
             throw new ExpiredAccountException("账号已过期!");
