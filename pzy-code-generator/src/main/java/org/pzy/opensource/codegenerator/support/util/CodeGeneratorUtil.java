@@ -38,6 +38,7 @@ public class CodeGeneratorUtil {
         SuperEntityInfoBO superEntityInfoBO = new SuperEntityInfoBO(winterCodeGeneratorConfigBO.getSuperEntityInfoBO().getEntityClassName(), winterCodeGeneratorConfigBO.getSuperEntityInfoBO().getEntityColumns());
         CodeGeneratorConfigBO codeGeneratorConfigBO = new CodeGeneratorConfigBO(winterCodeGeneratorConfigBO.getDbConnectionInfo(), winterCodeGeneratorConfigBO.getModuleName(), winterCodeGeneratorConfigBO.getParentPackage(), winterCodeGeneratorConfigBO.getProjectPath(), superEntityInfoBO, winterCodeGeneratorConfigBO.getTableInfoBO());
         codeGeneratorConfigBO.setAuthor(winterCodeGeneratorConfigBO.getAuthor());
+        codeGeneratorConfigBO.setSuperMapperClass("org.pzy.opensource.mybatisplus.basemapper.WinterBaseMapper");
 
         CodeTemplateInfoBO codeTemplateInfoBO = new CodeTemplateInfoBO();
         codeTemplateInfoBO.setDaoXmlTemplate(null);
@@ -352,6 +353,9 @@ public class CodeGeneratorUtil {
             strategy.setSuperEntityClass(superEntityInfoBO.getEntityClassName());
             // 写于父类中的公共字段
             strategy.setSuperEntityColumns(superEntityInfoBO.getEntityColumns());
+        }
+        if (!StringUtils.isBlank(codeGeneratorConfigBO.getSuperMapperClass())) {
+            strategy.setSuperMapperClass(codeGeneratorConfigBO.getSuperMapperClass());
         }
         strategy.setInclude(tableInfoBO.getTableArr());
         strategy.setControllerMappingHyphenStyle(true);

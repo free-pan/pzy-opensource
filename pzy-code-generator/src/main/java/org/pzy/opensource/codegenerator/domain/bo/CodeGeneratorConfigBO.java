@@ -1,6 +1,5 @@
 package org.pzy.opensource.codegenerator.domain.bo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -16,6 +15,10 @@ public class CodeGeneratorConfigBO extends AbstractCodeGeneratorConfigBO {
      * 父类实体信息[没有就不用设置]
      */
     private SuperEntityInfoBO superEntityInfoBO;
+    /**
+     * DAO接口的父类接口. 只有当有自己扩展BaseMapper时, 才需要指定
+     */
+    private String superMapperClass;
 
     /**
      * 不需要指定作者时使用该构造方法

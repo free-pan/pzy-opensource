@@ -46,7 +46,7 @@ public class BaseEntity extends SimpleBaseEntity {
     /**
      * 创建时间
      */
-    @TableField(fill = FieldFill.INSERT_UPDATE, value = CREATE_TIME)
+    @TableField(fill = FieldFill.INSERT, value = CREATE_TIME)
     @ApiModelProperty("创建时间. 格式:yyyy-MM-dd HH:mm:ss")
     @JSONField(format = GlobalConstant.DATE_TIME_PATTERN)
     @JsonFormat(pattern = GlobalConstant.DATE_TIME_PATTERN)
@@ -64,7 +64,7 @@ public class BaseEntity extends SimpleBaseEntity {
     /**
      * 创建人id
      */
-    @TableField(fill = FieldFill.INSERT_UPDATE, value = CREATOR_ID)
+    @TableField(fill = FieldFill.INSERT, value = CREATOR_ID)
     @ApiModelProperty("创建人id")
     private Long creatorId;
 
@@ -78,7 +78,7 @@ public class BaseEntity extends SimpleBaseEntity {
     /**
      * 创建人姓名
      */
-    @TableField(fill = FieldFill.INSERT_UPDATE, value = CREATOR_NAME)
+    @TableField(fill = FieldFill.INSERT, value = CREATOR_NAME)
     @ApiModelProperty("创建人姓名")
     private String creatorName;
 

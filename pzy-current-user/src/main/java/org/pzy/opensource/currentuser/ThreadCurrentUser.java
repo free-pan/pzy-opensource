@@ -57,7 +57,7 @@ public class ThreadCurrentUser {
      * @return true包含
      */
     public static boolean hasPermission(String permissionFlag) {
-        return CONTEXT.get().hasPermission(permissionFlag);
+        return ThreadCurrentUser.get().hasPermission(permissionFlag);
     }
 
     /**
@@ -67,7 +67,7 @@ public class ThreadCurrentUser {
      * @return true包含
      */
     public static boolean hasRole(String role) {
-        return CONTEXT.get().hasRole(role);
+        return ThreadCurrentUser.get().hasRole(role);
     }
 
     /**
@@ -77,7 +77,7 @@ public class ThreadCurrentUser {
      * @return 用户id
      */
     public static Long getUserId(Long defaultUserId) {
-        return CONTEXT.get().getUserId().orElse(defaultUserId);
+        return ThreadCurrentUser.get().getUserId().orElse(defaultUserId);
     }
 
     /**
@@ -87,7 +87,7 @@ public class ThreadCurrentUser {
      * @return 用户真实姓名
      */
     public static String getRealName(String defaultRealName) {
-        return CONTEXT.get().getRealName().orElse(defaultRealName);
+        return ThreadCurrentUser.get().getRealName().orElse(defaultRealName);
     }
 
     /**
@@ -97,6 +97,6 @@ public class ThreadCurrentUser {
      * @return 用户昵称
      */
     public static String getNikeName(String defaultNikeName) {
-        return CONTEXT.get().getNikeName().orElse(defaultNikeName);
+        return ThreadCurrentUser.get().getNikeName().orElse(defaultNikeName);
     }
 }

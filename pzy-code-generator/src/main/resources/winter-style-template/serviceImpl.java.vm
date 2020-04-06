@@ -113,6 +113,7 @@ public class ${table.serviceImplName} extends ServiceTemplate<${table.mapperName
         if(null==id){
             return false;
         }
+        // 如果表和实体符合系统的逻辑删除规范, 请调用 super.baseMapper.logicDeleteById(id) 方法进行逻辑删除
         return super.removeById(id);
     }
 }

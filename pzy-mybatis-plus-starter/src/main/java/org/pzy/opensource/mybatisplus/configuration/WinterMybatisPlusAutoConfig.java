@@ -17,6 +17,7 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.pzy.opensource.comm.mapstruct.StringDataMapper;
 import org.pzy.opensource.domain.GlobalConstant;
+import org.pzy.opensource.mybatisplus.basemapper.WinterSqlInjector;
 import org.pzy.opensource.mybatisplus.idgenerator.PzyMybatisIdGenerator;
 import org.pzy.opensource.mybatisplus.objecthandler.CreatorEditorMetaObjectHandler;
 import org.pzy.opensource.mybatisplus.util.SpringUtil;
@@ -68,7 +69,17 @@ public class WinterMybatisPlusAutoConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    SpringUtil springUtil(){
+    SpringUtil springUtil() {
         return SpringUtil.getInstance();
+    }
+
+    /**
+     * 自定义 SqlInjector, 里面包含自定义的全局方法
+     *
+     * @return
+     */
+    @Bean
+    WinterSqlInjector winterSqlInjector() {
+        return new WinterSqlInjector();
     }
 }
