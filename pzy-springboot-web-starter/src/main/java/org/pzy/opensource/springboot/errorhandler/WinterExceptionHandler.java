@@ -490,7 +490,7 @@ public class WinterExceptionHandler {
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, AuthenticationException e) throws IOException {
         String expMsg = "shiro登录异常!";
         String uri = recordLog(req, e, expMsg, true);
-        ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SHIRO_LOGIN_EXCEPTION.getErrorCode(), e.getMessage(), uri);
+        ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SECURITY_LOGIN_EXCEPTION.getErrorCode(), e.getMessage(), uri);
         return result;
     }
 
@@ -509,7 +509,7 @@ public class WinterExceptionHandler {
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, IncorrectCredentialsException e) throws IOException {
         String expMsg = "shiro登录异常:账号或密码错误!";
         String uri = recordLog(req, e, expMsg, true);
-        ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SHIRO_LOGIN_EXCEPTION.getErrorCode(), "账号或密码错误!", uri);
+        ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SECURITY_LOGIN_EXCEPTION.getErrorCode(), "账号或密码错误!", uri);
         return result;
     }
 
@@ -524,11 +524,11 @@ public class WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = UnauthorizedException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.OK)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, UnauthorizedException e) throws IOException {
         String expMsg = "shiro权限异常(未通过shiro的鉴权)!";
         String uri = recordLog(req, e, expMsg, true);
-        ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SHIRO_FORBIDDEN_EXCEPTION.getErrorCode(), e.getMessage(), uri);
+        ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SECURITY_FORBIDDEN_EXCEPTION.getErrorCode(), e.getMessage(), uri);
         return result;
     }
 

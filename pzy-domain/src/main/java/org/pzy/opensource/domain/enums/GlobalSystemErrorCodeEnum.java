@@ -50,11 +50,15 @@ public enum GlobalSystemErrorCodeEnum {
     /**
      * 表示:shiro登录异常
      */
-    SHIRO_LOGIN_EXCEPTION("SHIRO_LOGIN_EXCEPTION", "shiro登录异常!"),
+    SECURITY_LOGIN_EXCEPTION("SECURITY_LOGIN_EXCEPTION", "shiro登录异常!"),
     /**
      * 表示:未通过shiro的鉴权(权限不足)
      */
-    SHIRO_FORBIDDEN_EXCEPTION("SHIRO_FORBIDDEN_EXCEPTION", "未通过shiro的鉴权(权限不足)");
+    SECURITY_FORBIDDEN_EXCEPTION("SECURITY_FORBIDDEN_EXCEPTION", "未通过shiro的鉴权(权限不足)"),
+    /**
+     * 表示:未认证试图访问受保护资源
+     */
+    SECURITY_UNAUTHORIZED_EXCEPTION("SECURITY_UNAUTHORIZED_EXCEPTION", "未认证访问受保护资源");
 
 
     private String errorCode;
