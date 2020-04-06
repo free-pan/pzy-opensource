@@ -245,7 +245,7 @@ public class CodeGeneratorUtil {
         gc.setMapperName("%sDAO");
         gc.setServiceName("%sService");
         // 覆盖已有文件
-        gc.setFileOverride(true);
+        gc.setFileOverride(false);
         String projectPath = codeGeneratorConfigBO.getProjectPath();
         gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor(codeGeneratorConfigBO.getAuthor());

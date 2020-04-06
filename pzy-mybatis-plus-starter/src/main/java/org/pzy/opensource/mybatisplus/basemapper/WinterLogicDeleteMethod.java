@@ -1,5 +1,6 @@
 package org.pzy.opensource.mybatisplus.basemapper;
 
+import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -12,7 +13,7 @@ import org.pzy.opensource.mybatisplus.model.entity.LogicDelBaseEntity;
 import java.time.LocalDateTime;
 
 /**
- * <p>如果表是逻辑删除表,则执行逻辑删除, 否则抛出异常.
+ * <p>如果表是逻辑删除表,则执行逻辑删除, 否则执行普通的删除
  * <p>逻辑删除表必须符合 {@link org.pzy.opensource.mybatisplus.model.entity.LogicDelBaseEntity} 的结构定义, 且进行了mybatis plus的逻辑删除配置
  *
  * @author pan
@@ -32,7 +33,11 @@ public class WinterLogicDeleteMethod extends AbstractMethod {
             SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, Object.class);
             return addUpdateMappedStatement(mapperClass, modelClass, sqlMethod.getMethod(), sqlSource);
         } else {
-            throw new RuntimeException(String.format("表[%s]不是逻辑删除表,无法执行逻辑删除操作!"));
+            SqlMethod sqlMethod = SqlMethod.DELETE_BY_ID;
+            sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(), tableInfo.getKeyColumn(),
+                    tableInfo.getKeyProperty());
+            SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, Object.class);
+            return this.addDeleteMappedStatement(mapperClass, getMethod(sqlMethod), sqlSource);
         }
     }
 
