@@ -75,7 +75,7 @@ public class ${table.serviceImplName} extends ServiceTemplate<${table.mapperName
         return PageUtil.mybatisPlusPage2PageT(mybatisPlusPageResult, voList);
     }
 
-    @CacheEvict(allEntries = true, beforeInvocation = true)
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     @Override
     public Long saveAndClearCache(@Valid @NotNull ${entity}AddDTO dto){
@@ -97,7 +97,7 @@ public class ${table.serviceImplName} extends ServiceTemplate<${table.mapperName
         return this.mapStruct.entityToDTO(entity);
     }
 
-    @CacheEvict(allEntries = true, beforeInvocation = true)
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     @Override
     public boolean updateByIdAndClearCache(@Valid @NotNull ${entity}EditDTO dto){
@@ -106,7 +106,7 @@ public class ${table.serviceImplName} extends ServiceTemplate<${table.mapperName
         return super.updateById(entity);
     }
 
-    @CacheEvict(allEntries = true, beforeInvocation = true)
+    @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     @Override
     public boolean removeByIdAndClearCache(Serializable id){
