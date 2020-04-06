@@ -1,6 +1,3 @@
-/**
- * Copyright (C): 恒大集团版权所有 Evergrande Group
- */
 package org.pzy.opensource.mybatisplus.basemapper;
 
 /**
