@@ -1,12 +1,12 @@
 package org.pzy.opensource.domain.enums;
 
 /**
- * GlobalSystemErrorCode
+ * GlobalSystemErrorCodeEnum
  *
  * @author pan
  * @date 2020/4/6 16:37
  */
-public enum GlobalSystemErrorCode {
+public enum GlobalSystemErrorCodeEnum {
     /**
      * 表示:文件太大
      */
@@ -60,7 +60,7 @@ public enum GlobalSystemErrorCode {
     private String errorCode;
     private String defaultErrorMsg;
 
-    GlobalSystemErrorCode(String errorCode, String defaultErrorMsg) {
+    GlobalSystemErrorCodeEnum(String errorCode, String defaultErrorMsg) {
         this.errorCode = errorCode;
         this.defaultErrorMsg = defaultErrorMsg;
     }
