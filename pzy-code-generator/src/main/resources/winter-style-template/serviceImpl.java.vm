@@ -62,8 +62,10 @@ public class ${table.serviceImplName} extends ServiceTemplate<${table.mapperName
         if(null==dto){
             return PageT.EMPTY();
         }
+        // 查询关键词去空格
+        ${entity}SearchDTO condition = mapStruct.searchDtoToSearchDTO(dto);
         // 系统的分页条件转换为mybatis plus的分页条件
-        IPage<${entity}> mybatisPlusPageCondition = toMybatisPlusPage(dto.getPg());
+        IPage<${entity}> mybatisPlusPageCondition = toMybatisPlusPage(condition.getPg());
         // 构建mybatis plus查询条件
         QueryWrapper<${entity}> queryWrapper = buildQueryWrapper();
         // mybatis plus分页查询
