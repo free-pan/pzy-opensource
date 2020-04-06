@@ -15,7 +15,7 @@ package org.pzy.opensource.mybatisplus.objecthandler;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
-import org.pzy.opensource.currentuser.CurrentUserInfo;
+import org.pzy.opensource.currentuser.ThreadCurrentUser;
 import org.pzy.opensource.domain.GlobalConstant;
 
 import java.time.LocalDateTime;
@@ -57,13 +57,13 @@ public class CreatorEditorMetaObjectHandler implements MetaObjectHandler {
         if (metaObject.hasSetter(editorId)) {
             obj = getFieldValByName(editorId, metaObject);
             if (null == obj) {
-                this.setFieldValByName(editorId, CurrentUserInfo.getUserId().orElse(0L), metaObject);
+                this.setFieldValByName(editorId, ThreadCurrentUser.getUserId(0L), metaObject);
             }
         }
         if (metaObject.hasSetter(editorName)) {
             obj = getFieldValByName(editorName, metaObject);
             if (null == obj) {
-                this.setFieldValByName(editorName, CurrentUserInfo.getRealName().orElse(GlobalConstant.EMPTY_STRING), metaObject);
+                this.setFieldValByName(editorName, ThreadCurrentUser.getRealName(GlobalConstant.EMPTY_STRING), metaObject);
             }
         }
         if (metaObject.hasSetter(editTime)) {

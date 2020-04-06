@@ -16,39 +16,46 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * 当前用户
+ *
  * @author pan
  * @date 2019-12-11
  */
-public class CurrentUserInfo {
+public class CurrentUser {
 
     /**
      * 用户id
      */
-    private static Long ID;
+    private Long id;
     /**
      * 用户账号
      */
-    private static String ACCOUNT;
+    private String account;
     /**
      * 用户昵称
      */
-    private static String NIKE_NAME;
+    private String nikeName;
     /**
      * 用户真实姓名
      */
-    private static String REAL_NAME;
+    private String realName;
     /**
      * 用户角色列表
      */
-    private static List<String> ROLE_LIST;
+    private List<String> roleList;
     /**
      * 用户拥有的权限标识列表
      */
-    private static List<String> PERMISSION_FLAG_LIST;
+    private List<String> permissionFlagList;
     /**
      * 用户可访问的uri列表
      */
-    private static List<String> PERMISSION_URI_LIST;
+    private List<String> permissionUriList;
+
+    private CurrentUser() {
+    }
+
+    public static final CurrentUser DEFAULT_USER = new CurrentUser();
 
     /**
      * @param id                 用户id
@@ -59,14 +66,14 @@ public class CurrentUserInfo {
      * @param permissionFlagList 用户权限标识列表
      * @param permissionUriList  用户可访问uri列表
      */
-    public static void init(Long id, String account, String nikeName, String realName, List<String> roleList, List<String> permissionFlagList, List<String> permissionUriList) {
-        ID = id;
-        ACCOUNT = account;
-        NIKE_NAME = nikeName;
-        REAL_NAME = realName;
-        ROLE_LIST = roleList;
-        PERMISSION_FLAG_LIST = permissionFlagList;
-        PERMISSION_URI_LIST = permissionUriList;
+    public void init(Long id, String account, String nikeName, String realName, List<String> roleList, List<String> permissionFlagList, List<String> permissionUriList) {
+        this.id = id;
+        this.account = account;
+        this.nikeName = nikeName;
+        this.realName = realName;
+        this.roleList = roleList;
+        this.permissionFlagList = permissionFlagList;
+        this.permissionUriList = permissionUriList;
     }
 
     /**
@@ -75,11 +82,11 @@ public class CurrentUserInfo {
      * @param permissionFlag 权限标识
      * @return true包含
      */
-    public static boolean hasPermission(String permissionFlag) {
-        if (PERMISSION_FLAG_LIST == null || PERMISSION_FLAG_LIST.isEmpty()) {
+    public boolean hasPermission(String permissionFlag) {
+        if (this.permissionFlagList == null || this.permissionFlagList.isEmpty()) {
             return false;
         } else {
-            return PERMISSION_FLAG_LIST.contains(permissionFlag.toUpperCase());
+            return this.permissionFlagList.contains(permissionFlag.toUpperCase());
         }
     }
 
@@ -89,11 +96,11 @@ public class CurrentUserInfo {
      * @param role 角色标识
      * @return true包含
      */
-    public static boolean hasRole(String role) {
-        if (null == ROLE_LIST || ROLE_LIST.isEmpty()) {
+    public boolean hasRole(String role) {
+        if (null == this.roleList || this.roleList.isEmpty()) {
             return false;
         } else {
-            return ROLE_LIST.contains(role.toUpperCase());
+            return this.roleList.contains(role.toUpperCase());
         }
     }
 
@@ -102,8 +109,8 @@ public class CurrentUserInfo {
      *
      * @return
      */
-    public static Optional<Long> getUserId() {
-        return Optional.ofNullable(ID);
+    public Optional<Long> getUserId() {
+        return Optional.ofNullable(this.id);
     }
 
     /**
@@ -111,8 +118,8 @@ public class CurrentUserInfo {
      *
      * @return
      */
-    public static Optional<String> getRealName() {
-        return Optional.ofNullable(REAL_NAME);
+    public Optional<String> getRealName() {
+        return Optional.ofNullable(this.realName);
     }
 
     /**
@@ -120,8 +127,8 @@ public class CurrentUserInfo {
      *
      * @return
      */
-    public static Optional<String> getNikeName() {
-        return Optional.ofNullable(NIKE_NAME);
+    public Optional<String> getNikeName() {
+        return Optional.ofNullable(this.nikeName);
     }
 
 }

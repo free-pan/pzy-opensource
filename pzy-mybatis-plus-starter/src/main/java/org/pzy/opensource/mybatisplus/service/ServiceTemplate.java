@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.pzy.opensource.comm.util.DateUtil;
 import org.pzy.opensource.comm.util.MySqlUtil;
+import org.pzy.opensource.currentuser.ThreadCurrentUser;
 import org.pzy.opensource.domain.GlobalConstant;
 import org.pzy.opensource.domain.PageT;
 import org.pzy.opensource.domain.dto.DateRangeSearchDTO;
@@ -28,6 +29,8 @@ import org.pzy.opensource.domain.dto.DateTimeRangeSearchDTO;
 import org.pzy.opensource.domain.enums.LocalDatePatternEnum;
 import org.pzy.opensource.domain.enums.LocalDateTimePatternEnum;
 import org.pzy.opensource.domain.vo.PageVO;
+import org.pzy.opensource.mybatisplus.model.entity.BaseEntity;
+import org.pzy.opensource.mybatisplus.model.entity.LogicDelBaseEntity;
 import org.pzy.opensource.mybatisplus.util.MybatisPlusUtil;
 import org.pzy.opensource.mybatisplus.util.PageUtil;
 import org.pzy.opensource.mybatisplus.util.SpringUtil;
@@ -84,6 +87,69 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      */
     public void publishEventOnAfterCommitIfNecessary(ApplicationEvent applicationEvent) {
         SpringUtil.publishEventOnAfterCommitIfNecessary(applicationEvent);
+    }
+
+    /**
+     * 填充创建人信息
+     *
+     * @param baseEntity 基础实体
+     */
+    public void fitCreatorInfo(BaseEntity baseEntity) {
+        LocalDateTime now = LocalDateTime.now();
+        Long operatorId = getOperatorId();
+        String operatorName = getOperatorName();
+        baseEntity.setCreateTime(now);
+        baseEntity.setCreatorId(operatorId);
+        baseEntity.setCreatorName(operatorName);
+        baseEntity.setEditorId(operatorId);
+        baseEntity.setEditorName(operatorName);
+        baseEntity.setEditTime(now);
+    }
+
+    /**
+     * 填充编辑人信息
+     *
+     * @param baseEntity 基础实体
+     */
+    public void fitEditorInfo(BaseEntity baseEntity) {
+        LocalDateTime now = LocalDateTime.now();
+        Long operatorId = getOperatorId();
+        String operatorName = getOperatorName();
+        baseEntity.setEditorId(operatorId);
+        baseEntity.setEditorName(operatorName);
+        baseEntity.setEditTime(now);
+    }
+
+    /**
+     * 填充删除人信息
+     *
+     * @param logicDelBaseEntity 逻辑删除实体
+     */
+    public void fitDeletorInfo(LogicDelBaseEntity logicDelBaseEntity) {
+        LocalDateTime now = LocalDateTime.now();
+        Long operatorId = getOperatorId();
+        String operatorName = getOperatorName();
+        logicDelBaseEntity.setDisabledOptId(operatorId);
+        logicDelBaseEntity.setDisabledOptName(operatorName);
+        logicDelBaseEntity.setDisabledTime(now);
+    }
+
+    /**
+     * 获取操作人姓名
+     *
+     * @return 操作人姓名
+     */
+    public String getOperatorName() {
+        return ThreadCurrentUser.getRealName(GlobalConstant.EMPTY_STRING);
+    }
+
+    /**
+     * 获取操作人id
+     *
+     * @return 操作人id
+     */
+    public Long getOperatorId() {
+        return ThreadCurrentUser.getUserId(0L);
     }
 
     /**
