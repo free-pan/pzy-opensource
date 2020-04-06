@@ -19,7 +19,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.pzy.opensource.security.domain.bo.PermissionInfoBO;
-import org.pzy.opensource.security.domain.bo.ShiroUserBO;
+import org.pzy.opensource.security.domain.bo.SimpleShiroUserBO;
 import org.pzy.opensource.security.service.ShiroWinterUserService;
 import org.pzy.opensource.security.shiro.matcher.WinterCredentialsMatcher;
 
@@ -57,7 +57,7 @@ public abstract class AbstractWinterRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         log.debug("使用 {} 进行鉴权...", this.getName());
-        ShiroUserBO shiroUserBO = (ShiroUserBO) principals.getPrimaryPrincipal();
+        SimpleShiroUserBO shiroUserBO = (SimpleShiroUserBO) principals.getPrimaryPrincipal();
         // 通过唯一标识获取角色集合
         List<String> roleList = shiroWinterUserService.loadRoleByUsername(shiroUserBO);
         // 通过唯一标识获取权限集合

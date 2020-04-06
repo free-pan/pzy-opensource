@@ -15,6 +15,7 @@ package org.pzy.opensource.security.shiro.realm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.pzy.opensource.security.domain.bo.ShiroUserBO;
+import org.pzy.opensource.security.domain.bo.SimpleShiroUserBO;
 import org.pzy.opensource.security.service.ShiroWinterUserService;
 import org.pzy.opensource.security.shiro.exception.ExpiredAccountException;
 
@@ -71,6 +72,7 @@ public class WinterRealmTemplate extends AbstractWinterRealm {
         if (!shiroUserBO.getEnabled()) {
             throw new DisabledAccountException("账号尚未激活或已被被禁用,删除!");
         }
-        return new SimpleAuthenticationInfo(shiroUserBO, shiroUserBO.getPassword(), REALM_NAME);
+        SimpleShiroUserBO simpleShiroUserBO = shiroUserBO;
+        return new SimpleAuthenticationInfo(simpleShiroUserBO, shiroUserBO.getPassword(), REALM_NAME);
     }
 }

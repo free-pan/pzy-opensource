@@ -5,7 +5,7 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.UserFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.pzy.opensource.security.domain.bo.PermissionInfoBO;
-import org.pzy.opensource.security.domain.bo.ShiroUserBO;
+import org.pzy.opensource.security.domain.bo.SimpleShiroUserBO;
 import org.pzy.opensource.security.service.ShiroWinterUserService;
 import org.pzy.opensource.security.util.ShiroFilterUtil;
 import org.pzy.opensource.web.util.HttpResponseUtl;
@@ -60,7 +60,7 @@ public class CrossUriUserPermissionFilter extends UserFilter implements WinterSh
             String requestUri = httpServletRequest.getRequestURI();
             Subject subject = getSubject(request, response);
             // 当前用户已登录或包含记住我信息或当前是登录请求
-            ShiroUserBO shiroUserBO = (ShiroUserBO) subject.getPrincipal();
+            SimpleShiroUserBO shiroUserBO = (SimpleShiroUserBO) subject.getPrincipal();
             // 获取当前用户的所有uri权限
             List<PermissionInfoBO> permissionInfoList = this.shiroWinterUserService.loadPermissionByUsername(shiroUserBO);
             // uri鉴权,有权限则放行,无权限则执行onAccessDenied逻辑

@@ -14,6 +14,7 @@ package org.pzy.opensource.security.service;
 
 import org.pzy.opensource.security.domain.bo.PermissionInfoBO;
 import org.pzy.opensource.security.domain.bo.ShiroUserBO;
+import org.pzy.opensource.security.domain.bo.SimpleShiroUserBO;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public interface ShiroWinterUserService {
      * @param shiroUser 用户信息
      * @return 如未找到匹配的数据则返回空集合
      */
-    List<String> loadRoleByUsername(ShiroUserBO shiroUser);
+    List<String> loadRoleByUsername(SimpleShiroUserBO shiroUser);
 
     /**
      * 获取用户拥有的权限
@@ -47,5 +48,5 @@ public interface ShiroWinterUserService {
      * @param shiroUser 用户信息
      * @return 如未找到匹配的数据则返回空集合
      */
-    List<PermissionInfoBO> loadPermissionByUsername(ShiroUserBO shiroUser);
+    List<PermissionInfoBO> loadPermissionByUsername(SimpleShiroUserBO shiroUser);
 }

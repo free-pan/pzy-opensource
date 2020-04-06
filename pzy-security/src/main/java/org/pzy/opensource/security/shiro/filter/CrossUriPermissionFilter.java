@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
 import org.pzy.opensource.security.domain.bo.PermissionInfoBO;
-import org.pzy.opensource.security.domain.bo.ShiroUserBO;
+import org.pzy.opensource.security.domain.bo.SimpleShiroUserBO;
 import org.pzy.opensource.security.service.ShiroWinterUserService;
 import org.pzy.opensource.security.util.ShiroFilterUtil;
 import org.pzy.opensource.web.util.HttpResponseUtl;
@@ -78,7 +78,7 @@ public class CrossUriPermissionFilter extends AbstractWinterShiroFormAuthenticat
             String method = httpServletRequest.getMethod();
             String requestUri = httpServletRequest.getRequestURI();
             Subject subject = super.getSubject(request, response);
-            ShiroUserBO shiroUserBO = (ShiroUserBO) subject.getPrincipal();
+            SimpleShiroUserBO shiroUserBO = (SimpleShiroUserBO) subject.getPrincipal();
             // 获取当前用户的所有uri权限
             List<PermissionInfoBO> permissionInfoList = this.shiroWinterUserService.loadPermissionByUsername(shiroUserBO);
             // uri鉴权,有权限则放行,无权限则执行onAccessDenied逻辑

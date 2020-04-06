@@ -16,8 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-
 /**
  * @author 潘志勇
  * @date 2019-02-06
@@ -25,50 +23,16 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @Accessors(chain = true)
-public class ShiroUserBO implements Serializable {
+public class ShiroUserBO extends SimpleShiroUserBO {
 
     private static final long serialVersionUID = -2216198644853379021L;
-
-    /**
-     * 在当前系统中用户真正的唯一值
-     */
-    private String ukFlag;
-
-    /**
-     * 用户名/账号/邮箱等可以用来唯一查找的字段(用户登录时,实际使用的唯一标识)
-     */
-    private String username;
     /**
      * 密码
      */
     private String password;
-    /**
-     * 账号是否未过期. true表示未过期
-     */
-    private Boolean accountNonExpired;
-    /**
-     * 账号是否未被锁定. true表示未被锁定
-     */
-    private Boolean accountNonLocked;
-    /**
-     * 登录凭证(密码)是否过期. true表示未过期
-     */
-    private Boolean credentialsNonExpired;
-    /**
-     * 账户是否启用(未被逻辑删除). true表示可用(未被逻辑删除,已激活)
-     */
-    private Boolean enabled;
 
     public ShiroUserBO() {
-        // 账号未过期
-        this.accountNonExpired = true;
-        // 账号未锁定
-        this.accountNonLocked = true;
-        // 密码未过期
-        this.credentialsNonExpired = true;
-        // 账号已启用
-        this.enabled = true;
-
+        super();
     }
 
 }
