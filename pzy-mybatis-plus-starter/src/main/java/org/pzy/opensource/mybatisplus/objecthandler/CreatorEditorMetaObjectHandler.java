@@ -41,46 +41,35 @@ public class CreatorEditorMetaObjectHandler implements MetaObjectHandler {
     public void insertFill(MetaObject metaObject) {
         log.debug("自动填充创建人相关信息...");
         Object obj = null;
-        if (metaObject.hasSetter(CREATOR_ID)) {
-            obj = getFieldValByName(CREATOR_ID, metaObject);
-            if (null == obj) {
-                this.setFieldValByName(CREATOR_ID, CurrentUserInfo.getUserId().orElse(0L), metaObject);
-            }
-        }
-        if (metaObject.hasSetter(CREATOR_NAME)) {
-            obj = getFieldValByName(CREATOR_NAME, metaObject);
-            if (null == obj) {
-                this.setFieldValByName(CREATOR_NAME, CurrentUserInfo.getRealName().orElse(GlobalConstant.EMPTY_STRING), metaObject);
-            }
-        }
-        if (metaObject.hasSetter(CREATE_TIME)) {
-            obj = getFieldValByName(CREATE_TIME, metaObject);
-            if (null == obj) {
-                this.setFieldValByName(CREATE_TIME, LocalDateTime.now(), metaObject);
-            }
-        }
+        fitEditorInfo(metaObject, CREATOR_ID, CREATOR_NAME, CREATE_TIME);
+        fitEditorInfo(metaObject, EDITOR_ID, EDITOR_NAME, EDIT_TIME);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         log.debug("自动填充编辑人相关信息...");
         Object obj = null;
-        if (metaObject.hasSetter(EDITOR_ID)) {
-            obj = getFieldValByName(EDITOR_ID, metaObject);
+        fitEditorInfo(metaObject, EDITOR_ID, EDITOR_NAME, EDIT_TIME);
+    }
+
+    private void fitEditorInfo(MetaObject metaObject, String editorId, String editorName, String editTime) {
+        Object obj;
+        if (metaObject.hasSetter(editorId)) {
+            obj = getFieldValByName(editorId, metaObject);
             if (null == obj) {
-                this.setFieldValByName(EDITOR_ID, CurrentUserInfo.getUserId().orElse(0L), metaObject);
+                this.setFieldValByName(editorId, CurrentUserInfo.getUserId().orElse(0L), metaObject);
             }
         }
-        if (metaObject.hasSetter(EDITOR_NAME)) {
-            obj = getFieldValByName(EDITOR_NAME, metaObject);
+        if (metaObject.hasSetter(editorName)) {
+            obj = getFieldValByName(editorName, metaObject);
             if (null == obj) {
-                this.setFieldValByName(EDITOR_NAME, CurrentUserInfo.getRealName().orElse(GlobalConstant.EMPTY_STRING), metaObject);
+                this.setFieldValByName(editorName, CurrentUserInfo.getRealName().orElse(GlobalConstant.EMPTY_STRING), metaObject);
             }
         }
-        if (metaObject.hasSetter(EDIT_TIME)) {
-            obj = getFieldValByName(EDIT_TIME, metaObject);
+        if (metaObject.hasSetter(editTime)) {
+            obj = getFieldValByName(editTime, metaObject);
             if (null == obj) {
-                this.setFieldValByName(EDIT_TIME, LocalDateTime.now(), metaObject);
+                this.setFieldValByName(editTime, LocalDateTime.now(), metaObject);
             }
         }
     }
