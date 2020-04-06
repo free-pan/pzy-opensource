@@ -19,7 +19,7 @@
 
 ### 如何向shiro注入自定义过滤器
 
-请将自定义shiro过滤器填充到`org.pzy.opensource.security.shiro.CustomShiroFilterBoxTemplate`的`winterShiroAccessControlFilters`中
+请将自定义shiro过滤器填充到`org.pzy.opensource.security.shiro.CustomShiroFilterBoxTemplate`的`winterShiroAccessControlFilters`中, 并将`CustomShiroFilterBoxTemplate`定义为spring的bean
 
 *P.S.* 千万不要将自定义过滤器注入到spring容器中,这样会导致shiro的过滤器链执行出问题. 
 

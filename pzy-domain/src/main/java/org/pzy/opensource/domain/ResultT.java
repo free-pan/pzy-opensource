@@ -14,6 +14,7 @@ package org.pzy.opensource.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.pzy.opensource.domain.enums.RespCodeEnum;
 
 import java.io.Serializable;
@@ -25,6 +26,7 @@ import java.util.List;
  * @date 2019-12-11
  */
 @Data
+@Accessors(chain = true)
 public class ResultT<T> implements Serializable {
 
     private static final long serialVersionUID = -5208061788117916814L;
