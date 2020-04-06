@@ -13,6 +13,7 @@
 package org.pzy.opensource.domain.vo;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.pzy.opensource.domain.GlobalConstant;
 
@@ -25,6 +26,7 @@ import java.io.Serializable;
  * @date 2019-12-11
  */
 @Slf4j
+@ToString
 public class PageVO implements Serializable {
 
     private static final long serialVersionUID = -3151144130513721711L;
