@@ -43,22 +43,22 @@ public class WinterShiroProperties implements Serializable {
      * SecretKey deskey = keygen.generateKey();
      * System.out.println(Base64.encodeToString(deskey.getEncoded()));
      */
-    private String rememberMeBase64CipherKey = "QOsdkm0BH9FBO57y+cwmOA==";
+    private String rememberMeBase64CipherKey;
     /**
      * 记住我的cookie名称. 默认:rememberMe
      */
-    private String rememberMeCookieName = "rememberMe";
+    private String rememberMeCookieName;
 
     /**
      * 记住我cookie的有效期. 默认7天. 填写值可以是: 7d, 3h, 2m, 1s. 分别表示: 7天, 3小时, 2分钟, 1秒钟
      */
     @DurationUnit(ChronoUnit.SECONDS)
-    private Duration rememberMeMaxAge = Duration.ofDays(7);
+    private Duration rememberMeMaxAge;
 
     /**
      * 是否启用安全组件. 默认:true
      */
-    private Boolean enable = true;
+    private Boolean enable;
     /**
      * 登录表单的提交地址[该地址不会被鉴权]
      */
@@ -77,8 +77,26 @@ public class WinterShiroProperties implements Serializable {
     private HashSet<String> anonUriPatternColl;
 
     /**
+     * 单个用户允许的最大会话数量. 默认: 1
+     */
+    private Integer singleUserMaxSession;
+    /**
+     * 当单个用户的session数量超过singleUserMaxSession值时,是踢出后登录的,还是踢出先登录. 默认为:true, 表示踢出后登录的
+     */
+    private Boolean kickoutAfter;
+
+    /**
      * 配置自定义的shiro过滤器链. 元素的path为ant路径表达式,filters为shiro过滤器[多个使用逗号分隔]
      */
-    private List<PathFilterChain> shiroFilterChain = new ArrayList<>();
+    private List<PathFilterChain> shiroFilterChain;
 
+    public WinterShiroProperties() {
+        this.singleUserMaxSession = 1;
+        this.enable = true;
+        this.shiroFilterChain = new ArrayList<>();
+        this.rememberMeMaxAge = Duration.ofDays(7);
+        this.rememberMeCookieName = "rememberMe";
+        this.rememberMeBase64CipherKey = "QOsdkm0BH9FBO57y+cwmOA==";
+        this.kickoutAfter = true;
+    }
 }

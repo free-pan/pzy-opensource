@@ -19,6 +19,10 @@ package org.pzy.opensource.domain;
 public interface GlobalConstant {
 
     /**
+     * 在session中存储登录用户的用户id
+     */
+    String SESSION_LOGIN_USER_ID_KEY = "SESSION_LOGIN_USER_ID";
+    /**
      * redirect跳转前缀
      */
     String REDIRECT = "redirect:";
