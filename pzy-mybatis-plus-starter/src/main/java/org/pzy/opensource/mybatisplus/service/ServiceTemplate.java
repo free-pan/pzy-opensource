@@ -364,7 +364,7 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
     }
 
     /**
-     * 多字段模糊查询(多个字段使用or连接)
+     * 多字段模糊查询(多个条件使用or连接)
      *
      * @param queryWrapper   原始查询条件
      * @param columnNameColl 查询字段(表的字段名)
@@ -399,7 +399,7 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
     }
 
     /**
-     * 字符串等值查询
+     * 字符串等值查询.(多个条件使用 and 连接)
      *
      * @param queryWrapper   原始查询条件
      * @param columnNameColl 查询字段(表的字段名)
