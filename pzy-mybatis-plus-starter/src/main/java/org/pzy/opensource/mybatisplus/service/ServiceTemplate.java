@@ -35,10 +35,12 @@ import org.pzy.opensource.mybatisplus.util.MybatisPlusUtil;
 import org.pzy.opensource.mybatisplus.util.PageUtil;
 import org.pzy.opensource.mybatisplus.util.SpringUtil;
 import org.springframework.context.ApplicationEvent;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -217,7 +219,7 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
     /**
      * 构建mybatis plus查询条件
      *
-     * @return
+     * @return 查询条件
      */
     public QueryWrapper<T> buildQueryWrapper() {
         return new QueryWrapper<T>();
@@ -227,9 +229,9 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      * 构建日期的范围查询条件
      *
      * @param queryWrapper 原始查询条件
-     * @param field        查询字段
+     * @param field        查询字段(表的字段名)
      * @param dateRange    日期范围
-     * @return
+     * @return 新的查询条件
      */
     public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, DateRangeSearchDTO dateRange) {
         if (null != dateRange) {
@@ -243,13 +245,13 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      * 构建日期时间的范围查询条件
      *
      * @param queryWrapper           原始查询条件
-     * @param field                  查询字段
+     * @param columName              查询字段(表的字段名)
      * @param dateTimeRangeSearchDTO 日期时间范围
-     * @return
+     * @return 新的查询条件
      */
-    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, DateTimeRangeSearchDTO dateTimeRangeSearchDTO) {
+    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String columName, DateTimeRangeSearchDTO dateTimeRangeSearchDTO) {
         if (null != dateTimeRangeSearchDTO) {
-            return this.between(queryWrapper, field, dateTimeRangeSearchDTO.getBeginDateTime(), dateTimeRangeSearchDTO.getEndDateTime());
+            return this.between(queryWrapper, columName, dateTimeRangeSearchDTO.getBeginDateTime(), dateTimeRangeSearchDTO.getEndDateTime());
         } else {
             return queryWrapper;
         }
@@ -279,13 +281,13 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      * 构建日期的范围查询条件
      *
      * @param queryWrapper          原始查询条件
-     * @param field                 查询字段
+     * @param columnName            查询字段(表的字段名)
      * @param beginDate             开始日期时间
      * @param endDate               结束日期时间
      * @param targetFieldIsDatetime 目标查询字段是否为datetime类型. <p>如果值为true, 则会将beginDate和endDate转换为. yyyy-MM-dd 00:00:00, yyyy-MM-dd 23:59:59 格式. <p>如果值为false, 则会将beginDate和endDate转换为. yyyy-MM-dd, yyyy-MM-dd 格式
-     * @return
+     * @return 新的查询条件
      */
-    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, LocalDate beginDate, LocalDate endDate, boolean targetFieldIsDatetime) {
+    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String columnName, LocalDate beginDate, LocalDate endDate, boolean targetFieldIsDatetime) {
         if (beginDate != null && endDate != null) {
             LocalDate fromDate = null;
             LocalDate toDate = null;
@@ -297,21 +299,21 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
                 toDate = endDate;
             }
             if (targetFieldIsDatetime) {
-                queryWrapper.between(field, fromDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_E)), toDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_F)));
+                queryWrapper.between(columnName, fromDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_E)), toDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_F)));
             } else {
-                queryWrapper.between(field, fromDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)), toDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)));
+                queryWrapper.between(columnName, fromDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)), toDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)));
             }
         } else if (beginDate != null && endDate == null) {
             if (targetFieldIsDatetime) {
-                queryWrapper.ge(field, beginDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_E)));
+                queryWrapper.ge(columnName, beginDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_E)));
             } else {
-                queryWrapper.ge(field, beginDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)));
+                queryWrapper.ge(columnName, beginDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)));
             }
         } else if (beginDate == null && endDate != null) {
             if (targetFieldIsDatetime) {
-                queryWrapper.le(field, endDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_F)));
+                queryWrapper.le(columnName, endDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_F)));
             } else {
-                queryWrapper.le(field, endDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)));
+                queryWrapper.le(columnName, endDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_PATTERN)));
             }
         }
         return queryWrapper;
@@ -321,12 +323,12 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      * 构建日期的范围查询条件
      *
      * @param queryWrapper 原始查询条件
-     * @param field        查询字段
+     * @param columnName   查询字段(表的字段名)
      * @param beginDate    开始日期时间
      * @param endDate      结束日期时间
-     * @return
+     * @return 新的查询条件
      */
-    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String field, LocalDateTime beginDate, LocalDateTime endDate) {
+    public QueryWrapper<T> between(QueryWrapper<T> queryWrapper, String columnName, LocalDateTime beginDate, LocalDateTime endDate) {
         if (beginDate != null && endDate != null) {
             LocalDateTime fromDate = null;
             LocalDateTime toDate = null;
@@ -337,11 +339,78 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
                 fromDate = beginDate;
                 toDate = endDate;
             }
-            queryWrapper.between(field, fromDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_C)), toDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_D)));
+            queryWrapper.between(columnName, fromDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_C)), toDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_D)));
         } else if (beginDate != null && endDate == null) {
-            queryWrapper.ge(field, beginDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_C)));
+            queryWrapper.ge(columnName, beginDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_C)));
         } else if (beginDate == null && endDate != null) {
-            queryWrapper.le(field, endDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_D)));
+            queryWrapper.le(columnName, endDate.format(DateTimeFormatter.ofPattern(GlobalConstant.DATE_TIME_PATTERN_D)));
+        }
+        return queryWrapper;
+    }
+
+    /**
+     * 单字段模糊查询
+     *
+     * @param queryWrapper 原始查询条件
+     * @param columnName   查询字段(表的字段名)
+     * @param originalKw   未经处理的查询关键词
+     * @return 新的查询条件
+     */
+    public QueryWrapper<T> like(QueryWrapper<T> queryWrapper, String columnName, String originalKw) {
+        if (!StringUtils.isEmpty(originalKw)) {
+            return queryWrapper.like(columnName, this.keywordEscape(originalKw));
+        }
+        return queryWrapper;
+    }
+
+    /**
+     * 多字段模糊查询(多个字段使用or连接)
+     *
+     * @param queryWrapper   原始查询条件
+     * @param columnNameColl 查询字段(表的字段名)
+     * @param originalKw     未经处理的查询关键词
+     * @return 新的查询条件
+     */
+    public QueryWrapper<T> like(QueryWrapper<T> queryWrapper, Collection<String> columnNameColl, String originalKw) {
+        if (!StringUtils.isEmpty(originalKw)) {
+            String kw = this.keywordEscape(originalKw);
+            queryWrapper.or(qw -> {
+                for (String columnName : columnNameColl) {
+                    qw.or().like(columnName, kw);
+                }
+            });
+        }
+        return queryWrapper;
+    }
+
+    /**
+     * 字符串等值查询
+     *
+     * @param queryWrapper 原始查询条件
+     * @param columnName   查询字段(表的字段名)
+     * @param originalKw   未经处理的查询词
+     * @return 新的查询条件
+     */
+    public QueryWrapper<T> eq(QueryWrapper<T> queryWrapper, String columnName, String originalKw) {
+        if (!StringUtils.isEmpty(originalKw)) {
+            queryWrapper.eq(columnName, originalKw.trim());
+        }
+        return queryWrapper;
+    }
+
+    /**
+     * 字符串等值查询
+     *
+     * @param queryWrapper   原始查询条件
+     * @param columnNameColl 查询字段(表的字段名)
+     * @param originalKw     未经处理的查询词
+     * @return 新的查询条件
+     */
+    public QueryWrapper<T> eq(QueryWrapper<T> queryWrapper, Collection<String> columnNameColl, String originalKw) {
+        if (!StringUtils.isEmpty(originalKw)) {
+            for (String columnName : columnNameColl) {
+                queryWrapper.eq(columnName, originalKw.trim());
+            }
         }
         return queryWrapper;
     }
