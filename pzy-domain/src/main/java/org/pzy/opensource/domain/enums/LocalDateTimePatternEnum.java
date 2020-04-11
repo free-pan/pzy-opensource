@@ -1,6 +1,7 @@
 package org.pzy.opensource.domain.enums;
 
 import org.pzy.opensource.domain.GlobalConstant;
+import org.pzy.opensource.domain.entity.BaseEnum;
 
 /**
  * 日期格式字符串枚举
@@ -8,7 +9,7 @@ import org.pzy.opensource.domain.GlobalConstant;
  * @author pan
  * @date 2020/4/5 16:55
  */
-public enum LocalDateTimePatternEnum {
+public enum LocalDateTimePatternEnum implements BaseEnum<String> {
 
     /**
      * 日期模式字符串: yyyy-MM-dd
@@ -50,17 +51,19 @@ public enum LocalDateTimePatternEnum {
     /**
      * 日期格式
      */
-    private String pattern;
+    private String code;
 
-    LocalDateTimePatternEnum(String pattern) {
-        this.pattern = pattern;
+    LocalDateTimePatternEnum(String code) {
+        this.code = code;
     }
 
-    public String getPattern() {
-        return pattern;
+    @Override
+    public String getCode() {
+        return code;
     }
 
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
+    @Override
+    public void setCode(String code) {
+        this.code = code;
     }
 }

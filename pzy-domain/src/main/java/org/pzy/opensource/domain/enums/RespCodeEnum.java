@@ -12,13 +12,15 @@
 
 package org.pzy.opensource.domain.enums;
 
+import org.pzy.opensource.domain.entity.BaseEnum;
+
 /**
  * 业务执行结果状态码
  *
  * @author pan
  * @date 2019-12-07
  */
-public enum RespCodeEnum {
+public enum RespCodeEnum implements BaseEnum<Integer> {
 
     /**
      * 请求执行成功
@@ -75,10 +77,12 @@ public enum RespCodeEnum {
         this.msg = msg;
     }
 
+    @Override
     public Integer getCode() {
         return code;
     }
 
+    @Override
     public void setCode(Integer code) {
         this.code = code;
     }

@@ -30,7 +30,7 @@ public class DateUtil {
      * @return 格式化之后的字符串
      */
     public static String format(Date date, LocalDateTimePatternEnum pattern) {
-        return FastDateFormat.getInstance(pattern.getPattern()).format(date);
+        return FastDateFormat.getInstance(pattern.getCode()).format(date);
     }
 
     /**
@@ -41,7 +41,7 @@ public class DateUtil {
      * @return 格式化之后的字符串
      */
     public static String format(LocalDate localDate, LocalDatePatternEnum pattern) {
-        return localDate.format(DateTimeFormatter.ofPattern(pattern.getPattern()));
+        return localDate.format(DateTimeFormatter.ofPattern(pattern.getCode()));
     }
 
     /**
@@ -52,7 +52,7 @@ public class DateUtil {
      * @return 格式化之后的字符串
      */
     public static String format(LocalDateTime localDateTime, LocalDateTimePatternEnum pattern) {
-        return localDateTime.format(DateTimeFormatter.ofPattern(pattern.getPattern()));
+        return localDateTime.format(DateTimeFormatter.ofPattern(pattern.getCode()));
     }
 
     /**

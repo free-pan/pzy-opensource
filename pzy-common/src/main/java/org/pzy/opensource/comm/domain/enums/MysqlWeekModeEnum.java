@@ -12,12 +12,14 @@
 
 package org.pzy.opensource.comm.domain.enums;
 
+import org.pzy.opensource.domain.entity.BaseEnum;
+
 /**
  * mysql的week函数对应的mode值
  * @author pzy
  * @date 2019/1/2
  */
-public enum MysqlWeekModeEnum {
+public enum MysqlWeekModeEnum implements BaseEnum<Integer> {
 
     /**
      * 每周第一天是星期天.周取值范围[0,53].
@@ -68,17 +70,22 @@ public enum MysqlWeekModeEnum {
      */
     MODE_THREE(3);
 
-    private Integer mode;
+    /**
+     * 模式值
+     */
+    private Integer code;
 
-    MysqlWeekModeEnum(Integer mode) {
-        this.mode = mode;
+    MysqlWeekModeEnum(Integer code) {
+        this.code = code;
     }
 
-    public Integer getMode() {
-        return mode;
+    @Override
+    public Integer getCode() {
+        return code;
     }
 
-    public void setMode(Integer mode) {
-        this.mode = mode;
+    @Override
+    public void setCode(Integer code) {
+        this.code = code;
     }
 }

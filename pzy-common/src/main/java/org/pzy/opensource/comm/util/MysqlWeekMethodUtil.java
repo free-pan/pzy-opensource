@@ -92,15 +92,15 @@ public class MysqlWeekMethodUtil {
             throw new RuntimeException(String.format("日期[%s]获取所在星期数出错,得到的dayOfWeek值为:[%s],在SundayWeekdayEnum中不存在!", year + "-01-01", dayOfWeek));
         }
         List<WeekFirstLastDayBO> otherWeekList;
-        if ((dayOfWeek <= WeekdayEnum.THU.getVal()) && (dayOfWeek != WeekdayEnum.SUN.getVal())) {
+        if ((dayOfWeek <= WeekdayEnum.THU.getCode()) && (dayOfWeek != WeekdayEnum.SUN.getCode())) {
             // 1月1号至少是星期四,第一周在当前年的天超过3天,那么这周计算为本年的第一周.
-            while (WeekdayEnum.MON.getVal() != calendar.get(Calendar.DAY_OF_WEEK)) {
+            while (WeekdayEnum.MON.getCode() != calendar.get(Calendar.DAY_OF_WEEK)) {
                 // 将日期往过去时间推算到最前一次的星期一
                 calendar.add(Calendar.DAY_OF_MONTH, -1);
             }
             WeekFirstLastDayBO firstLastDayBO = new WeekFirstLastDayBO();
             firstLastDayBO.setFirstDate(calendar.getTime());
-            while (WeekdayEnum.SUN.getVal() != calendar.get(Calendar.DAY_OF_WEEK)) {
+            while (WeekdayEnum.SUN.getCode() != calendar.get(Calendar.DAY_OF_WEEK)) {
                 // 将日期往未来时间推算到最近一次的星期天
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
             }
@@ -111,7 +111,7 @@ public class MysqlWeekMethodUtil {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             otherWeekList = computeOtherWeekStop2YearLastMonday(1, year, calendar);
         } else {
-            while (WeekdayEnum.SUN.getVal() != calendar.get(Calendar.DAY_OF_WEEK)) {
+            while (WeekdayEnum.SUN.getCode() != calendar.get(Calendar.DAY_OF_WEEK)) {
                 // 将日期往未来时间推算到最近一次的星期天
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
             }
@@ -159,9 +159,9 @@ public class MysqlWeekMethodUtil {
             dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
             otherWeek.setLastDate(calendar.getTime());
             if (month == Calendar.DECEMBER && dayOfMonth >= MAX_DAY_VAL) {
-                if (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SUN.getVal()) {
-                    if (calendar.get(Calendar.DAY_OF_WEEK) >= WeekdayEnum.THU.getVal()) {
-                        while (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SUN.getVal()) {
+                if (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SUN.getCode()) {
+                    if (calendar.get(Calendar.DAY_OF_WEEK) >= WeekdayEnum.THU.getCode()) {
+                        while (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SUN.getCode()) {
                             calendar.add(Calendar.DAY_OF_MONTH, 1);
                         }
                         otherWeek.setLastDate(calendar.getTime());
@@ -198,7 +198,7 @@ public class MysqlWeekMethodUtil {
         }
         if (weekdayEnum != WeekdayEnum.SUN) {
             // 跳过本月第一个周日之前的日期
-            while (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SUN.getVal()) {
+            while (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SUN.getCode()) {
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
             }
         }
@@ -231,10 +231,10 @@ public class MysqlWeekMethodUtil {
             throw new RuntimeException(String.format("日期[%s]获取所在星期数出错,得到的dayOfWeek值为:[%s],在SundayWeekdayEnum中不存在!", year + "-01-01", dayOfWeek));
         }
         List<WeekFirstLastDayBO> otherWeekList;
-        if (dayOfWeek >= WeekdayEnum.FRI.getVal() || dayOfWeek == WeekdayEnum.SUN.getVal()) {
+        if (dayOfWeek >= WeekdayEnum.FRI.getCode() || dayOfWeek == WeekdayEnum.SUN.getCode()) {
             // 1月1号至少是星期五,说明第一周在当前年的天未超过3天
             // 说明有第0周
-            WeekFirstLastDayBO zeroWeek = computeZeroWeekForOneMode(year, calendar, weekdayEnum.getVal());
+            WeekFirstLastDayBO zeroWeek = computeZeroWeekForOneMode(year, calendar, weekdayEnum.getCode());
             resultList.add(zeroWeek);
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             // 模式1,计算剩余其它周
@@ -245,7 +245,7 @@ public class MysqlWeekMethodUtil {
             firstWeek.setWeekOfYear(1);
             firstWeek.setYear(year);
             firstWeek.setFirstDate(calendar.getTime());
-            while (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SUN.getVal()) {
+            while (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SUN.getCode()) {
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
             }
             firstWeek.setLastDate(calendar.getTime());
@@ -309,7 +309,7 @@ public class MysqlWeekMethodUtil {
         }
         if (weekdayEnum != WeekdayEnum.SUN) {
             // 当前不是星期天,说明有第0周
-            WeekFirstLastDayBO zeroWeek = computeZeroWeekForZeroMode(year, calendar, weekdayEnum.getVal());
+            WeekFirstLastDayBO zeroWeek = computeZeroWeekForZeroMode(year, calendar, weekdayEnum.getCode());
             // 加入第0周
             resultList.add(zeroWeek);
             calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -357,8 +357,8 @@ public class MysqlWeekMethodUtil {
             otherWeek.setLastDate(calendar.getTime());
             dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
             if (month == Calendar.DECEMBER && dayOfMonth >= MAX_DAY_VAL) {
-                if (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SAT.getVal()) {
-                    while (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SAT.getVal()) {
+                if (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SAT.getCode()) {
+                    while (calendar.get(Calendar.DAY_OF_WEEK) != WeekdayEnum.SAT.getCode()) {
                         calendar.add(Calendar.DAY_OF_MONTH, 1);
                     }
                     otherWeek.setLastDate(calendar.getTime());

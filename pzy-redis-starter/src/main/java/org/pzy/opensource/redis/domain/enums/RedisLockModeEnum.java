@@ -12,19 +12,37 @@
 
 package org.pzy.opensource.redis.domain.enums;
 
+import org.pzy.opensource.domain.entity.BaseEnum;
+
 /**
  * redis锁模式
  *
  * @author pan
  * @date 2019-04-05
  */
-public enum RedisLockModeEnum {
+public enum RedisLockModeEnum implements BaseEnum<String> {
     /**
      * 共享锁
      */
-    Share,
+    Share("共享锁"),
     /**
      * 互斥锁
      */
-    Exclusive
+    Exclusive("共享锁");
+
+    private String code;
+
+    RedisLockModeEnum(String code) {
+        this.code = code;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+    public void setCode(String code) {
+        this.code = code;
+    }
 }

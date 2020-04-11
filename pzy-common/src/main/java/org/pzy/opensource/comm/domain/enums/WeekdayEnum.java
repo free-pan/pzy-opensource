@@ -12,13 +12,15 @@
 
 package org.pzy.opensource.comm.domain.enums;
 
+import org.pzy.opensource.domain.entity.BaseEnum;
+
 /**
  * 与calendar.get(Calendar.DAY_OF_WEEK)返回值代表的星期N
  *
  * @author pzy
  * @date 2019/1/2
  */
-public enum WeekdayEnum {
+public enum WeekdayEnum implements BaseEnum<Integer> {
 
     /**
      * 星期天
@@ -52,42 +54,34 @@ public enum WeekdayEnum {
     /**
      * 与calendar.get(Calendar.DAY_OF_WEEK)返回的值对应
      */
-    private int val;
+    private Integer code;
     /**
      * 文本描述
      */
     private String text;
 
-    WeekdayEnum(int val, String text) {
-        this.val = val;
+    WeekdayEnum(Integer code, String text) {
+        this.code = code;
         this.text = text;
     }
 
-    public static WeekdayEnum val2Enum(int val) {
-        if (val == WeekdayEnum.SUN.val) {
-            return WeekdayEnum.SUN;
-        } else if (val == WeekdayEnum.MON.val) {
-            return WeekdayEnum.MON;
-        } else if (val == WeekdayEnum.TUE.val) {
-            return WeekdayEnum.TUE;
-        } else if (val == WeekdayEnum.WED.val) {
-            return WeekdayEnum.WED;
-        } else if (val == WeekdayEnum.THU.val) {
-            return WeekdayEnum.THU;
-        } else if (val == WeekdayEnum.FRI.val) {
-            return WeekdayEnum.FRI;
-        } else if (val == WeekdayEnum.SAT.val) {
-            return WeekdayEnum.SAT;
+    public static WeekdayEnum val2Enum(int code) {
+        for (WeekdayEnum e : WeekdayEnum.values()) {
+            if (e.code == code) {
+                return e;
+            }
         }
         return null;
     }
 
-    public int getVal() {
-        return val;
+    @Override
+    public Integer getCode() {
+        return code;
     }
 
-    public void setVal(int val) {
-        this.val = val;
+    @Override
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
     public String getText() {
