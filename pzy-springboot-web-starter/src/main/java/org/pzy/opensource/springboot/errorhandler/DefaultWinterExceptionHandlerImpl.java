@@ -22,6 +22,7 @@ import org.pzy.opensource.comm.util.JsonUtil;
 import org.pzy.opensource.comm.util.XmlUtil;
 import org.pzy.opensource.domain.ResultT;
 import org.pzy.opensource.domain.enums.GlobalSystemErrorCodeEnum;
+import org.pzy.opensource.springboot.configuration.WinterExceptionHandler;
 import org.pzy.opensource.web.domain.bo.HttpRequestUriInfoBO;
 import org.pzy.opensource.web.util.HttpRequestUtil;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -70,10 +71,10 @@ import java.util.Set;
  */
 @Slf4j
 @RestControllerAdvice
-public class WinterExceptionHandler {
+public class DefaultWinterExceptionHandlerImpl implements WinterExceptionHandler {
 
-    public WinterExceptionHandler() {
-        log.debug("pzy组件:启用全局异常处理器!");
+    public DefaultWinterExceptionHandlerImpl() {
+        log.debug("pzy组件:启用全局异常处理器[{}]!", this.getClass().getName());
     }
 
     /**
@@ -141,6 +142,8 @@ public class WinterExceptionHandler {
         String expMsg = String.format("自定义业务异常: %s", e.getMessage());
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(e.getCode(), e.getMessage(), uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -162,6 +165,8 @@ public class WinterExceptionHandler {
         String expMsg = String.format("上传的文件大小超过了,服务器允许的最大文件大小[%s]!", e.getMaxUploadSize());
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.FILE_TOO_LARGE.name(), GlobalSystemErrorCodeEnum.FILE_TOO_LARGE.getCode(), uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -182,6 +187,8 @@ public class WinterExceptionHandler {
         String expMsg = String.format("不支持该类型的Accept[%s]!", accept);
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.ACCEPT_TYPE_NOT_SUPPORT.name(), GlobalSystemErrorCodeEnum.ACCEPT_TYPE_NOT_SUPPORT.getCode(), uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -201,6 +208,8 @@ public class WinterExceptionHandler {
         String expMsg = String.format("参数类型不匹配:参数名[%s]", e.getName());
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.REQUEST_PARAM_MISMATCH.name(), "实际请求参数[" + e.getName() + "]不符合预期!", uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -219,7 +228,10 @@ public class WinterExceptionHandler {
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, MethodArgumentNotValidException e) throws IOException {
         BindingResult bindingResult = e.getBindingResult();
         Iterator<FieldError> iter = bindingResult.getFieldErrors().iterator();
-        return dataNotPassedValidate(req, response, e, iter);
+        ResultT<Integer> result = dataNotPassedValidate(req, response, e, iter);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
+        return result;
     }
 
     /**
@@ -238,7 +250,10 @@ public class WinterExceptionHandler {
         String expMsg = "业务数据未通过验证!";
         String uri = recordLog(req, e, expMsg, false);
         Set<ConstraintViolation<?>> constraintViolationSet = e.getConstraintViolations();
-        return multiParamValidateExp(req, response, uri, constraintViolationSet);
+        ResultT<Integer> result = multiParamValidateExp(req, response, uri, constraintViolationSet);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
+        return result;
     }
 
     private ResultT<Integer> multiParamValidateExp(HttpServletRequest req, HttpServletResponse response, String uri, Set<ConstraintViolation<?>> constraintViolationSet) throws IOException {
@@ -275,7 +290,10 @@ public class WinterExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, BindException e) throws IOException {
         Iterator<FieldError> iter = e.getFieldErrors().iterator();
-        return dataNotPassedValidate(req, response, e, iter);
+        ResultT<Integer> result = dataNotPassedValidate(req, response, e, iter);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
+        return result;
     }
 
     private ResultT<Integer> dataNotPassedValidate(HttpServletRequest req, HttpServletResponse response, Exception e, Iterator<FieldError> iter) throws IOException {
@@ -300,6 +318,8 @@ public class WinterExceptionHandler {
         String expMsg = "request body参数解析异常!";
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.REQUEST_MESSAGE_EXTRACT.name(), expMsg, uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -319,6 +339,8 @@ public class WinterExceptionHandler {
         String expMsg = "不支持的请求类型!";
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.REQUEST_METHOD_NOT_SUPPORT.name(), expMsg, uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -338,6 +360,8 @@ public class WinterExceptionHandler {
         String expMsg = "不支持的ContentType类型(客户端指定了错误的ContentType值)!" + e.getContentType();
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.CONTENT_TYPE_NOT_SUPPORT.name(), "不支持的contentType类型值:" + e.getContentType(), uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -357,6 +381,8 @@ public class WinterExceptionHandler {
         String expMsg = "缺少请求参数!" + e.getParameterName();
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.REQUEST_PARAM_NOT_FOUND.name(), expMsg, uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -376,6 +402,8 @@ public class WinterExceptionHandler {
         String expMsg = "执行的sql语句有问题(sql语法错误或非空字段插入了空值或sql插入的数据,为数据库不支持的字符集)!" + e.getSql();
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.name(), GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.getCode(), uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -395,6 +423,8 @@ public class WinterExceptionHandler {
         String expMsg = "数据库操作异常(无法创建事务:可能是数据库宕机了. 也可能是数据库压力过大,单个连接超时了. 也可能是等待数据库连接池返回可用连接直到达到了最大等待时间依然未获取到可用数据库连接)!";
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.name(), GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.getCode(), uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -411,7 +441,10 @@ public class WinterExceptionHandler {
     @ExceptionHandler(value = SQLIntegrityConstraintViolationException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, SQLIntegrityConstraintViolationException e) throws IOException {
-        return handlerDataRepeatException(req, e);
+        ResultT<Integer> result = handlerDataRepeatException(req, e);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
+        return result;
     }
 
     private ResultT<Integer> handlerDataRepeatException(HttpServletRequest req, Exception e) {
@@ -434,7 +467,10 @@ public class WinterExceptionHandler {
     @ExceptionHandler(value = DuplicateKeyException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, DuplicateKeyException e) throws IOException {
-        return handlerDataRepeatException(req, e);
+        ResultT<Integer> result = handlerDataRepeatException(req, e);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
+        return result;
     }
 
     /**
@@ -453,6 +489,8 @@ public class WinterExceptionHandler {
         String expMsg = "数据库操作异常(请求数据不符合表字段约束)!";
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.name(), GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.getCode(), uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -472,6 +510,8 @@ public class WinterExceptionHandler {
         String expMsg = "业务代码尝试在只读事务中,进行当前读操作[只读事务只允许进行快照读]!";
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.name(), GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.getCode(), uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -491,6 +531,8 @@ public class WinterExceptionHandler {
         String expMsg = "shiro登录异常!";
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SECURITY_LOGIN_EXCEPTION.name(), e.getMessage(), uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -510,6 +552,8 @@ public class WinterExceptionHandler {
         String expMsg = "shiro登录异常:账号或密码错误!";
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SECURITY_LOGIN_EXCEPTION.name(), "账号或密码错误!", uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -529,6 +573,8 @@ public class WinterExceptionHandler {
         String expMsg = "shiro权限异常(未通过shiro的鉴权)!";
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SECURITY_FORBIDDEN_EXCEPTION.name(), e.getMessage(), uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 
@@ -548,6 +594,8 @@ public class WinterExceptionHandler {
         String expMsg = "系统发生非预期异常!";
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.name(), GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.getCode(), uri);
+        // 执行子类的自定义扩展
+        this.customExtendsExceptoinHandler(req, response, e);
         return result;
     }
 }

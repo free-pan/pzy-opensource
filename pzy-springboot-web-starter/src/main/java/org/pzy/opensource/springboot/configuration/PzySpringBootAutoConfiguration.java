@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.pzy.opensource.comm.mapstruct.StringDataMapper;
 import org.pzy.opensource.comm.util.WinterSnowflake;
 import org.pzy.opensource.comm.util.WinterSnowflakeUtil;
-import org.pzy.opensource.springboot.errorhandler.WinterExceptionHandler;
+import org.pzy.opensource.springboot.errorhandler.DefaultWinterExceptionHandlerImpl;
 import org.pzy.opensource.springboot.factory.CorsFilterFactory;
 import org.pzy.opensource.springboot.properties.CrossPropeties;
 import org.pzy.opensource.springboot.properties.SnowflakeProperties;
@@ -102,8 +102,8 @@ public class PzySpringBootAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    WinterExceptionHandler winterExceptionHandler() {
-        return new WinterExceptionHandler();
+    DefaultWinterExceptionHandlerImpl winterExceptionHandler() {
+        return new DefaultWinterExceptionHandlerImpl();
     }
 
     /**
