@@ -26,6 +26,7 @@ import org.pzy.opensource.domain.GlobalConstant;
 import org.pzy.opensource.domain.PageT;
 import org.pzy.opensource.domain.dto.DateRangeSearchDTO;
 import org.pzy.opensource.domain.dto.DateTimeRangeSearchDTO;
+import org.pzy.opensource.domain.entity.BaseEnum;
 import org.pzy.opensource.domain.enums.LocalDatePatternEnum;
 import org.pzy.opensource.domain.enums.LocalDateTimePatternEnum;
 import org.pzy.opensource.domain.vo.PageVO;
@@ -394,6 +395,21 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
     public QueryWrapper<T> eq(QueryWrapper<T> queryWrapper, String columnName, String originalKw) {
         if (!StringUtils.isEmpty(originalKw)) {
             queryWrapper.eq(columnName, originalKw.trim());
+        }
+        return queryWrapper;
+    }
+
+    /**
+     * 使用枚举的code值进行等值查询
+     *
+     * @param queryWrapper 原始查询条件
+     * @param columnName   查询字段(表的字段名)
+     * @param baseEnum     查询值
+     * @return
+     */
+    public QueryWrapper<T> eq(QueryWrapper<T> queryWrapper, String columnName, BaseEnum<?> baseEnum) {
+        if (null != baseEnum) {
+            queryWrapper.eq(columnName, baseEnum.getCode());
         }
         return queryWrapper;
     }
