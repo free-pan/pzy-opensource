@@ -24,25 +24,10 @@ public enum RedisLockModeEnum implements BaseEnum<String> {
     /**
      * 共享锁
      */
-    Share("共享锁"),
+    Share,
     /**
      * 互斥锁
      */
-    Exclusive("共享锁");
+    Exclusive;
 
-    private String code;
-
-    RedisLockModeEnum(String code) {
-        this.code = code;
-    }
-
-    @Override
-    public String getCode() {
-        return code;
-    }
-
-    @Override
-    public void setCode(String code) {
-        this.code = code;
-    }
 }

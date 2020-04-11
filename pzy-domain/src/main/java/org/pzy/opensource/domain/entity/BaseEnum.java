@@ -13,14 +13,19 @@ public interface BaseEnum<T> {
      *
      * @param code 编码或中文名称
      */
-    void setCode(T code);
+    default void setCode(T code) {
+
+    }
 
     /**
-     * 获取自定义编码或中文名称或其它自定义内容
+     * <p>获取自定义编码或中文名称或其它自定义内容.
+     * <p>注意:如果子类没有实现该方法, 则返回结果与name()方法相同
      *
      * @return 编码或中文名称
      */
-    T getCode();
+    default T getCode() {
+        return (T) name();
+    }
 
     /**
      * 获取枚举名称. 如: Color.red 枚举, 则这里会返回red
