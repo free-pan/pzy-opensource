@@ -41,6 +41,8 @@ spring:
     # JsonInclude.Include.NON_EMPTY         属性为 空（””） 或者为 NULL 都不序列化
     # JsonInclude.Include.NON_NULL          属性为NULL不序列化
     default-property-inclusion: ALWAYS
+    deserialization:
+      ACCEPT_EMPTY_STRING_AS_NULL_OBJECT: true # 在反序列化时, 如果字段的目标类型是对象或枚举类型类型, 但实际的值是空字符串, 则将该字段设置为null值
 
 ##################### 数据库连接池配置:结束 #######################
 
