@@ -96,5 +96,13 @@ public class IpUtil {
         return ipString;
     }
 
+    /**
+     * 从HttpServletRequest中获取客户端ip
+     *
+     * @return 客户端ip
+     */
+    public static final String getIpAddrFromHttpRequest() {
+        return getIpAddr(HttpRequestUtil.loadHttpServletRequest());
+    }
 
 }

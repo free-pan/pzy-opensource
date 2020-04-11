@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @Setter
 @Getter
-@ToString
+@ToString(callSuper = true)
 public abstract class AbstractBusinessException extends RuntimeException {
 
     private static final long serialVersionUID = -8912367058092407311L;
@@ -88,4 +88,8 @@ public abstract class AbstractBusinessException extends RuntimeException {
         return StringUtils.isBlank(this.code) ? this.getClass().getSimpleName() : this.code;
     }
 
+    @Override
+    public String getMessage() {
+        return super.getMessage();
+    }
 }
