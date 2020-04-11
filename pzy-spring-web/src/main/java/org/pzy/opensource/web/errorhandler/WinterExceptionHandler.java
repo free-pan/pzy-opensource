@@ -1,4 +1,4 @@
-package org.pzy.opensource.springboot.configuration;
+package org.pzy.opensource.web.errorhandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
