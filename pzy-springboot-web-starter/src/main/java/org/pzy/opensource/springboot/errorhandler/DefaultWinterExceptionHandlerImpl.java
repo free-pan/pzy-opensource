@@ -62,7 +62,7 @@ public class DefaultWinterExceptionHandlerImpl extends WinterExceptionHandlerTem
         String uri = super.recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.name(), GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.getCode(), uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        super.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -83,7 +83,7 @@ public class DefaultWinterExceptionHandlerImpl extends WinterExceptionHandlerTem
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.name(), GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.getCode(), uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        super.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -109,7 +109,7 @@ public class DefaultWinterExceptionHandlerImpl extends WinterExceptionHandlerTem
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, DuplicateKeyException e) throws IOException {
         ResultT<Integer> result = handlerDataRepeatException(req, e);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        super.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -130,7 +130,7 @@ public class DefaultWinterExceptionHandlerImpl extends WinterExceptionHandlerTem
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.name(), GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.getCode(), uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        super.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -151,7 +151,7 @@ public class DefaultWinterExceptionHandlerImpl extends WinterExceptionHandlerTem
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.name(), GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.getCode(), uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        super.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -172,7 +172,7 @@ public class DefaultWinterExceptionHandlerImpl extends WinterExceptionHandlerTem
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SECURITY_LOGIN_EXCEPTION.name(), e.getMessage(), uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        super.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -193,7 +193,7 @@ public class DefaultWinterExceptionHandlerImpl extends WinterExceptionHandlerTem
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SECURITY_LOGIN_EXCEPTION.name(), "账号或密码错误!", uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        super.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -214,7 +214,7 @@ public class DefaultWinterExceptionHandlerImpl extends WinterExceptionHandlerTem
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SECURITY_FORBIDDEN_EXCEPTION.name(), e.getMessage(), uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        super.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 }

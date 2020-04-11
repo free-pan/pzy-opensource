@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 public interface WinterExceptionHandler {
 
     /**
-     * 用于自定制异常处理的自定义扩展
+     * 用于子类对每个异常处理进行自定义扩展
      *
      * @param req      请求对象
      * @param response 响应对象
      * @param e        异常
      */
-    default void customExtendsExceptoinHandler(HttpServletRequest req, HttpServletResponse response, Exception e) {
+    default void customExtendsExceptoinHandler(HttpServletRequest req, HttpServletResponse response, Exception e) throws Exception{
 
     }
 }

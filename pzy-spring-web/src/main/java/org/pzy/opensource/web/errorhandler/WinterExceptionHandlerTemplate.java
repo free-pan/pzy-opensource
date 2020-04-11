@@ -69,6 +69,21 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
     }
 
     /**
+     * 执行子类的自定义异常处理扩展
+     *
+     * @param req
+     * @param response
+     * @param e
+     */
+    public void executeCustomExtendsExceptionHandler(HttpServletRequest req, HttpServletResponse response, Exception e) {
+        try {
+            this.customExtendsExceptoinHandler(req, response, e);
+        } catch (Exception ex) {
+            log.error("执行子类的异常处理进行自定义扩展时出错!", e);
+        }
+    }
+
+    /**
      * 提取请求uri
      *
      * @param req 请求对象
@@ -134,7 +149,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(e.getCode(), e.getMessage(), uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -157,7 +172,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.FILE_TOO_LARGE.name(), GlobalSystemErrorCodeEnum.FILE_TOO_LARGE.getCode(), uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -179,7 +194,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.ACCEPT_TYPE_NOT_SUPPORT.name(), GlobalSystemErrorCodeEnum.ACCEPT_TYPE_NOT_SUPPORT.getCode(), uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -200,7 +215,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.REQUEST_PARAM_MISMATCH.name(), "实际请求参数[" + e.getName() + "]不符合预期!", uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -221,7 +236,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         Iterator<FieldError> iter = bindingResult.getFieldErrors().iterator();
         ResultT<Integer> result = dataNotPassedValidate(req, response, e, iter);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -243,7 +258,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         Set<ConstraintViolation<?>> constraintViolationSet = e.getConstraintViolations();
         ResultT<Integer> result = multiParamValidateExp(req, response, uri, constraintViolationSet);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -283,7 +298,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         Iterator<FieldError> iter = e.getFieldErrors().iterator();
         ResultT<Integer> result = dataNotPassedValidate(req, response, e, iter);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -310,7 +325,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.REQUEST_MESSAGE_EXTRACT.name(), expMsg, uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -331,7 +346,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.REQUEST_METHOD_NOT_SUPPORT.name(), expMsg, uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -352,7 +367,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.CONTENT_TYPE_NOT_SUPPORT.name(), "不支持的contentType类型值:" + e.getContentType(), uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -373,7 +388,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         String uri = recordLog(req, e, expMsg, false);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.REQUEST_PARAM_NOT_FOUND.name(), expMsg, uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -392,7 +407,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, SQLIntegrityConstraintViolationException e) throws IOException {
         ResultT<Integer> result = handlerDataRepeatException(req, e);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 
@@ -420,7 +435,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
         String uri = recordLog(req, e, expMsg, true);
         ResultT<Integer> result = ResultT.error(GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.name(), GlobalSystemErrorCodeEnum.SERVER_EXCEPTION.getCode(), uri);
         // 执行子类的自定义扩展
-        this.customExtendsExceptoinHandler(req, response, e);
+        this.executeCustomExtendsExceptionHandler(req, response, e);
         return result;
     }
 }
