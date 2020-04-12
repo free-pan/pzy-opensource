@@ -26,10 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,7 +61,8 @@ public class VerificationCodeController {
      * 生成gif图片验证码
      *
      * @param clientId 客户端唯一标识
-     * @throws IOException
+     * @param flag     验证码宽高标识
+     * @throws IOException io异常
      */
     @ApiOperation(value = "生成gif图片验证码", notes = "验证码有效期:3分钟")
     @ApiImplicitParams({
@@ -72,7 +70,7 @@ public class VerificationCodeController {
             @ApiImplicitParam(name = "flag", required = false, value = "验证码宽高标识", paramType = "query", dataType = "string")
     })
     @GetMapping(value = "gif/{clientId}", produces = MediaType.IMAGE_GIF_VALUE)
-    public void generateGif(@PathVariable("clientId") String clientId, String flag) throws IOException {
+    public void generateGif(@PathVariable("clientId") String clientId, @RequestParam(name = "flag", required = false) String flag) throws IOException {
         Claims claims;
         try {
             // 客户端id解码
@@ -119,12 +117,16 @@ public class VerificationCodeController {
      * 生成jpg图片验证码
      *
      * @param clientId 客户端唯一标识
-     * @throws IOException
+     * @param flag     验证码宽高标识
+     * @throws IOException io异常
      */
-    @ApiImplicitParam(name = "clientId", required = true, value = "客户端唯一标识", paramType = "path", dataType = "string")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "clientId", required = true, value = "客户端唯一标识", paramType = "path", dataType = "string"),
+            @ApiImplicitParam(name = "flag", required = false, value = "验证码宽高标识", paramType = "query", dataType = "string")
+    })
     @ApiOperation(value = "生成jpg图片验证码", notes = "验证码有效期:3分钟")
     @GetMapping(value = "jpg/{clientId}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public void generateJpg(@PathVariable("clientId") String clientId, PicSize picSize) throws IOException {
+    public void generateJpg(@PathVariable("clientId") String clientId, @RequestParam(name = "flag", required = false) String flag) throws IOException {
         HttpServletResponse httpServletResponse = HttpResponseUtl.loadHttpServletResponse();
         HttpServletRequest httpServletRequest = HttpRequestUtil.loadHttpServletRequest();
         HttpResponseUtl.jpgPicSettings(httpServletResponse, httpServletRequest);
@@ -132,7 +134,18 @@ public class VerificationCodeController {
          * gif格式动画验证码
          * 宽，高，位数。
          */
-        Captcha captcha = new SpecCaptcha(picSize.getWidth(), picSize.getHeight(), verifyCodeConfigProperties.getLength());
+        int picWidth = this.verifyCodeConfigProperties.getWidth();
+        int picHeight = this.verifyCodeConfigProperties.getHeight();
+        if (!StringUtils.isEmpty(flag)) {
+            PicSize picSize = this.verifyCodeConfigProperties.getCustomPicSize().get(flag);
+            if (null != picSize) {
+                picWidth = picSize.getWidth();
+                picHeight = picSize.getHeight();
+            } else {
+                log.warn("未找到flag[{}]对应的验证码宽高配置, 因此依然使用默认的验证码宽高!", flag);
+            }
+        }
+        Captcha captcha = new SpecCaptcha(picWidth, picHeight, verifyCodeConfigProperties.getLength());
         //输出
         captcha.out(httpServletResponse.getOutputStream());
         // 验证码

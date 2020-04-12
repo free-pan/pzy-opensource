@@ -8,29 +8,29 @@ import java.net.URLEncoder;
 import java.util.Map;
 
 /**
- * View that redirects to an absolute, context relative, or current request
+ * <p>View that redirects to an absolute, context relative, or current request
  * relative URL, exposing all model attributes as HTTP query parameters.
- * <p/>
- * A URL for this view is supposed to be a HTTP redirect URL, i.e.
+ *
+ * <p>A URL for this view is supposed to be a HTTP redirect URL, i.e.
  * suitable for HttpServletResponse's <code>sendRedirect</code> method, which
  * is what actually does the redirect if the HTTP 1.0 flag is on, or via sending
  * back an HTTP 303 code - if the HTTP 1.0 compatibility flag is off.
- * <p/>
- * Note that while the default value for the "contextRelative" flag is off,
+ *
+ * <p>Note that while the default value for the "contextRelative" flag is off,
  * you will probably want to almost always set it to true. With the flag off,
  * URLs starting with "/" are considered relative to the web server root, while
  * with the flag on, they are considered relative to the web application root.
  * Since most web apps will never know or care what their context path actually
  * is, they are much better off setting this flag to true, and submitting paths
  * which are to be considered relative to the web application root.
- * <p/>
- * Note that in a Servlet 2.2 environment, i.e. a servlet container which
+ *
+ * <p>Note that in a Servlet 2.2 environment, i.e. a servlet container which
  * is only compliant to the limits of this spec, this class will probably fail
  * when feeding in URLs which are not fully absolute, or relative to the current
  * request (no leading "/"), as these are the only two types of URL that
  * <code>sendRedirect</code> supports in a Servlet 2.2 environment.
- * <p/>
- * <em>This class was borrowed from a nearly identical version found in
+ *
+ * <p><em>This class was borrowed from a nearly identical version found in
  * the <a href="http://www.springframework.org/">Spring Framework</a>, with minor modifications to
  * avoid a dependency on Spring itself for a very small amount of code - we couldn't have done it better, and
  * don't want to repeat all of their great effort ;).
@@ -114,11 +114,11 @@ public class RedirectView {
     }
 
     /**
-     * Set whether to interpret a given URL that starts with a slash ("/")
+     * <p>Set whether to interpret a given URL that starts with a slash ("/")
      * as relative to the current ServletContext, i.e. as relative to the
      * web application root.
-     * <p/>
-     * Default is "false": A URL that starts with a slash will be interpreted
+     *
+     * <p>Default is "false": A URL that starts with a slash will be interpreted
      * as absolute, i.e. taken as-is. If true, the context path will be
      * prepended to the URL in such a case.
      *
@@ -252,10 +252,10 @@ public class RedirectView {
     }
 
     /**
-     * Determine name-value pairs for query strings, which will be stringified,
+     * <p>Determine name-value pairs for query strings, which will be stringified,
      * URL-encoded and formatted by appendQueryProperties.
-     * <p/>
-     * This implementation returns all model elements as-is.
+     *
+     * <p>This implementation returns all model elements as-is.
      *
      * @param model the model elements for which to determine name-value pairs.
      * @return the name-value pairs for query strings.

@@ -21,7 +21,7 @@ public class VerificationCodeUtil {
      * 构建保存图片验证码的redis的key
      *
      * @param clientId 客户端id
-     * @return
+     * @return 返回key
      */
     public static String buildVerificationCodeRedisKey(String clientId) {
         return VerificationCodeConstant.VERIFICATION_CODE_REDIS_KEY_PREFIX + clientId;
@@ -45,7 +45,7 @@ public class VerificationCodeUtil {
      * 判断当前请求是否有通过验证码过滤器的验证
      *
      * @param httpServletRequest 请求对象
-     * @return
+     * @return 当前请求是否有通过验证码过滤器的验证
      */
     public static boolean isPassedVerifyCodeCheck(HttpServletRequest httpServletRequest) {
         Object checkStatus = httpServletRequest.getAttribute(VerificationCodeConstant.CHECK_CODE_VERIFY_STATUS);
@@ -59,7 +59,7 @@ public class VerificationCodeUtil {
      * 判断验证码错误类型是否为客户端id错误
      *
      * @param httpServletRequest 请求对象
-     * @return
+     * @return 验证码错误类型是否为客户端id错误
      */
     public static boolean verifyCodeErrorResonIsClientIdError(HttpServletRequest httpServletRequest) {
         Object val = getParamValueByName(httpServletRequest, VerificationCodeConstant.VERIFY_CODE_ERROR_TYPE);
@@ -73,7 +73,7 @@ public class VerificationCodeUtil {
      * 判断验证码错误类型是否为用户输入的验证码不正确
      *
      * @param httpServletRequest 请求对象
-     * @return
+     * @return 验证码错误类型是否为用户输入的验证码不正确
      */
     public static boolean verifyCodeErrorResonIsCodeError(HttpServletRequest httpServletRequest) {
         Object val = getParamValueByName(httpServletRequest, VerificationCodeConstant.VERIFY_CODE_ERROR_TYPE);

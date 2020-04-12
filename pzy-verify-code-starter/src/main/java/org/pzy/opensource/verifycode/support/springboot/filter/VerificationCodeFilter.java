@@ -23,11 +23,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 用于对验证码进行验证. 后续请求如果需要直到验证码验证状态,则直接使用`request.getAttribute(VerificationCodeConstant.CHECK_CODE_VERIFY_STATUS)`获取对应的值,看是否与`CheckCodeVerifyStatusEnums`中的匹配<br/>
- * 主体逻辑:<br/>
- * 1. 如果请求头中存在客户端id, 则进行验证码验证, 否则在url请求参数中设置check_code_verify_status=NOT_EXECUTE_VERIFY<br/>
- * 2. 执行验证码验证, 验证通过, 则在url请求参数中设置check_code_verify_status=VERIFY_PASS<br/>
- * 3. 验证不通过,则进行redirect跳转<br/>
+ * <p>用于对验证码进行验证. 后续请求如果需要直到验证码验证状态,则直接使用`request.getAttribute(VerificationCodeConstant.CHECK_CODE_VERIFY_STATUS)`获取对应的值,看是否与`CheckCodeVerifyStatusEnums`中的匹配
+ * <p>主体逻辑:
+ * <p>1. 如果请求头中存在客户端id, 则进行验证码验证, 否则在url请求参数中设置check_code_verify_status=NOT_EXECUTE_VERIFY
+ * <p>2. 执行验证码验证, 验证通过, 则在url请求参数中设置check_code_verify_status=VERIFY_PASS
+ * <p>3. 验证不通过,则进行redirect跳转
  *
  * @author pan
  * @date 2019-06-21

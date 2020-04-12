@@ -1,7 +1,7 @@
 package org.pzy.opensource.verifycode.support.picture;
 
 /**
- * <p></p>
+ *
  *
  * @author: wuhongjun
  * @version:1.0

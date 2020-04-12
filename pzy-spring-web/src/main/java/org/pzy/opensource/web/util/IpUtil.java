@@ -42,6 +42,7 @@ public class IpUtil {
      * 获取本机的所有ipv4的ip
      *
      * @return 本机所有ipv4地址
+     * @throws SocketException 端口异常
      */
     public static List<String> getCurrentMachineIp() throws SocketException {
         List<String> resultList = new ArrayList<>();
@@ -71,6 +72,9 @@ public class IpUtil {
 
     /**
      * 获取访问用户的客户端IP（适用于公网与局域网）.
+     *
+     * @param request 请求对象
+     * @return ip
      */
     public static final String getIpAddr(final HttpServletRequest request) {
         String ipString = request.getHeader("x-forwarded-for");

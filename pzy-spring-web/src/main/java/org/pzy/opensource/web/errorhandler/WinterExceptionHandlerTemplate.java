@@ -71,9 +71,9 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
     /**
      * 执行子类的自定义异常处理扩展
      *
-     * @param req
-     * @param response
-     * @param e
+     * @param req      请求参数
+     * @param response 响应参数
+     * @param e        异常
      */
     public void executeCustomExtendsExceptionHandler(HttpServletRequest req, HttpServletResponse response, Exception e) {
         try {

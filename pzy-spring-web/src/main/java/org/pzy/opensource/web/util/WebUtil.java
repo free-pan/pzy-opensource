@@ -49,11 +49,11 @@ public class WebUtil {
     }
 
     /**
-     * A convenience method that merely casts the incoming <code>ServletRequest</code> to an
+     * <p>A convenience method that merely casts the incoming <code>ServletRequest</code> to an
      * <code>HttpServletRequest</code>:
-     * <p/>
-     * <code>return (HttpServletRequest)request;</code>
-     * <p/>
+     *
+     * <p><code>return (HttpServletRequest)request;</code>
+     *
      * Logic could be changed in the future for logging or throwing an meaningful exception in
      * non HTTP request environments (e.g. Portlet API).
      *
@@ -65,12 +65,12 @@ public class WebUtil {
     }
 
     /**
-     * A convenience method that merely casts the incoming <code>ServletResponse</code> to an
+     * <p>A convenience method that merely casts the incoming <code>ServletResponse</code> to an
      * <code>HttpServletResponse</code>:
-     * <p/>
-     * <code>return (HttpServletResponse)response;</code>
-     * <p/>
-     * Logic could be changed in the future for logging or throwing an meaningful exception in
+     *
+     * <p><code>return (HttpServletResponse)response;</code>
+     *
+     * <p>Logic could be changed in the future for logging or throwing an meaningful exception in
      * non HTTP request environments (e.g. Portlet API).
      *
      * @param response the outgoing ServletResponse

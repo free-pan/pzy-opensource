@@ -17,8 +17,9 @@ public interface WinterExceptionHandler {
      * @param req      请求对象
      * @param response 响应对象
      * @param e        异常
+     * @throws Exception 抛出异常
      */
-    default void customExtendsExceptoinHandler(HttpServletRequest req, HttpServletResponse response, Exception e) throws Exception{
+    default void customExtendsExceptoinHandler(HttpServletRequest req, HttpServletResponse response, Exception e) throws Exception {
 
     }
 }

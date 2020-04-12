@@ -30,7 +30,6 @@ public class SpecCaptcha extends Captcha
     }
     /**
      * 生成验证码
-     * @throws IOException IO异常
      */
     @Override
     public void out(OutputStream out){
