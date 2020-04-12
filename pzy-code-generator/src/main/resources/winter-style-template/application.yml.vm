@@ -1,6 +1,9 @@
-##################### 数据库连接池配置:开始 #######################
-# JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
 spring:
+  session:
+    store-type: redis
+    timeout: 1m # session超时时间
+    redis:
+      namespace: "base-session"
   cache:
     type: none # 开发时禁用缓存,测试时需要启用redis缓存. 将值改为redis即可
   datasource:
@@ -76,7 +79,9 @@ mybatis-plus:
 ##################### mybatis配置:结束 #######################
 
 component:
+  pic-verify-code:
+    enable: true #启用图片验证码组件
   swagger:
-    enable: true
+    enable: true #启用swagger组件
   cache: # 缓存详细配置
     cache-key-namespace: winter-cache # 缓存统一前缀
