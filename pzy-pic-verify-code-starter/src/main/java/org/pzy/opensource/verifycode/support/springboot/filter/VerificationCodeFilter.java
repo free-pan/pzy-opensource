@@ -51,7 +51,7 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
         // 从请求头中获取客户端id
         String jwt = request.getHeader(VerificationCodeConstant.CLIENT_ID);
         if (StringUtils.isEmpty(jwt)) {
-            log.warn("根据配置当前uri[{}]需要进行验证码校验,但请求头中不存在客户端id,因此,实际上未执行验证码验证.", request.getRequestURI());
+            log.warn("根据配置,当前uri[{}]需要进行验证码校验,但请求头中不存在客户端id,因此,实际上未执行验证码验证.", request.getRequestURI());
             // 客户端id为空,则不进行验证码验证
             filterChain.doFilter(request, response);
             return;
@@ -79,7 +79,7 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
         Object redisPicVerifyCodeObj = RedisUtil.get(redisPicVerifyCodeKey);
         if (null == redisPicVerifyCodeObj) {
             // redis中的验证码不存在或已失效
-            log.debug("redis中的验证码不存在或已失效!");
+            log.debug("redis中的验证码不存在或已失效, 或者客户端尚未调用图片验证码生成结果, 该客户端id尚未生成实际的图片验证码!");
             redirectToErrorUrl(request, response, VerifyCodeValidateFailTypeEnum.VERIFY_CODE_EXPIRE);
             return;
         } else {
