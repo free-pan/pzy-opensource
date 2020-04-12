@@ -31,7 +31,7 @@ spring:
       filter:
         slf4j:
           enabled: true
-          statement-executable-sql-log-enable: true  # 为true时会打印可直接执行的sql语句
+          statement-executable-sql-log-enable: false  # 为true时会打印可直接执行的sql语句
           statement-create-after-log-enabled: false
           statement-close-after-log-enabled: false
           result-set-open-after-log-enabled: false
