@@ -51,9 +51,11 @@ public class CookieUtil {
      * @return cookie对象或null
      */
     public static final Cookie get(HttpServletRequest request, String name) {
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals(name)) {
-                return cookie;
+        if (null != request.getCookies()) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals(name)) {
+                    return cookie;
+                }
             }
         }
         return null;
