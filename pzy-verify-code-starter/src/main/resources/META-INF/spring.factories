@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.pzy.opensource.verifycode.support.springboot.configuration.VerifyCodeAutoConfiguration

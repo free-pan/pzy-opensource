@@ -19,6 +19,7 @@
         <module>pzy-mybatis-plus-starter</module>
         <module>pzy-security</module>
         <module>pzy-session-starter</module>
+        <module>pzy-verify-code-starter</module>
         <module>pzy-springboot-web-starter</module>
         <module>pzy-swagger-ui</module>
         <module>pzy-springboot-web-security-starter</module>
@@ -141,6 +142,11 @@
             <dependency>
                 <groupId>org.pzy.opensource</groupId>
                 <artifactId>pzy-mybatis-plus-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.pzy.opensource</groupId>
+                <artifactId>pzy-verify-code-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

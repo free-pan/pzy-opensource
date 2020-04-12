@@ -9,36 +9,21 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>pzy-springboot-web-starter</artifactId>
+    <artifactId>pzy-verify-code-starter</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.pzy.opensource</groupId>
-            <artifactId>pzy-spring</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.pzy.opensource</groupId>
             <artifactId>pzy-spring-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.pzy.opensource</groupId>
-            <artifactId>pzy-verify-code-starter</artifactId>
+            <artifactId>pzy-redis-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -48,11 +33,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -199,5 +179,4 @@
 
         </plugins>
     </build>
-
 </project>
