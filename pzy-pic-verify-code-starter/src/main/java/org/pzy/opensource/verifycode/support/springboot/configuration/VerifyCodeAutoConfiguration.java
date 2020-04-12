@@ -13,6 +13,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author pan
  * @date 2019-06-22
@@ -25,7 +27,8 @@ public class VerifyCodeAutoConfiguration {
     @Autowired
     private VerifyCodeConfigProperties verifyCodeConfigProperties;
 
-    public VerifyCodeAutoConfiguration() {
+    @PostConstruct
+    public void init(){
         if (log.isDebugEnabled()) {
             log.debug("图片验证码以及过滤器启用!");
             log.debug("验证码的有效期为:[{}]秒, 会对这些地址执行验证码校验:[{}], 验证码验证不通过时会转入:[{}]", verifyCodeConfigProperties.getExpiresSeconds(), JsonUtil.toJsonString(verifyCodeConfigProperties.getFilterUrls()), verifyCodeConfigProperties.getErrorRedirectUrl());
