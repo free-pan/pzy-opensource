@@ -79,7 +79,7 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
         Object redisPicVerifyCodeObj = RedisUtil.get(redisPicVerifyCodeKey);
         if (null == redisPicVerifyCodeObj) {
             // redis中的验证码不存在或已失效
-            log.debug("redis中的验证码不存在或已失效, 或者客户端尚未调用图片验证码生成结果, 该客户端id尚未生成实际的图片验证码!");
+            log.debug("redis中的验证码不存在或已失效, 或者客户端尚未调用图片验证码生成接口, 该客户端id尚未生成实际的图片验证码!");
             redirectToErrorUrl(request, response, VerifyCodeValidateFailTypeEnum.VERIFY_CODE_EXPIRE);
             return;
         } else {
