@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>org.pzy.opensource</groupId>
-            <artifactId>pzy-verify-code-starter</artifactId>
+            <artifactId>pzy-pic-verify-code-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.shiro</groupId>
