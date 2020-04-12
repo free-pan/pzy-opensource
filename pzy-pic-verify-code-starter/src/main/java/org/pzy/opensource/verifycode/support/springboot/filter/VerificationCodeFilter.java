@@ -9,7 +9,7 @@ import org.pzy.opensource.comm.util.JwtUtil;
 import org.pzy.opensource.redis.support.util.RedisUtil;
 import org.pzy.opensource.verifycode.domain.constant.VerificationCodeConstant;
 import org.pzy.opensource.verifycode.domain.enums.CheckCodeVerifyStatusEnums;
-import org.pzy.opensource.verifycode.domain.enums.VerificationCodeErrorEnum;
+import org.pzy.opensource.verifycode.domain.enums.VerifyCodeValidateFailTypeEnum;
 import org.pzy.opensource.verifycode.support.springboot.properties.VerifyCodeConfigProperties;
 import org.pzy.opensource.verifycode.support.util.VerificationCodeUtil;
 import org.pzy.opensource.web.util.WebUtil;
@@ -51,7 +51,7 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
         // 从请求头中获取客户端id
         String jwt = request.getHeader(VerificationCodeConstant.CLIENT_ID);
         if (StringUtils.isEmpty(jwt)) {
-            log.warn("根据配置当前过滤器需要进行验证码校验,但请求头中不存在客户端id,因此,实际上未执行验证码验证.");
+            log.warn("根据配置当前uri[{}]需要进行验证码校验,但请求头中不存在客户端id,因此,实际上未执行验证码验证.", request.getRequestURI());
             // 客户端id为空,则不进行验证码验证
             filterChain.doFilter(request, response);
             return;
@@ -62,15 +62,15 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
             claims = JwtUtil.verify(verifyCodeConfigProperties.getSecret(), verifyCodeConfigProperties.getIssuer(), jwt);
         } catch (ExpiredJwtException e) {
             log.error("客户端id过期!", e);
-            redirectToErrorUrl(request, response, VerificationCodeErrorEnum.CLIENT_ID_EXPIRE);
+            redirectToErrorUrl(request, response, VerifyCodeValidateFailTypeEnum.CLIENT_ID_EXPIRE);
             return;
         } catch (IncorrectClaimException e) {
             log.error("无效的客户端id!", e);
-            redirectToErrorUrl(request, response, VerificationCodeErrorEnum.CLIENT_ID_INVALID);
+            redirectToErrorUrl(request, response, VerifyCodeValidateFailTypeEnum.CLIENT_ID_INVALID);
             return;
         } catch (MalformedJwtException e) {
             log.error("无效的客户端id!", e);
-            redirectToErrorUrl(request, response, VerificationCodeErrorEnum.CLIENT_ID_INVALID);
+            redirectToErrorUrl(request, response, VerifyCodeValidateFailTypeEnum.CLIENT_ID_INVALID);
             return;
         }
         // 构建保存图片验证码的redis的key
@@ -80,7 +80,7 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
         if (null == redisPicVerifyCodeObj) {
             // redis中的验证码不存在或已失效
             log.debug("redis中的验证码不存在或已失效!");
-            redirectToErrorUrl(request, response, VerificationCodeErrorEnum.CLIENT_ID_INVALID);
+            redirectToErrorUrl(request, response, VerifyCodeValidateFailTypeEnum.VERIFY_CODE_EXPIRE);
             return;
         } else {
             // 从请求头中获取用户输入的验证码
@@ -95,13 +95,13 @@ public class VerificationCodeFilter extends OncePerRequestFilter {
             } else {
                 // 验证码验证不通过
                 log.debug("验证码错误!");
-                redirectToErrorUrl(request, response, VerificationCodeErrorEnum.VERIFY_CODE_ERROR);
+                redirectToErrorUrl(request, response, VerifyCodeValidateFailTypeEnum.VERIFY_CODE_ERROR);
                 return;
             }
         }
     }
 
-    private void redirectToErrorUrl(HttpServletRequest request, HttpServletResponse response, VerificationCodeErrorEnum verifyCodeError) throws IOException {
+    private void redirectToErrorUrl(HttpServletRequest request, HttpServletResponse response, VerifyCodeValidateFailTypeEnum verifyCodeError) throws IOException {
         // 将验证执行状态设置为:验证失败
         request.setAttribute(VerificationCodeConstant.CHECK_CODE_VERIFY_STATUS, CheckCodeVerifyStatusEnums.VERIFY_FAIL.toString());
         String redirectUrl = verifyCodeConfigProperties.getErrorRedirectUrl() + (verifyCodeConfigProperties.getErrorRedirectUrl().contains("?") ? "&" : "?") +

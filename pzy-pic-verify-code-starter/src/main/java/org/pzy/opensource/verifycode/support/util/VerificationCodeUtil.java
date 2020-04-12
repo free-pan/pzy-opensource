@@ -3,7 +3,7 @@ package org.pzy.opensource.verifycode.support.util;
 
 import org.pzy.opensource.verifycode.domain.constant.VerificationCodeConstant;
 import org.pzy.opensource.verifycode.domain.enums.CheckCodeVerifyStatusEnums;
-import org.pzy.opensource.verifycode.domain.enums.VerificationCodeErrorEnum;
+import org.pzy.opensource.verifycode.domain.enums.VerifyCodeValidateFailTypeEnum;
 import org.pzy.opensource.verifycode.support.picture.Randoms;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,42 +45,28 @@ public class VerificationCodeUtil {
      * 判断当前请求是否有通过验证码过滤器的验证
      *
      * @param httpServletRequest 请求对象
-     * @return 当前请求是否有通过验证码过滤器的验证
+     * @return 当前请求是否已通过验证码过滤器的验证. true表示验证码校验通过, false表示验证码校验未通过
      */
-    public static boolean isPassedVerifyCodeCheck(HttpServletRequest httpServletRequest) {
+    public static CheckCodeVerifyStatusEnums loadCheckCodeVerifyStatus(HttpServletRequest httpServletRequest) {
         Object checkStatus = httpServletRequest.getAttribute(VerificationCodeConstant.CHECK_CODE_VERIFY_STATUS);
         if (null == checkStatus) {
-            return false;
+            return CheckCodeVerifyStatusEnums.NOT_EXECUTE_VERIFY;
         }
-        return CheckCodeVerifyStatusEnums.VERIFY_PASS.toString().equalsIgnoreCase(checkStatus.toString());
+        return CheckCodeVerifyStatusEnums.string2Enum(checkStatus.toString());
     }
 
     /**
-     * 判断验证码错误类型是否为客户端id错误
+     * 获取验证码验证失败的失败类型
      *
      * @param httpServletRequest 请求对象
-     * @return 验证码错误类型是否为客户端id错误
+     * @return 验证码验证失败的失败类型
      */
-    public static boolean verifyCodeErrorResonIsClientIdError(HttpServletRequest httpServletRequest) {
+    public static VerifyCodeValidateFailTypeEnum loadVerifyCodeValidateFailType(HttpServletRequest httpServletRequest) {
         Object val = getParamValueByName(httpServletRequest, VerificationCodeConstant.VERIFY_CODE_ERROR_TYPE);
         if (null == val) {
-            return false;
+            return VerifyCodeValidateFailTypeEnum.VERIFY_CODE_ERROR;
         }
-        return !VerificationCodeErrorEnum.VERIFY_CODE_ERROR.toString().equalsIgnoreCase(val.toString());
-    }
-
-    /**
-     * 判断验证码错误类型是否为用户输入的验证码不正确
-     *
-     * @param httpServletRequest 请求对象
-     * @return 验证码错误类型是否为用户输入的验证码不正确
-     */
-    public static boolean verifyCodeErrorResonIsCodeError(HttpServletRequest httpServletRequest) {
-        Object val = getParamValueByName(httpServletRequest, VerificationCodeConstant.VERIFY_CODE_ERROR_TYPE);
-        if (null == val) {
-            return false;
-        }
-        return VerificationCodeErrorEnum.VERIFY_CODE_ERROR.toString().equalsIgnoreCase(val.toString());
+        return VerifyCodeValidateFailTypeEnum.string2Enum(val.toString());
     }
 
     /**

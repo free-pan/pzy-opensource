@@ -27,7 +27,11 @@ public class VerifyCodeAutoConfiguration {
 
     public VerifyCodeAutoConfiguration() {
         if (log.isDebugEnabled()) {
-            log.debug("图片验证码启用!");
+            log.debug("图片验证码以及过滤器启用!");
+            log.debug("验证码的有效期为:[{}]秒, 会对这些地址执行验证码校验:[{}]", verifyCodeConfigProperties.getExpiresSeconds(), JsonUtil.toJsonString(verifyCodeConfigProperties.getFilterUrls()));
+            log.debug("1. 生成图片验证码之前需要先通过VerificationCodeController类下的接口获取客户端id.");
+            log.debug("2. 需要进行图片验证码验证的请求地址需要配置到[component.pic-verify-code.filterUrls]中.这样VerificationCodeFilter才会对该请求进行验证验证.");
+            log.debug("3. 无论生成验证码图片还是进行验证码验证都需要携带第一步中获取到客户端id.");
         }
     }
 
