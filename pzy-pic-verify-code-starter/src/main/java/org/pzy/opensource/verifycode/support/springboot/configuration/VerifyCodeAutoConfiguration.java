@@ -35,10 +35,11 @@ public class VerifyCodeAutoConfiguration {
             log.debug("1. 生成图片验证码之前需要先通过VerificationCodeController类下的接口获取客户端id.");
             log.debug("2. 需要进行图片验证码验证的请求地址需要配置到[component.pic-verify-code.filterUrls]中.这样VerificationCodeFilter才会对该请求进行验证验证.");
             log.debug("3. 无论生成验证码图片还是进行验证码验证都需要携带第一步中获取到客户端id.");
+            log.debug("4. 请使用 VerificationCodeUtil.loadCheckCodeVerifyStatus(), VerificationCodeUtil.loadVerifyCodeValidateFailType() 帮助类中的方法获取验证码过滤器的实时执行状态, 以及验证码过滤器执行结果!");
         }
     }
 
-    @ConditionalOnProperty(name = "component.verify-code.enable", havingValue = "true")
+    @ConditionalOnProperty(name = "component.pic-verify-code.enable", havingValue = "true")
     @Bean
     public FilterRegistrationBean picVerifyCodeFilter() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
