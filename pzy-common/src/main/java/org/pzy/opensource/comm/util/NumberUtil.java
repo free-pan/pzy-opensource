@@ -1,9 +1,5 @@
 package org.pzy.opensource.comm.util;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -64,33 +60,33 @@ public class NumberUtil {
     }
 
     /**
-     * 判断 num1 > num2
+     * 判断 num1 &gt; num2
      *
      * @param num1 数值1
      * @param num2 数值2
-     * @return num1 > num2 的boolean结果
+     * @return num1 &gt; num2 的boolean结果
      */
     public static boolean gt(BigDecimal num1, BigDecimal num2) {
         return num1.compareTo(num2) == 1;
     }
 
     /**
-     * 判断 num1 < num2
+     * 判断 num1 &lt; num2
      *
      * @param num1 数值1
      * @param num2 数值2
-     * @return num1 < num2 的boolean结果
+     * @return num1 &lt; num2 的boolean结果
      */
     public static boolean lt(BigDecimal num1, BigDecimal num2) {
         return num1.compareTo(num2) == -1;
     }
 
     /**
-     * 判断 num1 >= num2
+     * 判断 num1 &gt;= num2
      *
      * @param num1 数值1
      * @param num2 数值2
-     * @return num1 >= num2 的boolean结果
+     * @return num1 &gt;= num2 的boolean结果
      */
     public static boolean gte(BigDecimal num1, BigDecimal num2) {
         int result = num1.compareTo(num2);
@@ -98,11 +94,11 @@ public class NumberUtil {
     }
 
     /**
-     * 判断 num1 <= num2
+     * 判断 num1 &lt;= num2
      *
      * @param num1 数值1
      * @param num2 数值2
-     * @return num1 <= num2 的boolean结果
+     * @return num1 &lt;= num2 的boolean结果
      */
     public static boolean lte(BigDecimal num1, BigDecimal num2) {
         int result = num1.compareTo(num2);
@@ -246,10 +242,10 @@ public class NumberUtil {
         System.out.println("这里才是0.1*0.3得到精确结果的正确解决方式:");
         System.out.println(multiply("0.1", "3"));
 
-        String str = JsonUtil.toJsonString(new Person("张三", new BigDecimal("0.1")));
-        System.out.println(str);
-        Person p = JsonUtil.toJavaBean(str, Person.class);
-        System.out.println(p);
+//        String str = JsonUtil.toJsonString(new Person("张三", new BigDecimal("0.1")));
+//        System.out.println(str);
+//        Person p = JsonUtil.toJavaBean(str, Person.class);
+//        System.out.println(p);
 
         System.out.println(new BigDecimal("1").compareTo(new BigDecimal("2")));
         System.out.println(new BigDecimal("1").compareTo(new BigDecimal("1")));
@@ -259,10 +255,10 @@ public class NumberUtil {
 
 }
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-class Person {
-    private String name;
-    private BigDecimal salary;
-}
+//@Data
+//@AllArgsConstructor
+//@NoArgsConstructor
+//class Person {
+//    private String name;
+//    private BigDecimal salary;
+//}

@@ -30,7 +30,7 @@ public class Pic2Base64Utils {
      * 本地图片转换成base64字符串
      *
      * @param imgFile 图片本地路径
-     * @return
+     * @return base64字符串
      * @author ZHANGJL
      * @date 2018-02-23 14:40:46
      */
@@ -58,7 +58,7 @@ public class Pic2Base64Utils {
      * 本地图片转换成base64字符串
      *
      * @param imgFile 图片本地路径
-     * @return
+     * @return base64字符串
      * @author ZHANGJL
      * @date 2018-02-23 14:40:46
      */
@@ -86,7 +86,7 @@ public class Pic2Base64Utils {
      * 本地图片转换成base64字符串
      *
      * @param imgFile 图片流
-     * @return
+     * @return base64字符串
      * @author ZHANGJL
      * @date 2018-02-23 14:40:46
      */
@@ -113,7 +113,7 @@ public class Pic2Base64Utils {
      * 在线图片转换成base64字符串
      *
      * @param imgURL 图片线上路径
-     * @return
+     * @return base64的字符串
      * @author ZHANGJL
      * @date 2018-02-23 14:43:18
      */
@@ -149,7 +149,7 @@ public class Pic2Base64Utils {
      *
      * @param imgStr      base64字符串
      * @param imgFilePath 图片存放路径
-     * @return
+     * @return 是否生成成功
      * @author ZHANGJL
      * @date 2018-02-23 14:42:17
      */

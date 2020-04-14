@@ -33,9 +33,9 @@ public class XmlUtil {
     /**
      * java对象转xml字符串
      *
-     * @param obj
-     * @return
-     * @throws JAXBException
+     * @param obj 待转换对象
+     * @return xml字符串
+     * @throws JAXBException xml转换异常
      */
     public static final String toXmlString(Object obj) throws JAXBException {
         //创建输出流
@@ -59,11 +59,11 @@ public class XmlUtil {
     /**
      * xml字符串转java对象
      *
-     * @param xmlStr
-     * @param cls
-     * @param <T>
-     * @return
-     * @throws JAXBException
+     * @param xmlStr xml字符串内容
+     * @param cls    将转换成的对象类型
+     * @param <T>    对象类型
+     * @return 转换成的对象类型
+     * @throws JAXBException xml转换异常
      */
     public static final <T> T toJavaBean(String xmlStr, Class<T> cls) throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(cls);

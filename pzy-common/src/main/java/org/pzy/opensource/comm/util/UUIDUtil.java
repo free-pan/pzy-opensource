@@ -36,7 +36,7 @@ public class UUIDUtil {
     /**
      * 以62进制（字母加数字）生成19位UUID，最短的UUID
      *
-     * @return
+     * @return uuid字符串
      */
     public static String uuid() {
         UUID uuid = UUID.randomUUID();

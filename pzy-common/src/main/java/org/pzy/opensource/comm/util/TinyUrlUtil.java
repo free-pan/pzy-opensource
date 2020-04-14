@@ -52,7 +52,7 @@ public class TinyUrlUtil {
      *
      * @param number  数字
      * @param decimal 进制
-     * @return
+     * @return 对应进制的数据
      */
     public static String numberConvertToDecimal(long number, int decimal) {
         StringBuilder builder = new StringBuilder();
@@ -68,7 +68,7 @@ public class TinyUrlUtil {
      *
      * @param decimalStr 进制字符串转
      * @param decimal    进制
-     * @return
+     * @return 对应进制的数据
      */
     public static long decimalConvertToNumber(String decimalStr, int decimal) {
         long sum = 0;

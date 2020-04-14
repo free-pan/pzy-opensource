@@ -64,9 +64,9 @@ public abstract class AbstractBusinessException extends RuntimeException {
     /**
      * 添加单个异常数据
      *
-     * @param key
-     * @param val
-     * @return
+     * @param key key值
+     * @param val value值
+     * @return 异常时的数据
      */
     public Map<String, Object> addData(String key, Object val) {
         data.put(key, val);
@@ -76,8 +76,8 @@ public abstract class AbstractBusinessException extends RuntimeException {
     /**
      * 批量添加异常数据
      *
-     * @param data
-     * @return
+     * @param data 异常时的数据
+     * @return 异常时的数据
      */
     public Map<String, Object> addAllData(Map<String, Object> data) {
         data.putAll(data);

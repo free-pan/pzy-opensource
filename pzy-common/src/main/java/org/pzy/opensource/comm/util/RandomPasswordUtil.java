@@ -52,7 +52,7 @@ public class RandomPasswordUtil {
     /**
      * 生成随机6位密码
      *
-     * @return
+     * @return 随机验证码
      */
     public final static String generateSixRandomPassword() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -66,7 +66,7 @@ public class RandomPasswordUtil {
     /**
      * 生成6位随机的数字+小写英文字母的验证码
      *
-     * @return
+     * @return 随机验证码
      */
     public final static String generateSixRandomNumberWordVerifyCode() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -81,7 +81,7 @@ public class RandomPasswordUtil {
     /**
      * 生成8位随机密码
      *
-     * @return
+     * @return 随机密码
      */
     public final static String generateEightRandomPassword() {
         StringBuilder stringBuilder = new StringBuilder();
