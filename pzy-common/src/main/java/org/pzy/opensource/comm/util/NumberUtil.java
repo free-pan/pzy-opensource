@@ -242,6 +242,14 @@ public class NumberUtil {
         System.out.println("这里才是0.1*0.3得到精确结果的正确解决方式:");
         System.out.println(multiply("0.1", "3"));
 
+        System.out.println(">>>>>>>>>>>>>>>>>>");
+        BigDecimal a= new BigDecimal(0);
+        BigDecimal newB = a.add(new BigDecimal(9999));
+        System.out.println(a);
+        System.out.println(newB);
+
+        System.out.println(">>>>>>>>>>>>>>>>>>");
+
 //        String str = JsonUtil.toJsonString(new Person("张三", new BigDecimal("0.1")));
 //        System.out.println(str);
 //        Person p = JsonUtil.toJavaBean(str, Person.class);

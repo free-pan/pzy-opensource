@@ -127,4 +127,16 @@ public class ResultT<T> implements Serializable {
     public static final <T> ResultT<T> error(String code, List<String> msgList, String uri) {
         return new ResultT<>(false, code, null, msgList, uri);
     }
+
+    /**
+     * 失败
+     *
+     * @param code    错误码
+     * @param msgList 错误提示信息
+     * @param <T>
+     * @return
+     */
+    public static final <T> ResultT<T> error(String code, List<String> msgList) {
+        return new ResultT<>(false, code, null, msgList, null);
+    }
 }
