@@ -64,6 +64,52 @@ public class NumberUtil {
     }
 
     /**
+     * 判断 num1 > num2
+     *
+     * @param num1 数值1
+     * @param num2 数值2
+     * @return num1 > num2 的boolean结果
+     */
+    public static boolean gt(BigDecimal num1, BigDecimal num2) {
+        return num1.compareTo(num2) == 1;
+    }
+
+    /**
+     * 判断 num1 < num2
+     *
+     * @param num1 数值1
+     * @param num2 数值2
+     * @return num1 < num2 的boolean结果
+     */
+    public static boolean lt(BigDecimal num1, BigDecimal num2) {
+        return num1.compareTo(num2) == -1;
+    }
+
+    /**
+     * 判断 num1 >= num2
+     *
+     * @param num1 数值1
+     * @param num2 数值2
+     * @return num1 >= num2 的boolean结果
+     */
+    public static boolean gte(BigDecimal num1, BigDecimal num2) {
+        int result = num1.compareTo(num2);
+        return (result == 1 || result == 0);
+    }
+
+    /**
+     * 判断 num1 <= num2
+     *
+     * @param num1 数值1
+     * @param num2 数值2
+     * @return num1 <= num2 的boolean结果
+     */
+    public static boolean lte(BigDecimal num1, BigDecimal num2) {
+        int result = num1.compareTo(num2);
+        return (result == -1 || result == 0);
+    }
+
+    /**
      * (加法)两值相加. `one + two`
      *
      * @param one 值一
@@ -198,20 +244,25 @@ public class NumberUtil {
         // 这一条是针对上一个0.1*3的 `错误解决方式`, 你可能想当然的认为使用BigDecimal就能解决精度问题, 但实际上得到的结果依然不是0.3, 因为导致精度问题的是float和double数据类型, 而非BigDecimal
         System.out.println(new BigDecimal(0.1).multiply(new BigDecimal(3)));
         System.out.println("这里才是0.1*0.3得到精确结果的正确解决方式:");
-        System.out.println(multiply("0.1","3"));
+        System.out.println(multiply("0.1", "3"));
 
         String str = JsonUtil.toJsonString(new Person("张三", new BigDecimal("0.1")));
         System.out.println(str);
-        Person p = JsonUtil.toJavaBean(str,Person.class);
+        Person p = JsonUtil.toJavaBean(str, Person.class);
         System.out.println(p);
+
+        System.out.println(new BigDecimal("1").compareTo(new BigDecimal("2")));
+        System.out.println(new BigDecimal("1").compareTo(new BigDecimal("1")));
+        System.out.println(new BigDecimal("2").compareTo(new BigDecimal("1")));
     }
 
 
 }
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class Person{
+class Person {
     private String name;
     private BigDecimal salary;
 }
