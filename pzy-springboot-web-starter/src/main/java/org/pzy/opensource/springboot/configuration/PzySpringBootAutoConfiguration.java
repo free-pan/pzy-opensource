@@ -12,18 +12,24 @@
 
 package org.pzy.opensource.springboot.configuration;
 
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.pzy.opensource.comm.mapstruct.StringDataMapper;
 import org.pzy.opensource.comm.util.WinterSnowflake;
 import org.pzy.opensource.comm.util.WinterSnowflakeUtil;
+import org.pzy.opensource.domain.enums.LocalDatePatternEnum;
 import org.pzy.opensource.springboot.errorhandler.DefaultWinterExceptionHandlerImpl;
 import org.pzy.opensource.springboot.factory.CorsFilterFactory;
 import org.pzy.opensource.springboot.properties.CrossPropeties;
 import org.pzy.opensource.springboot.properties.SnowflakeProperties;
 import org.pzy.opensource.springboot.properties.StaticMappingProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +38,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.filter.CorsFilter;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -53,6 +63,36 @@ public class PzySpringBootAutoConfiguration {
     private StaticMappingProperties staticMappingProperties;
     @Autowired
     private SnowflakeProperties snowflakeProperties;
+
+    @Value("${spring.jackson.date-format:yyyy-MM-dd HH:mm:ss}")
+    private String pattern;
+
+    @Bean
+    @ConditionalOnMissingBean
+    public LocalDateTimeSerializer localDateTimeDeserializer() {
+        return new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(pattern));
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public LocalDateSerializer localDateDeserializer() {
+        return new LocalDateSerializer(DateTimeFormatter.ofPattern(LocalDatePatternEnum.DATE_PATTERN.getCode()));
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public LocalTimeSerializer localTimeDeserializer() {
+        return new LocalTimeSerializer(DateTimeFormatter.ofPattern("HH:mm:ss"));
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
+        return builder -> builder
+                .serializerByType(LocalDateTime.class, localDateTimeDeserializer())
+                .serializerByType(LocalDate.class, localDateDeserializer())
+                .serializerByType(LocalTime.class, localTimeDeserializer());
+    }
 
     /**
      * id生成器配置
