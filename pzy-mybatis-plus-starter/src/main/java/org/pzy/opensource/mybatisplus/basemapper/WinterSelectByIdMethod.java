@@ -12,7 +12,6 @@ import org.pzy.opensource.mybatisplus.model.entity.LogicDelBaseEntity;
  *
  * @author pan
  * @date 2020/4/6 10:08
- * @see LogicDelBaseEntity
  */
 public class WinterSelectByIdMethod extends AbstractWinterMethod {
 

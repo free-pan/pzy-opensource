@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -49,6 +50,13 @@ public interface WinterBaseMapper<T> extends BaseMapper<T> {
      * @param id 主键ID
      */
     T winterSelectById(Serializable id);
+
+    /**
+     * 查询（根据ID 批量查询）(包括逻辑删除的数据)
+     *
+     * @param idList 主键ID列表(不能为 null 以及 empty)
+     */
+    List<T> winterSelectBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
 
     /**
      * 按条件查询出匹配的单条数据(包括逻辑删除的数据)
