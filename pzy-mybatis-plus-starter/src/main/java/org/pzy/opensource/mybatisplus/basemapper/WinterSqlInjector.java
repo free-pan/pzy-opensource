@@ -20,6 +20,8 @@ public class WinterSqlInjector extends DefaultSqlInjector {
         list.add(new WinterSelectOneMethod());
         list.add(new WinterSelectPageMethod());
         list.add(new WinterSelectByIdMethod());
+        list.add(new WinterSelectByIdsMethod());
+        list.add(new WinterSelectCountMethod());
         return list;
     }
 }

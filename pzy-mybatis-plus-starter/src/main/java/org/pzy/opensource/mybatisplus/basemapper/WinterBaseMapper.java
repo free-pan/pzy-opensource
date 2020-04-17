@@ -59,6 +59,13 @@ public interface WinterBaseMapper<T> extends BaseMapper<T> {
     List<T> winterSelectBatchIds(@Param(Constants.COLLECTION) Collection<? extends Serializable> idList);
 
     /**
+     * 根据 Wrapper 条件，查询总记录数(包含逻辑删除的数据)
+     *
+     * @param queryWrapper 实体对象封装操作类（可以为 null）
+     */
+    Integer winterSelectCount(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
+
+    /**
      * 按条件查询出匹配的单条数据(包括逻辑删除的数据)
      *
      * @param page         分页条件
