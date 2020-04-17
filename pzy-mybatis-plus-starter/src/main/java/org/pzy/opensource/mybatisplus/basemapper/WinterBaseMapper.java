@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 对mybatis plus的BaseMapper进行扩展
@@ -64,6 +65,13 @@ public interface WinterBaseMapper<T> extends BaseMapper<T> {
      * @param queryWrapper 实体对象封装操作类（可以为 null）
      */
     Integer winterSelectCount(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
+
+    /**
+     * 查询（根据 columnMap 条件）(包括逻辑删除的数据)
+     *
+     * @param columnMap 表字段 map 对象
+     */
+    List<T> winterSelectByMap(@Param(Constants.COLUMN_MAP) Map<String, Object> columnMap);
 
     /**
      * 按条件查询出匹配的单条数据(包括逻辑删除的数据)

@@ -34,6 +34,20 @@ public abstract class AbstractWinterMethod extends AbstractMethod {
         return newLine ? NEWLINE + sqlScript : sqlScript;
     }
 
+    /**
+     * SQL map 查询条件
+     */
+    @Override
+    protected String sqlWhereByMap(TableInfo table) {
+        String sqlScript = SqlScriptUtils.convertChoose("v == null", " ${k} IS NULL ",
+                " ${k} = #{v} ");
+        sqlScript = SqlScriptUtils.convertForeach(sqlScript, COLUMN_MAP, "k", "v", "AND");
+        sqlScript = SqlScriptUtils.convertWhere(sqlScript);
+        sqlScript = SqlScriptUtils.convertIf(sqlScript, String.format("%s != null and !%s", COLUMN_MAP,
+                COLUMN_MAP_IS_EMPTY), true);
+        return sqlScript;
+    }
+
     @Override
     protected String sqlLogicSet(TableInfo table) {
         String strValue = "'%s'";
