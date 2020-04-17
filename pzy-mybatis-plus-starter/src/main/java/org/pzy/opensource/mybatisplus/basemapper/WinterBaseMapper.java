@@ -35,7 +35,7 @@ public interface WinterBaseMapper<T> extends BaseMapper<T> {
      * @param queryWrapper 查询条件
      * @return 匹配的记录
      */
-    List<T> winterSelectList(Wrapper<T> queryWrapper);
+    List<T> winterSelectList(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 
     /**
      * 按条件查询出匹配的单条数据(包括逻辑删除的数据)
@@ -43,7 +43,7 @@ public interface WinterBaseMapper<T> extends BaseMapper<T> {
      * @param queryWrapper 查询条件
      * @return 匹配的记录
      */
-    T winterSelectOne(Wrapper<T> queryWrapper);
+    T winterSelectOne(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 
     /**
      * 根据 ID 查询(包括逻辑删除的数据)
