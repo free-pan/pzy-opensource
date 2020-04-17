@@ -1,16 +1,9 @@
 package org.pzy.opensource.mybatisplus.basemapper;
 
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
-import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
-import org.pzy.opensource.comm.util.DateUtil;
-import org.pzy.opensource.currentuser.ThreadCurrentUser;
-import org.pzy.opensource.domain.enums.LocalDateTimePatternEnum;
-import org.pzy.opensource.mybatisplus.model.entity.LogicDelBaseEntity;
-
-import java.time.LocalDateTime;
 
 /**
  * <p>如果表是逻辑删除表,则执行逻辑删除, 否则执行普通的删除
@@ -20,7 +13,7 @@ import java.time.LocalDateTime;
  * @date 2020/4/6 10:08
  * @see org.pzy.opensource.mybatisplus.model.entity.LogicDelBaseEntity
  */
-public class WinterLogicDeleteMethod extends AbstractMethod {
+public class WinterLogicDeleteMethod extends AbstractWinterMethod {
 
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
@@ -39,13 +32,5 @@ public class WinterLogicDeleteMethod extends AbstractMethod {
             SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, Object.class);
             return this.addDeleteMappedStatement(mapperClass, getMethod(sqlMethod), sqlSource);
         }
-    }
-
-    @Override
-    protected String sqlLogicSet(TableInfo table) {
-        String strValue = "'%s'";
-        // 填充删除人信息以及删除时间
-        String str = String.format(" %s=%s, %s=%s, %s=%s ", LogicDelBaseEntity.DISABLED_OPT_ID, ThreadCurrentUser.getUserId(0L), LogicDelBaseEntity.DISABLED_OPT_NAME, String.format(strValue, ThreadCurrentUser.getRealName("")), LogicDelBaseEntity.DISABLED_TIME, String.format(strValue, DateUtil.format(LocalDateTime.now(), LocalDateTimePatternEnum.DATE_TIME_PATTERN)));
-        return "SET " + table.getLogicDeleteSql(false, false) + ", " + str;
     }
 }

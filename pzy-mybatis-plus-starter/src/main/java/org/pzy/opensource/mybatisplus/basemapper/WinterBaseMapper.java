@@ -1,8 +1,13 @@
 package org.pzy.opensource.mybatisplus.basemapper;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 对mybatis plus的BaseMapper进行扩展
@@ -20,5 +25,37 @@ public interface WinterBaseMapper<T> extends BaseMapper<T> {
      * @return 逻辑删除的记录数
      * @see org.pzy.opensource.mybatisplus.basemapper.WinterLogicDeleteMethod
      */
-    int logicDeleteById(Serializable id);
+    int winterLogicDeleteById(Serializable id);
+
+    /**
+     * 按条件查询出匹配的所有数据(包括逻辑删除的数据)
+     *
+     * @param queryWrapper 查询条件
+     * @return 匹配的记录
+     */
+    List<T> winterSelectList(Wrapper<T> queryWrapper);
+
+    /**
+     * 按条件查询出匹配的单条数据(包括逻辑删除的数据)
+     *
+     * @param queryWrapper 查询条件
+     * @return 匹配的记录
+     */
+    T winterSelectOne(Wrapper<T> queryWrapper);
+
+    /**
+     * 根据 ID 查询(包括逻辑删除的数据)
+     *
+     * @param id 主键ID
+     */
+    T winterSelectById(Serializable id);
+
+    /**
+     * 按条件查询出匹配的单条数据(包括逻辑删除的数据)
+     *
+     * @param page         分页条件
+     * @param queryWrapper 查询条件
+     * @return 匹配的记录
+     */
+    <E extends IPage<T>> E winterSelectPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
 }

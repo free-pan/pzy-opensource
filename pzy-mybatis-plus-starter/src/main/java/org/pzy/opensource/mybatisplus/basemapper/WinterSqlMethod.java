@@ -8,7 +8,12 @@ package org.pzy.opensource.mybatisplus.basemapper;
  */
 public enum WinterSqlMethod {
 
-    LOGIC_DELETE_BY_ID("logicDeleteById", "根据ID 逻辑删除一条数据", "<script>\nUPDATE %s %s WHERE %s=#{%s} %s\n</script>");
+    LOGIC_DELETE_BY_ID("winterLogicDeleteById", "根据ID 逻辑删除一条数据", "<script>\nUPDATE %s %s WHERE %s=#{%s} %s\n</script>"),
+    SELECT_LIST("winterSelectList", "查询满足条件所有数据", "<script>\nSELECT %s FROM %s %s %s\n</script>"),
+    SELECT_ONE("winterSelectOne", "查询满足条件一条数据", "<script>\nSELECT %s FROM %s %s %s\n</script>"),
+    SELECT_PAGE("winterSelectPage", "查询满足条件所有数据（并翻页）", "<script>\nSELECT %s FROM %s %s %s\n</script>"),
+    LOGIC_SELECT_BY_ID("winterSelectById", "根据ID 查询一条数据", "SELECT %s FROM %s WHERE %s=#{%s} %s"),
+    LOGIC_SELECT_BATCH_BY_IDS("winterSelectBatchIds", "根据ID集合，批量查询数据", "<script>\nSELECT %s FROM %s WHERE %s IN (%s) %s\n</script>");
 
     private final String method;
     private final String desc;
