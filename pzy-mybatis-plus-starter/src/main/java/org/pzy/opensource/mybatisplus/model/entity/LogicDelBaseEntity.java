@@ -51,7 +51,7 @@ public class LogicDelBaseEntity extends BaseEntity {
      * 是否禁用. 0.已禁用 1.未禁用
      */
     @TableLogic
-    @TableField(value = DISABLED, select = false)
+    @TableField(value = DISABLED)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
     private Short disabled;
@@ -59,7 +59,7 @@ public class LogicDelBaseEntity extends BaseEntity {
     /**
      * 禁用操作的操作时间
      */
-    @TableField(value = DISABLED_TIME, select = false)
+    @TableField(value = DISABLED_TIME)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
     private LocalDateTime disabledTime;
@@ -67,7 +67,7 @@ public class LogicDelBaseEntity extends BaseEntity {
     /**
      * 禁用操作的操作人id
      */
-    @TableField(value = DISABLED_OPT_ID, select = false)
+    @TableField(value = DISABLED_OPT_ID)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
     private Long disabledOptId;
@@ -75,7 +75,7 @@ public class LogicDelBaseEntity extends BaseEntity {
     /**
      * 禁用操作的操作人姓名
      */
-    @TableField(value = DISABLED_OPT_NAME, select = false)
+    @TableField(value = DISABLED_OPT_NAME)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
     private String disabledOptName;
