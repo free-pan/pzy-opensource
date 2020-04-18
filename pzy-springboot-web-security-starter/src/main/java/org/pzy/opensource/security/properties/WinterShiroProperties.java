@@ -81,7 +81,7 @@ public class WinterShiroProperties implements Serializable {
      */
     private Integer singleUserMaxSession;
     /**
-     * 当单个用户的session数量超过singleUserMaxSession值时,是踢出后登录的,还是踢出先登录. 默认为:true, 表示踢出后登录的
+     * 当单个用户的session数量超过singleUserMaxSession值时,是踢出后登录的,还是踢出先登录. 默认为:false, 表示踢出先登录的
      */
     private Boolean kickoutAfter;
 
@@ -97,6 +97,6 @@ public class WinterShiroProperties implements Serializable {
         this.rememberMeMaxAge = Duration.ofDays(7);
         this.rememberMeCookieName = "rememberMe";
         this.rememberMeBase64CipherKey = "QOsdkm0BH9FBO57y+cwmOA==";
-        this.kickoutAfter = true;
+        this.kickoutAfter = false;
     }
 }
