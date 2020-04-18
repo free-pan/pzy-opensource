@@ -116,6 +116,37 @@ public class ResultT<T> implements Serializable {
     }
 
     /**
+     * 根据业务执行结果, 创建ResultT实例
+     *
+     * @param bizSuc 业务方法是否执行成功
+     * @param <T>
+     * @return
+     */
+    public static final <T> ResultT<T> bizResult(Boolean bizSuc) {
+        if (bizSuc) {
+            return success();
+        } else {
+            return new ResultT<T>().setSuccess(false);
+        }
+    }
+
+    /**
+     * 根据业务执行结果, 创建ResultT实例
+     *
+     * @param bizSuc 业务方法是否执行成功
+     * @param data   响应给客户端的数据
+     * @param <T>
+     * @return
+     */
+    public static final <T> ResultT<T> bizResult(Boolean bizSuc, T data) {
+        if (bizSuc) {
+            return success().setResp(data);
+        } else {
+            return new ResultT<T>().setSuccess(false).setResp(data);
+        }
+    }
+
+    /**
      * 失败
      *
      * @param code    错误码
