@@ -81,4 +81,11 @@ public interface WinterBaseMapper<T> extends BaseMapper<T> {
      * @return 匹配的记录
      */
     <E extends IPage<T>> E winterSelectPage(E page, @Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
+
+    /**
+     * 根据 ID 修改(包括逻辑删除的数据)
+     *
+     * @param entity 实体对象
+     */
+    int winterUpdateById(@Param(Constants.ENTITY) T entity);
 }
