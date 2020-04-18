@@ -43,6 +43,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 服务模板实现
@@ -78,6 +80,19 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      */
     public String keywordEscape(String kw) {
         return MySqlUtil.escape(kw);
+    }
+
+    /**
+     * 构建用于mybatis plus的作为查询条件构建的map
+     *
+     * @param column 表的字段名称
+     * @param value  查询值(会自动去除空格)
+     * @return 一个全新的map
+     */
+    public Map<String, Object> buildMybatisPlusQueryMap(String column, String value) {
+        Map<String, Object> mybatisPlusQueryMap = new HashMap<>(5);
+        mybatisPlusQueryMap.put(column, value.trim());
+        return mybatisPlusQueryMap;
     }
 
     /**
@@ -354,7 +369,7 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      *
      * @param queryWrapper 原始查询条件
      * @param columnName   查询字段(表的字段名)
-     * @param originalKw   未经处理的查询关键词
+     * @param originalKw   未经处理的查询关键词(会自动去空格,以及对特殊字符进行转义)
      * @return 新的查询条件
      */
     public QueryWrapper<T> like(QueryWrapper<T> queryWrapper, String columnName, String originalKw) {
@@ -369,7 +384,7 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
      *
      * @param queryWrapper   原始查询条件
      * @param columnNameColl 查询字段(表的字段名)
-     * @param originalKw     未经处理的查询关键词
+     * @param originalKw     未经处理的查询关键词(会自动去空格,以及对特殊字符进行转义)
      * @return 新的查询条件
      */
     public QueryWrapper<T> like(QueryWrapper<T> queryWrapper, Collection<String> columnNameColl, String originalKw) {
