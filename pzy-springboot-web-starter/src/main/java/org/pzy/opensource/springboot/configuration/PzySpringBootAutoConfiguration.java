@@ -12,6 +12,7 @@
 
 package org.pzy.opensource.springboot.configuration;
 
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
@@ -87,11 +88,23 @@ public class PzySpringBootAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
+    public ToStringSerializer toStringSerializer() {
+        return new ToStringSerializer();
+    }
+
+    /**
+     * 定制jackson的转换器
+     *
+     * @return
+     */
+    @Bean
+    @ConditionalOnMissingBean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return builder -> builder
                 .serializerByType(LocalDateTime.class, localDateTimeDeserializer())
                 .serializerByType(LocalDate.class, localDateDeserializer())
-                .serializerByType(LocalTime.class, localTimeDeserializer());
+                .serializerByType(LocalTime.class, localTimeDeserializer())
+                .serializerByType(Long.class, toStringSerializer());
     }
 
     /**
