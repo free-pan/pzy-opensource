@@ -129,4 +129,30 @@ public class InputStreamUtil {
         return new FileInputStream(new File(tmp));
     }
 
+    /**
+     * byte数组 转 InputStream
+     *
+     * @param bytes
+     * @return
+     */
+    public static InputStream byte2InputStream(byte[] bytes) {
+        return new ByteArrayInputStream(bytes);
+    }
+
+    /**
+     * InputStream 转 byte数组
+     *
+     * @param inputStream
+     * @return
+     * @throws IOException
+     */
+    public static byte[] inputStream2byte(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buff = new byte[100];
+        int rc = 0;
+        while ((rc = inputStream.read(buff, 0, 100)) > 0) {
+            byteArrayOutputStream.write(buff, 0, rc);
+        }
+        return byteArrayOutputStream.toByteArray();
+    }
 }

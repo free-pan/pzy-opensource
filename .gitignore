@@ -215,9 +215,5 @@ fabric.properties
 
 *.iml
 
-*.iml
-
-pzy-archetype-system
-
 .classpath
 .project
