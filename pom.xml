@@ -131,6 +131,11 @@
             </dependency>
             <dependency>
                 <groupId>org.pzy.opensource</groupId>
+                <artifactId>pzy-pdf</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.pzy.opensource</groupId>
                 <artifactId>pzy-redis-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>

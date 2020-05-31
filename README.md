@@ -23,6 +23,7 @@ maven
 * `pzy-common`: 封装了一些常用的帮助类, 定义了自定义异常
 * `pzy-current-user`: 对登录用户信息进行了封装
 * `pzy-dbutil`: 可以方便的获取数据库表/字段信息
+* `pzy-pdf`: 封装pdf常用操作
 * `pzy-domain`: 封装全局常量, 分页参数, 响应数据结构
 * `pzy-mybatis-plus-starter`: 整合`mybatis plus`
 * `pzy-okhttp3`: 整合`okhttp3`
