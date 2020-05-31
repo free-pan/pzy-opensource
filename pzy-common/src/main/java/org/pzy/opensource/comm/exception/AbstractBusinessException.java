@@ -59,6 +59,15 @@ public abstract class AbstractBusinessException extends RuntimeException {
      */
     public AbstractBusinessException(String message, Exception exp) {
         super(message, exp);
+        this.fitAbstractBusinessExceptionParam(exp);
+    }
+
+    public void fitAbstractBusinessExceptionParam(Exception exp) {
+        if (exp instanceof AbstractBusinessException) {
+            AbstractBusinessException tmpExp = (AbstractBusinessException) exp;
+            this.setCode(tmpExp.getCode());
+            this.setData(tmpExp.getData());
+        }
     }
 
     /**
