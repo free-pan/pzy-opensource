@@ -27,6 +27,8 @@
         <module>pzy-email</module>
         <module>pzy-code-generator</module>
         <module>pzy-pdf</module>
+        <module>pzy-demo/sharding-jdbc-mybatis-demo</module>
+        <module>pzy-demo/pzy-mybatis-plus-starter-demo</module>
     </modules>
 
     <parent>
@@ -83,6 +85,8 @@
         <xmlworker.version>5.5.13.1</xmlworker.version>
         <itext-asian.version>5.2.0</itext-asian.version>
         <flying-saucer-pdf-itext5.version>9.1.20</flying-saucer-pdf-itext5.version>
+
+        <sharding-jdbc.version>3.1.0</sharding-jdbc.version>
     </properties>
 
     <dependencyManagement>
@@ -399,6 +403,12 @@
                 <groupId>org.xhtmlrenderer</groupId>
                 <artifactId>flying-saucer-pdf-itext5</artifactId>
                 <version>${flying-saucer-pdf-itext5.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-core</artifactId>
+                <version>${sharding-jdbc.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
