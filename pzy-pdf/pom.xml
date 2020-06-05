@@ -6,6 +6,7 @@
         <artifactId>pzy-opensource</artifactId>
         <groupId>org.pzy.opensource</groupId>
         <version>1.0.2</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
