@@ -1,0 +1,118 @@
+spring:
+  shardingsphere:
+    sharding:
+      tables:
+        user_info:
+          key-generator:
+            column: user_id
+            type: SNOWFLAKE
+          actual-data-nodes: m$->{1..2}.t_order_$->{1..2}   # 分库策略，以user_id为分片键，分片策略为user_id % 2 + 1，user_id为偶数操作m1数据源，否则操作m2
+          database‐strategy: #分库策略
+            inline:
+              sharding‐column: user_id
+              algorithm‐expression: m$->{user_id % 2 + 1}
+          table‐strategy: #分表策略
+            inline:
+              sharding‐column: order_id
+              algorithm‐expression: t_order_$->{order_id % 2 + 1}
+    datasource:
+      names: m1, m2
+      m1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.p6spy.engine.spy.P6SpyDriver # com.mysql.cj.jdbc.Driver
+        url: jdbc:p6spy:mysql://localhost:3306/user_0?useUnicode=true&characterEncoding=UTF8&allowMultiQueries=true&useSSL=false&serverTimezone=CTT
+        username: root
+        password: root
+        initial-size: 1 # 连接池初始化大小
+        max-active: 20 # 连接池的最大大小
+        min-idle: 1 # 连接池最小大小
+        max-wait: 6000 #配置获取连接等待超时的时间. 单位:毫秒
+        pool-prepared-statements: false # PSCache是否开启(mysql关闭,oracle可以开启)
+        max-pool-prepared-statement-per-connection-size: 20 # 指定每个连接上PSCache的大小(pool-prepared-statements为false时无效)
+        validation-query: SELECT 'x' # 验证连接是否有效的sql语句
+        test-on-borrow: false # 获取到连接时,是否检测连接是否可用
+        test-on-return: false # 归还连接时,是否检测连接是否可用
+        test-while-idle: true # 是否启用间隔指定时间, 将连接池中所有的连接都检测一遍是否可用
+        time-between-eviction-runs-millis: 60000 #间隔多久才进行一次检测，检测需要关闭的空闲连接. 单位:毫秒
+        time-between-connect-error-millis: 30000 #连接出错后重试时间间隔. 单位:毫秒
+        min-evictable-idle-time-millis: 300000 # 一个连接在池中最小生存的时间，单位是毫秒
+        filters: stat #配置过滤器
+        connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;connectTimeout=10000;socketTimeout=20000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+        use-global-dataSource-stat: true # 合并多个DruidDataSource的监控数据
+        filter:
+          slf4j:
+            enabled: true
+            statement-executable-sql-log-enable: false  # 为true时会打印可直接执行的sql语句
+            statement-create-after-log-enabled: false
+            statement-close-after-log-enabled: false
+            result-set-open-after-log-enabled: false
+            result-set-close-after-log-enabled: false
+      m2:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.p6spy.engine.spy.P6SpyDriver # com.mysql.cj.jdbc.Driver
+        url: jdbc:p6spy:mysql://localhost:3306/user_1?useUnicode=true&characterEncoding=UTF8&allowMultiQueries=true&useSSL=false&serverTimezone=CTT
+        username: root
+        password: root
+        initial-size: 1 # 连接池初始化大小
+        max-active: 20 # 连接池的最大大小
+        min-idle: 1 # 连接池最小大小
+        max-wait: 6000 #配置获取连接等待超时的时间. 单位:毫秒
+        pool-prepared-statements: false # PSCache是否开启(mysql关闭,oracle可以开启)
+        max-pool-prepared-statement-per-connection-size: 20 # 指定每个连接上PSCache的大小(pool-prepared-statements为false时无效)
+        validation-query: SELECT 'x' # 验证连接是否有效的sql语句
+        test-on-borrow: false # 获取到连接时,是否检测连接是否可用
+        test-on-return: false # 归还连接时,是否检测连接是否可用
+        test-while-idle: true # 是否启用间隔指定时间, 将连接池中所有的连接都检测一遍是否可用
+        time-between-eviction-runs-millis: 60000 #间隔多久才进行一次检测，检测需要关闭的空闲连接. 单位:毫秒
+        time-between-connect-error-millis: 30000 #连接出错后重试时间间隔. 单位:毫秒
+        min-evictable-idle-time-millis: 300000 # 一个连接在池中最小生存的时间，单位是毫秒
+        filters: stat #配置过滤器
+        connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;connectTimeout=10000;socketTimeout=20000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+        use-global-dataSource-stat: true # 合并多个DruidDataSource的监控数据
+        filter:
+          slf4j:
+            enabled: true
+            statement-executable-sql-log-enable: false  # 为true时会打印可直接执行的sql语句
+            statement-create-after-log-enabled: false
+            statement-close-after-log-enabled: false
+            result-set-open-after-log-enabled: false
+            result-set-close-after-log-enabled: false
+    props:
+      sql:
+        show: true
+  jackson:
+    time-zone: "GMT+8" # 设置默认时区(东八区)
+    date-format: "yyyy-MM-dd HH:mm:ss" #设置日期格式
+    # JsonInclude.Include.ALWAYS            默认(所有属性都输出,无论是否为null或空)
+    # JsonInclude.Include.NON_DEFAULT       属性为默认值不序列化
+    # JsonInclude.Include.NON_EMPTY         属性为 空（””） 或者为 NULL 都不序列化
+    # JsonInclude.Include.NON_NULL          属性为NULL不序列化
+    default-property-inclusion: ALWAYS
+    deserialization:
+      ACCEPT_EMPTY_STRING_AS_NULL_OBJECT: true # 如果字段的目标类型是对象或枚举类型类型, 但实际的值是空字符串, 则反序列化时, 将该字段设置为null
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml
+  configuration:
+    # 将数据库字段进行蛇形转驼峰
+    # 即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射
+    map-underscore-to-camel-case: true
+    # 当某条sql语句返回的数据记录数比较多时, 可能造成内存溢出, 设置该值后, 可以有效避免这种情况.
+    # 为驱动的结果集获取数量（fetchSize）设置一个提示值。此参数只可以在查询设置中被覆盖
+    default-fetch-size: 150
+    default-statement-timeout: 30 # sql执行超时时间. 单位:秒
+    # 发现自动映射目标未知列（或者未知属性类型）的行为.
+    # NONE: 不做任何反应,
+    # WARNING: 输出提醒日志 org.apache.ibatis.session.AutoMappingUnknownColumnBehavior 的日志等级必须设置为 WARN
+    # FAILING: 映射失败 (抛出 SqlSessionException)
+    auto-mapping-unknown-column-behavior: WARNING
+    # 对于map结果, 即使字段为null,也对该字段进行映射,防止字段不全
+    call-setters-on-nulls: true
+
+mybatis-plus:
+  global-config:
+    banner: false #关闭mybatis plus的banner打印
+    db-config:
+      logic-not-delete-value: 1
+      logic-delete-value: 0
+      logic-delete-field: "disabled"
+  mapper-locations: classpath*:mapper/**/*.xml
