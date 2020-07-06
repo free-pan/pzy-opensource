@@ -1,0 +1,19 @@
+{
+  "code": 200,
+  "msg": "操作成功",
+  "data": [
+    {
+      "id": "5ace75b078264e98823a01fc42200d17",
+      "areaId": "10001076",
+      "name": "青羊区",
+      "level": "3",
+      "type": null,
+      "parentId": "10001069",
+      "leader": "平台管理员",
+      "phone": "1877667887",
+      "deleteFlag": null,
+      "sysType": null,
+      "areas": []
+    }
+  ]
+}
