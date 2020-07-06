@@ -101,7 +101,7 @@ public class OkHttp3Util {
         };
         // 创建http请求日志拦截器
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(logger);
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
         interceptorList.add(loggingInterceptor);
         OkHttpClient.Builder builder = new OkHttpClient.Builder().connectionPool(connectionPool).connectTimeout(okHttp3ConnectionPoolConfigBO.getConnectionTimeout(), TimeUnit.SECONDS)
                 .readTimeout(okHttp3ConnectionPoolConfigBO.getReadTimeout(), TimeUnit.SECONDS)
