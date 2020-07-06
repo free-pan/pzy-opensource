@@ -56,7 +56,7 @@ public class ConnectionUtil {
         try {
             Class.forName(dbConnectionInfo.getDriver());
         } catch (ClassNotFoundException e) {
-            throw new DbConnectionException(String.format("数据库驱动[{}]未找到!", dbConnectionInfo.getDriver()), e);
+            throw new DbConnectionException(String.format("数据库驱动[%s]未找到!", dbConnectionInfo.getDriver()), e);
         }
         try {
             Connection connection = DriverManager.getConnection(dbConnectionInfo.getUrl(), dbConnectionInfo.getUser(), dbConnectionInfo.getPassword());
