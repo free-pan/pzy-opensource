@@ -12,8 +12,8 @@
 
 package org.pzy.opensource.comm.util;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import cn.hutool.core.codec.Base64Decoder;
+import cn.hutool.core.codec.Base64Encoder;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -48,10 +48,8 @@ public class Pic2Base64Utils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
-
-        return encoder.encode(data);// 返回Base64编码过的字节数组字符串
+        // 返回Base64编码过的字节数组字符串
+        return Base64Encoder.encode(data);
     }
 
     /**
@@ -76,10 +74,8 @@ public class Pic2Base64Utils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
-
-        return encoder.encode(data);// 返回Base64编码过的字节数组字符串
+        // 返回Base64编码过的字节数组字符串
+        return Base64Encoder.encode(data);
     }
 
     /**
@@ -102,10 +98,8 @@ public class Pic2Base64Utils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
-
-        return encoder.encode(data);// 返回Base64编码过的字节数组字符串
+        // 返回Base64编码过的字节数组字符串
+        return Base64Encoder.encode(data);
     }
 
 
@@ -139,8 +133,7 @@ public class Pic2Base64Utils {
             e.printStackTrace();
         }
         // 对字节数组Base64编码
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encode(data.toByteArray());
+        return Base64Encoder.encode(data.toByteArray());
     }
 
 
@@ -154,16 +147,18 @@ public class Pic2Base64Utils {
      * @date 2018-02-23 14:42:17
      */
     public static boolean base64ToImage(String imgStr, String imgFilePath) { // 对字节数组字符串进行Base64解码并生成图片
-
-        if (isEmpty(imgStr)) // 图像数据为空
+        // 图像数据为空
+        if (isEmpty(imgStr)) {
             return false;
+        }
 
-        BASE64Decoder decoder = new BASE64Decoder();
+
         try {
             // Base64解码
-            byte[] b = decoder.decodeBuffer(imgStr);
+            byte[] b = Base64Decoder.decode(imgStr);
             for (int i = 0; i < b.length; ++i) {
-                if (b[i] < 0) {// 调整异常数据
+                if (b[i] < 0) {
+                    // 调整异常数据
                     b[i] += 256;
                 }
             }
