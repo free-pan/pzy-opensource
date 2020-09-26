@@ -3,8 +3,6 @@ package org.pzy.opensource.i18n.dao;
 import org.pzy.opensource.i18n.domain.bo.LocaleAndCodeBO;
 import org.pzy.opensource.i18n.domain.vo.I18nMessageDataVO;
 
-import java.util.List;
-
 /**
  * 读取国际化资源操作类
  *
