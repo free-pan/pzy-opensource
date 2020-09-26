@@ -12,12 +12,6 @@ import java.util.List;
  * @since 2020/9/26
  */
 public interface PzyI18nMessageDao {
-    /**
-     * 获取所有国际化资源
-     *
-     * @return
-     */
-    List<I18nMessageDataVO> findAll();
 
     /**
      * 根据区域语言标识和国际化编码查找
