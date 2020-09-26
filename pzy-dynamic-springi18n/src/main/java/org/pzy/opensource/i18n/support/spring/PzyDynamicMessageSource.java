@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Primary
 @Slf4j
-public class PzyDatabaseMessageSource extends AbstractMessageSource implements ResourceLoaderAware {
+public class PzyDynamicMessageSource extends AbstractMessageSource implements ResourceLoaderAware {
 
     /**
      * 这个是用来缓存数据库中获取到的配置的 数据库配置更改的时候可以调用reload方法重新加载
@@ -34,7 +34,7 @@ public class PzyDatabaseMessageSource extends AbstractMessageSource implements R
 
     private PzyI18nMessageDao pzyI18nMessageDao;
 
-    public PzyDatabaseMessageSource(PzyI18nMessageDao pzyI18nMessageDao) {
+    public PzyDynamicMessageSource(PzyI18nMessageDao pzyI18nMessageDao) {
         this.pzyI18nMessageDao = pzyI18nMessageDao;
     }
 
