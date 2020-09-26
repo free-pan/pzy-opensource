@@ -30,6 +30,7 @@
         <module>pzy-demo/sharding-jdbc-mybatis-demo</module>
         <module>pzy-demo/pzy-mybatis-plus-starter-demo</module>
         <module>pzy-demo/pzy-springboot-web-security-demo</module>
+        <module>pzy-dynamic-springi18n</module>
     </modules>
 
     <parent>
