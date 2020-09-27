@@ -14,7 +14,7 @@ import java.util.Locale;
  * @since 2020/9/26
  */
 @Slf4j
-public class PzySessionLocaleResolver extends SessionLocaleResolver {
+public class WinterSessionLocaleResolver extends SessionLocaleResolver {
 
     private static final String SPLIT_CHAR = "_";
     /**
@@ -22,8 +22,11 @@ public class PzySessionLocaleResolver extends SessionLocaleResolver {
      */
     private String localeHeaderName;
 
-    public PzySessionLocaleResolver(String localeHeaderName) {
+    public WinterSessionLocaleResolver(String localeHeaderName) {
         this.localeHeaderName = localeHeaderName;
+        if (log.isDebugEnabled()) {
+            log.debug("WinterSessionLocaleResolver实例化完成!");
+        }
     }
 
     @Override

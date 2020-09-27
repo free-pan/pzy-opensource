@@ -1,4 +1,4 @@
-package org.pzy.opensource.i18n.dao;
+package org.pzy.opensource.i18n.manager;
 
 import org.pzy.opensource.i18n.domain.bo.LocaleAndCodeBO;
 import org.pzy.opensource.i18n.domain.vo.I18nMessageDataVO;
@@ -9,7 +9,7 @@ import org.pzy.opensource.i18n.domain.vo.I18nMessageDataVO;
  * @author pan
  * @since 2020/9/26
  */
-public interface PzyI18nMessageDao {
+public interface WinterI18nMessageReaderManager {
 
     /**
      * 根据区域语言标识和国际化编码查找
@@ -17,5 +17,5 @@ public interface PzyI18nMessageDao {
      * @param localeAndCodeBO
      * @return
      */
-    I18nMessageDataVO findByLocaleAndCode(LocaleAndCodeBO localeAndCodeBO);
+    I18nMessageDataVO searchByLocaleAndCode(LocaleAndCodeBO localeAndCodeBO);
 }

@@ -1,7 +1,7 @@
 package org.pzy.opensource.i18n.support.spring;
 
 import lombok.extern.slf4j.Slf4j;
-import org.pzy.opensource.i18n.dao.PzyI18nMessageDao;
+import org.pzy.opensource.i18n.manager.WinterI18nMessageReaderManager;
 import org.pzy.opensource.i18n.domain.bo.LocaleAndCodeBO;
 import org.pzy.opensource.i18n.domain.vo.I18nMessageDataVO;
 import org.springframework.context.ResourceLoaderAware;
@@ -12,8 +12,6 @@ import org.springframework.core.io.ResourceLoader;
 
 import java.text.MessageFormat;
 import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 将数据库作为国际化资源数据源
@@ -21,21 +19,18 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author pan
  * @since 2020/9/26
  */
-@Primary
 @Slf4j
-public class PzyDynamicMessageSource extends AbstractMessageSource implements ResourceLoaderAware {
-
-    /**
-     * 这个是用来缓存数据库中获取到的配置的 数据库配置更改的时候可以调用reload方法重新加载
-     */
-    private static final Map<String, Map<String, String>> LOCAL_CACHE = new ConcurrentHashMap<>(256);
+public class WinterDynamicMessageSource extends AbstractMessageSource implements ResourceLoaderAware {
 
     private ResourceLoader resourceLoader;
 
-    private PzyI18nMessageDao pzyI18nMessageDao;
+    private WinterI18nMessageReaderManager winterI18NMessageReaderManager;
 
-    public PzyDynamicMessageSource(PzyI18nMessageDao pzyI18nMessageDao) {
-        this.pzyI18nMessageDao = pzyI18nMessageDao;
+    public WinterDynamicMessageSource(WinterI18nMessageReaderManager winterI18NMessageReaderManager) {
+        this.winterI18NMessageReaderManager = winterI18NMessageReaderManager;
+        if (log.isDebugEnabled()) {
+            log.debug("WinterDynamicMessageSource初始化完成,WinterI18nMessageReaderManager的实例对象为:" + winterI18NMessageReaderManager);
+        }
     }
 
     @Override
@@ -46,7 +41,7 @@ public class PzyDynamicMessageSource extends AbstractMessageSource implements Re
     @Override
     protected MessageFormat resolveCode(String code, Locale locale) {
         // 查数据库获取国际化资源
-        I18nMessageDataVO i18nMessageDataVO = this.pzyI18nMessageDao.findByLocaleAndCode(new LocaleAndCodeBO(locale.getLanguage(), code));
+        I18nMessageDataVO i18nMessageDataVO = this.winterI18NMessageReaderManager.searchByLocaleAndCode(new LocaleAndCodeBO(locale.toLanguageTag(), code));
         String i18nMessage = null;
         if (null != i18nMessageDataVO) {
             i18nMessage = i18nMessageDataVO.getTxt();

@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.pzy.opensource.i18n.support.spring.WinterDynamicI18nAutoConfiguration
