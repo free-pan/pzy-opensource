@@ -13,13 +13,13 @@ import org.apache.ibatis.mapping.SqlSource;
  * @date 2020/4/6 10:08
  * @see org.pzy.opensource.mybatisplus.model.entity.LogicDelBaseEntity
  */
-public class WinterLogicDeleteMethod extends AbstractWinterMethod {
+public class WinterInvalidMethod extends AbstractWinterMethod {
 
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
         String sql;
         if (tableInfo.isLogicDelete()) {
-            WinterSqlMethod sqlMethod = WinterSqlMethod.LOGIC_DELETE_BY_ID;
+            WinterSqlMethod sqlMethod = WinterSqlMethod.INVALID_BY_ID;
             sql = String.format(sqlMethod.getSql(), tableInfo.getTableName(), sqlLogicSet(tableInfo),
                     tableInfo.getKeyColumn(), tableInfo.getKeyProperty(),
                     tableInfo.getLogicDeleteSql(true, true));

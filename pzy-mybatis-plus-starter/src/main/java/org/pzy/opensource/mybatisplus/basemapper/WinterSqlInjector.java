@@ -15,7 +15,7 @@ public class WinterSqlInjector extends DefaultSqlInjector {
     @Override
     public List<AbstractMethod> getMethodList(Class<?> mapperClass) {
         List<AbstractMethod> list = super.getMethodList(mapperClass);
-        list.add(new WinterLogicDeleteMethod());
+        list.add(new WinterInvalidMethod());
         list.add(new WinterSelectListMethod());
         list.add(new WinterSelectOneMethod());
         list.add(new WinterSelectPageMethod());

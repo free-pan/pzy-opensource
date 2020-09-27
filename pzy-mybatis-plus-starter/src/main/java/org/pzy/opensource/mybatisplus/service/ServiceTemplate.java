@@ -147,9 +147,9 @@ public abstract class ServiceTemplate<M extends BaseMapper<T>, T> extends Servic
         LocalDateTime now = LocalDateTime.now();
         Long operatorId = getOperatorId();
         String operatorName = getOperatorName();
-        logicDelBaseEntity.setDisabledOptId(operatorId);
-        logicDelBaseEntity.setDisabledOptName(operatorName);
-        logicDelBaseEntity.setDisabledTime(now);
+        logicDelBaseEntity.setInvalidOperatorId(operatorId);
+        logicDelBaseEntity.setInvalidName(operatorName);
+        logicDelBaseEntity.setInvalidTime(now);
     }
 
     /**

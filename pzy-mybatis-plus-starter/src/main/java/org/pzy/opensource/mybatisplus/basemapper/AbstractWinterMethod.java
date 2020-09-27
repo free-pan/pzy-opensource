@@ -52,7 +52,7 @@ public abstract class AbstractWinterMethod extends AbstractMethod {
     protected String sqlLogicSet(TableInfo table) {
         String strValue = "'%s'";
         // 填充删除人信息以及删除时间
-        String str = String.format(" %s=%s, %s=%s, %s=%s ", LogicDelBaseEntity.DISABLED_OPT_ID, ThreadCurrentUser.getUserId(0L), LogicDelBaseEntity.DISABLED_OPT_NAME, String.format(strValue, ThreadCurrentUser.getRealName("")), LogicDelBaseEntity.DISABLED_TIME, String.format(strValue, DateUtil.format(LocalDateTime.now(), LocalDateTimePatternEnum.DATE_TIME_PATTERN)));
+        String str = String.format(" %s=%s, %s=%s, %s=%s ", LogicDelBaseEntity.INVALID_OPERATOR_ID, ThreadCurrentUser.getUserId(0L), LogicDelBaseEntity.INVALID_NAME, String.format(strValue, ThreadCurrentUser.getRealName("")), LogicDelBaseEntity.INVALID_TIME, String.format(strValue, DateUtil.format(LocalDateTime.now(), LocalDateTimePatternEnum.DATE_TIME_PATTERN)));
         return "SET " + table.getLogicDeleteSql(false, false) + ", " + str;
     }
 }

@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>org.pzy.opensource</groupId>
-            <artifactId>pzy-mybatis-plus-starter</artifactId>
+            <artifactId>pzy-common</artifactId>
             <version>${parent.version}</version>
         </dependency>
         <dependency>

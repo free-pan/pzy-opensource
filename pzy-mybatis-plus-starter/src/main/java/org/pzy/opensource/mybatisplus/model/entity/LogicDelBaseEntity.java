@@ -21,7 +21,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 基础实体. 包含公共字段: disabled_time, disabled_opt_id, disabled_opt_name, disabled
+ * 基础实体. 包含公共字段: invalid_time, invalid_operator_id, invalid_name, invalid
  * @author pan
  * @date 2019-12-11
  */
@@ -31,52 +31,52 @@ public class LogicDelBaseEntity extends BaseEntity {
     private static final long serialVersionUID = 1272777735771040750L;
 
     /**
-     * 禁用操作的操作时间
+     * 作废时间
      */
-    public static final String DISABLED_TIME = "disabled_time";
+    public static final String INVALID_TIME = "invalid_time";
     /**
-     * 禁用操作的操作人id
+     * 执行作废操作的操作人id
      */
-    public static final String DISABLED_OPT_ID = "disabled_opt_id";
+    public static final String INVALID_OPERATOR_ID = "invalid_operator_id";
     /**
-     * 禁用操作的操作人姓名
+     * 执行作废操作的操作人姓名
      */
-    public static final String DISABLED_OPT_NAME = "disabled_opt_name";
+    public static final String INVALID_NAME = "invalid_name";
     /**
-     * 是否禁用. 0.已禁用 1.未禁用
+     * 数据作废或有效. 0.作废 1.有效
      */
-    public static final String DISABLED = "disabled";
+    public static final String INVALID = "invalid";
 
     /**
      * 是否禁用. 0.已禁用 1.未禁用
      */
     @TableLogic
-    @TableField(value = DISABLED)
+    @TableField(value = INVALID)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
-    private Short disabled;
+    private Short invalid;
 
     /**
-     * 禁用操作的操作时间
+     * 执行作废操作的操作时间
      */
-    @TableField(value = DISABLED_TIME)
+    @TableField(value = INVALID_TIME)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
-    private LocalDateTime disabledTime;
+    private LocalDateTime invalidTime;
 
     /**
-     * 禁用操作的操作人id
+     * 执行作废操作的操作人id
      */
-    @TableField(value = DISABLED_OPT_ID)
+    @TableField(value = INVALID_OPERATOR_ID)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
-    private Long disabledOptId;
+    private Long invalidOperatorId;
 
     /**
-     * 禁用操作的操作人姓名
+     * 执行作废操作的操作人姓名
      */
-    @TableField(value = DISABLED_OPT_NAME)
+    @TableField(value = INVALID_NAME)
     @JsonIgnore
     @ApiModelProperty(hidden = true)
-    private String disabledOptName;
+    private String invalidName;
 }
