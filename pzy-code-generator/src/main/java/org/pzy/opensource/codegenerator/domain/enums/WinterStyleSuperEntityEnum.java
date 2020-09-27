@@ -22,7 +22,7 @@ public enum WinterStyleSuperEntityEnum {
     /**
      * 逻辑删除实体
      */
-    LogicDelBaseEntity("org.pzy.opensource.mybatisplus.model.entity.LogicDelBaseEntity", new String[]{"id", "create_time", "edit_time", "creator_id", "editor_id", "creator_name", "editor_name", "disabled_time", "disabled_opt_id", "disabled_opt_name", "disabled"});
+    LogicDelBaseEntity("org.pzy.opensource.mybatisplus.model.entity.LogicDelBaseEntity", new String[]{"id", "create_time", "edit_time", "creator_id", "editor_id", "creator_name", "editor_name", "invalid_time", "invalid_operator_id", "invalid_name", "invalid"});
 
     /**
      * 构造方法
