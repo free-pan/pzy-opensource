@@ -6,7 +6,4 @@
 
 ## 如何使用
 
-* 实现 `org.pzy.opensource.i18n.manager.WinterI18nMessageReaderManager`, 并作为spring的Bean
-* 将 `org.pzy.opensource.i18n.support.spring.WinterSessionLocaleResolver` 作为spring的bean
-* 将 `org.pzy.opensource.i18n.support.spring.WinterDynamicMessageSource` 作为spring的bean
-* 将`org.pzy.opensource.i18n.support.spring.WinterSessionLocaleResolver` 作为spring的bean
+* 实现 `org.pzy.opensource.i18n.manager.WinterI18nMessageReaderManager`接口, 并作为spring的Bean
