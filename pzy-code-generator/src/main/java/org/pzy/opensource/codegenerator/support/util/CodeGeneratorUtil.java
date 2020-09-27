@@ -61,7 +61,7 @@ public class CodeGeneratorUtil {
                 @Override
                 public String outputFile(TableInfo tableInfo) {
                     // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                    return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + File.separator + winterCodeGeneratorConfigBO.getModuleName()
+                    return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", "/") + "/" + winterCodeGeneratorConfigBO.getModuleName()
                             + "/dao/" + tableInfo.getEntityName() + "DAO" + StringPool.DOT_JAVA;
                 }
             });
@@ -74,7 +74,7 @@ public class CodeGeneratorUtil {
                     @Override
                     public String outputFile(TableInfo tableInfo) {
                         // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + "/" + winterCodeGeneratorConfigBO.getModuleName()
+                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", "/") + "/" + winterCodeGeneratorConfigBO.getModuleName()
                                 + "/dto/" + tableInfo.getEntityName() + "AddDTO" + StringPool.DOT_JAVA;
                     }
                 });
@@ -82,7 +82,7 @@ public class CodeGeneratorUtil {
                     @Override
                     public String outputFile(TableInfo tableInfo) {
                         // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + "/" + winterCodeGeneratorConfigBO.getModuleName()
+                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", "/") + "/" + winterCodeGeneratorConfigBO.getModuleName()
                                 + "/dto/" + tableInfo.getEntityName() + "EditDTO" + StringPool.DOT_JAVA;
                     }
                 });
@@ -90,7 +90,7 @@ public class CodeGeneratorUtil {
                     @Override
                     public String outputFile(TableInfo tableInfo) {
                         // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + "/" + winterCodeGeneratorConfigBO.getModuleName()
+                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", "/") + "/" + winterCodeGeneratorConfigBO.getModuleName()
                                 + "/vo/" + tableInfo.getEntityName() + "VO" + StringPool.DOT_JAVA;
                     }
                 });
@@ -98,7 +98,7 @@ public class CodeGeneratorUtil {
                     @Override
                     public String outputFile(TableInfo tableInfo) {
                         // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + "/" + winterCodeGeneratorConfigBO.getModuleName()
+                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", "/") + "/" + winterCodeGeneratorConfigBO.getModuleName()
                                 + "/dto/" + tableInfo.getEntityName() + "SearchDTO" + StringPool.DOT_JAVA;
                     }
                 });
@@ -106,7 +106,7 @@ public class CodeGeneratorUtil {
                     @Override
                     public String outputFile(TableInfo tableInfo) {
                         // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator) + "/" + winterCodeGeneratorConfigBO.getModuleName()
+                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", "/") + "/" + winterCodeGeneratorConfigBO.getModuleName()
                                 + "/mapstruct/" + tableInfo.getEntityName() + "MapStruct" + StringPool.DOT_JAVA;
                     }
                 });
@@ -115,7 +115,7 @@ public class CodeGeneratorUtil {
                     @Override
                     public String outputFile(TableInfo tableInfo) {
                         // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/test/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator)
+                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/test/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", "/")
                                 + "/RestApp" + StringPool.DOT_JAVA;
                     }
                 });
@@ -163,7 +163,7 @@ public class CodeGeneratorUtil {
                     @Override
                     public String outputFile(TableInfo tableInfo) {
                         // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", File.separator)
+                        return winterCodeGeneratorConfigBO.getProjectPath() + "/src/main/java/" + winterCodeGeneratorConfigBO.getParentPackage().replaceAll("\\.", "/")
                                 + "/RestApp" + StringPool.DOT_JAVA;
                     }
                 });

@@ -9,7 +9,7 @@ spring:
   datasource:
     druid:
       driver-class-name: com.p6spy.engine.spy.P6SpyDriver # com.mysql.cj.jdbc.Driver
-      url: jdbc:p6spy:mysql://localhost:3306/pzy-acl?useUnicode=true&characterEncoding=UTF8&allowMultiQueries=true&useSSL=false
+      url: jdbc:p6spy:mysql://localhost:3306/pzy-acl?useUnicode=true&characterEncoding=UTF8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
       username: root
       password: root
       initial-size: 1 # 连接池初始化大小
