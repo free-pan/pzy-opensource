@@ -1,6 +1,7 @@
 package ${package.Controller};
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +43,7 @@ public class ${table.controllerName} {
 
     @PostMapping
     @ApiOperation(value = "${entity}新增", notes = "结果数据,为新增数据的id")
-    public ResultT<Long> add(@RequestBody ${entity}AddDTO dto) {
+    public ResultT<Long> add(@Validated @RequestBody ${entity}AddDTO dto) {
         Long id = service.saveAndClearCache(dto);
         return ResultT.success(id);
     }
@@ -57,7 +58,7 @@ public class ${table.controllerName} {
 
     @PutMapping
     @ApiOperation(value = "${entity}编辑", notes = "结果数据,为实际的业务逻辑,是否执行成功")
-    public ResultT<Boolean> edit(@RequestBody ${entity}EditDTO dto) {
+    public ResultT<Boolean> edit(@Validated @RequestBody ${entity}EditDTO dto) {
         boolean optSuc = service.updateByIdAndClearCache(dto);
         return ResultT.success(optSuc);
     }
