@@ -25,6 +25,7 @@ import org.pzy.opensource.springboot.factory.CorsFilterFactory;
 import org.pzy.opensource.springboot.properties.CrossPropeties;
 import org.pzy.opensource.springboot.properties.SnowflakeProperties;
 import org.pzy.opensource.springboot.properties.StaticMappingProperties;
+import org.pzy.opensource.web.errorhandler.WinterExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -147,7 +148,10 @@ public class PzySpringBootAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    DefaultWinterExceptionHandlerImpl winterExceptionHandler() {
+    WinterExceptionHandler winterExceptionHandler() {
+        if (log.isDebugEnabled()) {
+            log.debug("可继承" + DefaultWinterExceptionHandlerImpl.class.getName() + "类或其父类,对统一异常处理进行定制处理!");
+        }
         return new DefaultWinterExceptionHandlerImpl();
     }
 
