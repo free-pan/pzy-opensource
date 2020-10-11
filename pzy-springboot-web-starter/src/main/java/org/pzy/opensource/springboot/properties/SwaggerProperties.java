@@ -97,12 +97,15 @@ public class SwaggerProperties extends SwaggerInfoBO {
 
     public SwaggerProperties() {
         httpCodeDescMap.put(200, "服务器已收到请求,并执行.");
-        httpCodeDescMap.put(201, "添加成功.");
+        httpCodeDescMap.put(201, "添加/修改成功.");
+        httpCodeDescMap.put(202, "服务器已收到异步任务请求.");
         httpCodeDescMap.put(400, "请求数据不符合规范.");
         httpCodeDescMap.put(401, "认证失败(需要登录/重新登录).");
         httpCodeDescMap.put(403, "权限不足.");
         httpCodeDescMap.put(404, "资源/服务不存在.");
-        httpCodeDescMap.put(500, "服务端异常.");
-        httpCodeDescMap.put(503, "服务不可用.");
+        httpCodeDescMap.put(405, "服务不支持该请求方式.");
+        httpCodeDescMap.put(406, "请求参数的数据格式错误.");
+        httpCodeDescMap.put(500, "服务端非预期异常.");
+        httpCodeDescMap.put(503, "服务停机或服务过载.");
     }
 }

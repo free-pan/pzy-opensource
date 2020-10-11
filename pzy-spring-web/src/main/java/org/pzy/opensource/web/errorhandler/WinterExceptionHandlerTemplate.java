@@ -143,7 +143,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = AbstractBusinessException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, AbstractBusinessException e) throws IOException {
         String expMsg = String.format("自定义业务异常: %s", e.getMessage());
         String uri = recordLog(req, e, expMsg, false);
@@ -166,7 +166,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = MaxUploadSizeExceededException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, MaxUploadSizeExceededException e) throws IOException {
         String expMsg = String.format("上传的文件大小超过了,服务器允许的最大文件大小[%s]!", e.getMaxUploadSize());
         String uri = recordLog(req, e, expMsg, false);
@@ -187,7 +187,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = HttpMediaTypeNotAcceptableException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, HttpMediaTypeNotAcceptableException e) throws IOException {
         String accept = HttpRequestUtil.extractAccept(req);
         String expMsg = String.format("不支持该类型的Accept[%s]!", accept);
@@ -209,7 +209,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, MethodArgumentTypeMismatchException e) throws IOException {
         String expMsg = String.format("参数类型不匹配:参数名[%s]", e.getName());
         String uri = recordLog(req, e, expMsg, false);
@@ -230,7 +230,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, MethodArgumentNotValidException e) throws IOException {
         BindingResult bindingResult = e.getBindingResult();
         Iterator<FieldError> iter = bindingResult.getFieldErrors().iterator();
@@ -251,7 +251,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, ConstraintViolationException e) throws IOException {
         String expMsg = "业务数据未通过验证!";
         String uri = recordLog(req, e, expMsg, false);
@@ -293,7 +293,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = BindException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, BindException e) throws IOException {
         Iterator<FieldError> iter = e.getFieldErrors().iterator();
         ResultT<Integer> result = dataNotPassedValidate(req, response, e, iter);
@@ -319,7 +319,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, HttpMessageNotReadableException e) throws IOException {
         String expMsg = "request body参数解析异常!";
         String uri = recordLog(req, e, expMsg, false);
@@ -340,7 +340,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, HttpRequestMethodNotSupportedException e) throws IOException {
         String expMsg = "不支持的请求类型!";
         String uri = recordLog(req, e, expMsg, false);
@@ -361,7 +361,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = HttpMediaTypeNotSupportedException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, HttpMediaTypeNotSupportedException e) throws IOException {
         String expMsg = "不支持的ContentType类型(客户端指定了错误的ContentType值)!" + e.getContentType();
         String uri = recordLog(req, e, expMsg, false);
@@ -382,7 +382,7 @@ public class WinterExceptionHandlerTemplate implements WinterExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, MissingServletRequestParameterException e) throws IOException {
         String expMsg = "缺少请求参数!" + e.getParameterName();
         String uri = recordLog(req, e, expMsg, false);

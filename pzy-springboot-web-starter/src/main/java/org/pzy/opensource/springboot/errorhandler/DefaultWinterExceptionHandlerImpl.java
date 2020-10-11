@@ -166,7 +166,7 @@ public class DefaultWinterExceptionHandlerImpl extends WinterExceptionHandlerTem
      */
     @ResponseBody
     @ExceptionHandler(value = AuthenticationException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, AuthenticationException e) throws IOException {
         String expMsg = "shiro登录异常!";
         String uri = recordLog(req, e, expMsg, true);
@@ -187,7 +187,7 @@ public class DefaultWinterExceptionHandlerImpl extends WinterExceptionHandlerTem
      */
     @ResponseBody
     @ExceptionHandler(value = IncorrectCredentialsException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, IncorrectCredentialsException e) throws IOException {
         String expMsg = "shiro登录异常:账号或密码错误!";
         String uri = recordLog(req, e, expMsg, true);
@@ -208,7 +208,7 @@ public class DefaultWinterExceptionHandlerImpl extends WinterExceptionHandlerTem
      */
     @ResponseBody
     @ExceptionHandler(value = UnauthorizedException.class)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResultT<Integer> handle(HttpServletRequest req, HttpServletResponse response, UnauthorizedException e) throws IOException {
         String expMsg = "shiro权限异常(未通过shiro的鉴权)!";
         String uri = recordLog(req, e, expMsg, true);
