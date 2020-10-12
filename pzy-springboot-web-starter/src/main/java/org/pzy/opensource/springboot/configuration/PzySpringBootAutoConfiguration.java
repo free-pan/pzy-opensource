@@ -20,6 +20,7 @@ import org.pzy.opensource.comm.mapstruct.StringDataMapper;
 import org.pzy.opensource.comm.util.WinterSnowflake;
 import org.pzy.opensource.comm.util.WinterSnowflakeUtil;
 import org.pzy.opensource.domain.enums.LocalDatePatternEnum;
+import org.pzy.opensource.springboot.errorattribute.WinterErrorAttributes;
 import org.pzy.opensource.springboot.errorhandler.DefaultWinterExceptionHandlerImpl;
 import org.pzy.opensource.springboot.factory.CorsFilterFactory;
 import org.pzy.opensource.springboot.properties.CrossPropeties;
@@ -28,10 +29,14 @@ import org.pzy.opensource.springboot.properties.StaticMappingProperties;
 import org.pzy.opensource.web.errorhandler.WinterExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -51,13 +56,16 @@ import java.util.Map;
  * @author pan
  * @date 2019-12-14
  */
-@EnableConfigurationProperties({StaticMappingProperties.class, CrossPropeties.class, SnowflakeProperties.class})
+@EnableConfigurationProperties({StaticMappingProperties.class, CrossPropeties.class, SnowflakeProperties.class, ServerProperties.class})
 @Import({Swagger2Configuration.class, BaseWebMvcConfiguration.class})
 @EnableSwagger2
 @Slf4j
 @Configuration
+@AutoConfigureBefore(ErrorMvcAutoConfiguration.class)
 public class PzySpringBootAutoConfiguration {
 
+    @Autowired
+    private ServerProperties serverProperties;
     @Autowired
     private CrossPropeties crossPropeties;
     @Autowired
@@ -153,6 +161,12 @@ public class PzySpringBootAutoConfiguration {
             log.debug("可继承" + DefaultWinterExceptionHandlerImpl.class.getName() + "类或其父类,对统一异常处理进行定制处理!");
         }
         return new DefaultWinterExceptionHandlerImpl();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(ErrorAttributes.class)
+    ErrorAttributes errorAttributes() {
+        return new WinterErrorAttributes(serverProperties.getError().isIncludeException());
     }
 
     /**
