@@ -15,6 +15,7 @@ package org.pzy.opensource.dbutil.support.util;
 
 import org.pzy.opensource.dbutil.domain.bo.ColumnInfoBO;
 import org.pzy.opensource.dbutil.domain.bo.DbInfoBO;
+import org.pzy.opensource.dbutil.domain.bo.JavaAndJsTypeBO;
 import org.pzy.opensource.dbutil.domain.bo.TableInfoBO;
 
 import java.sql.Connection;
@@ -41,93 +42,81 @@ public class DbInfoUtil {
      * @param dbDataType 数据库中的字段数据类型
      * @return java中的类型
      */
-    public static String dbDataType2JavaType(String dbDataType) {
+    public static JavaAndJsTypeBO dbDataType2JavaType(String dbDataType) {
         String tmpDbDataType = dbDataType.toUpperCase();
-        String javaType;
-
+        String javaType = null;
+        String jsType = null;
         switch (tmpDbDataType) {
+            case "LONGTEXT":
+            case "TEXT":
             case "CHAR":
-                javaType = "String";
-                break;
             case "VARCHAR":
-                javaType = "String";
-                break;
             case "VARCHAR2":
                 javaType = "String";
+                jsType = "string";
                 break;
             case "BLOB":
-                javaType = "byte[]";
-                break;
             case "CLOB":
                 javaType = "byte[]";
-                break;
-            case "TEXT":
-                javaType = "String";
+                jsType = "string";
                 break;
             case "INTEGER":
-                javaType = "Integer";
                 break;
             case "INT":
-                javaType = "Integer";
                 break;
             case "INT UNSIGNED":
+            case "MEDIUMINT":
+            case "MEDIUMINT UNSIGNED":
                 javaType = "Integer";
+                jsType = "number";
                 break;
             case "SMALLINT":
-                javaType = "Short";
-                break;
             case "SMALLINT UNSIGNED":
-                javaType = "Short";
-                break;
             case "TINYINT":
-                javaType = "Short";
                 break;
             case "TINYINT UNSIGNED":
                 javaType = "Short";
-                break;
-            case "MEDIUMINT":
-                javaType = "Integer";
-                break;
-            case "MEDIUMINT UNSIGNED":
-                javaType = "Integer";
+                jsType = "number";
                 break;
             case "BIT":
                 javaType = "Boolean";
+                jsType = "boolean";
                 break;
             case "BIGINT":
-                javaType = "Long";
                 break;
             case "BIGINT UNSIGNED":
                 javaType = "Long";
+                jsType = "number";
                 break;
             case "FLOAT":
                 javaType = "Float";
+                jsType = "number";
                 break;
             case "DOUBLE":
                 javaType = "Double";
+                jsType = "number";
                 break;
             case "DECIMAL":
                 javaType = "java.math.BigDecimal";
+                jsType = "number";
                 break;
             case "DATE":
                 javaType = "java.time.LocalDate";
+                jsType = "string";
                 break;
             case "TIME":
                 javaType = "java.time.LocalTime";
+                jsType = "string";
                 break;
             case "DATETIME":
-                javaType = "java.time.LocalDateTime";
-                break;
             case "TIMESTAMP":
                 javaType = "java.time.LocalDateTime";
-                break;
-            case "LONGTEXT":
-                javaType = "String";
+                jsType = "string";
                 break;
             default:
                 throw new RuntimeException(String.format("亲,你要转换的数据库列类型[%s]不存在!", tmpDbDataType));
         }
-        return javaType;
+        return new JavaAndJsTypeBO(javaType, jsType);
     }
 
     /**
@@ -240,7 +229,9 @@ public class DbInfoUtil {
                 columnInfoBO.setDefaultVal(defaultVal);
                 // 找到数据库列类型对应的java数据类型
                 try {
-                    columnInfoBO.setJavaType(DbInfoUtil.dbDataType2JavaType(columnType));
+                    JavaAndJsTypeBO javaAndJsTypeBO = DbInfoUtil.dbDataType2JavaType(columnType);
+                    columnInfoBO.setJavaType(javaAndJsTypeBO.getJavaType());
+                    columnInfoBO.setJsType(javaAndJsTypeBO.getJsType());
                 } catch (RuntimeException e) {
                     throw new RuntimeException(String.format("[%s]表[%s]字段,sql类型转java类型时异常:%s", tableName, columnName, e.getMessage()), e);
                 }

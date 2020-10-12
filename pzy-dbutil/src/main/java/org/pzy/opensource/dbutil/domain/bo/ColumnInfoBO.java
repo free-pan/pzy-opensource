@@ -47,7 +47,11 @@ public class ColumnInfoBO {
      */
     @ApiModelProperty("java数据类型")
     private String javaType;
-
+    /**
+     * java数据类型
+     */
+    @ApiModelProperty("js数据类型")
+    private String jsType;
     /**
      * 备注信息
      */
