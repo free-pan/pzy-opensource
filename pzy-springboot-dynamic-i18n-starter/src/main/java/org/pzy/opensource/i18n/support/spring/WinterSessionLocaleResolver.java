@@ -30,7 +30,7 @@ public class WinterSessionLocaleResolver extends SessionLocaleResolver {
     }
 
     @Override
-    protected Locale determineDefaultLocale(HttpServletRequest request) {
+    public Locale determineDefaultLocale(HttpServletRequest request) {
         Locale defaultLocale = getDefaultLocale();
         if (defaultLocale == null) {
             String locale = request.getHeader(this.localeHeaderName);
