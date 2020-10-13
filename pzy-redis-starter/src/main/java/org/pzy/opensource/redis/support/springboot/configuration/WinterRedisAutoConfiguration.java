@@ -215,4 +215,10 @@ public class WinterRedisAutoConfiguration extends CachingConfigurerSupport {
         processor.setValidator(validator);
         return processor;
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    RedissonLockHelper redissonLockHelper(RedissonClient redisson) {
+        return new RedissonLockHelper(redisson);
+    }
 }

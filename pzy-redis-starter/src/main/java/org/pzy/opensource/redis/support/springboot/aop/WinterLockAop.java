@@ -56,7 +56,7 @@ public class WinterLockAop implements Ordered {
     /**
      * 锁大分类名. 所有使用注解方式加的锁, 都以这个为前缀
      */
-    private static final String LOCK_TYPE_NAME = "WinterLock:";
+    public static final String LOCK_TYPE_NAME = "WinterLock:";
     private RedissonClient redissonClient;
 
     public WinterLockAop(RedissonClient redissonClient) {
@@ -168,8 +168,6 @@ public class WinterLockAop implements Ordered {
         // 获取自定义的lockKey
         List<RLock> lockList = buildRLockList(winterLock.lockBuilder(), executeMethodInfo);
         // 是否需要使用高级方法锁
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         RLock lock = null;
         try {
             if (!CollectionUtils.isEmpty(lockList)) {
@@ -193,7 +191,6 @@ public class WinterLockAop implements Ordered {
             String errorMsg = "执行" + executeMethodInfo.getTargetName() + "." + executeMethodInfo.getMethodName() + "#" + executeMethodInfo.getParamCount() + "方法需要加锁,但未获取到锁! 租期(单位:秒)=" + winterLock.leaseTime() + " ,waitTime=" + winterLock.waitTime();
             throw new SystemBusyException("系统繁忙请稍后重试!", new RuntimeException(errorMsg, e));
         } finally {
-            stopWatch.stop();
             if (null != lock) {
                 // 释放锁
                 lock.unlock();
