@@ -338,7 +338,7 @@ public class OkHttp3Util {
             Set<Map.Entry<String, String>> entrySet = uriParams.entrySet();
             for (Map.Entry<String, String> entry : entrySet) {
                 try {
-                    stringBuilder.append(entry.getKey()).append(PARAM_KEY_VALUE_SPLIT_CHAR).append(URLEncoder.encode(entry.getValue(), paramCharset));
+                    stringBuilder.append(entry.getKey()).append(PARAM_KEY_VALUE_SPLIT_CHAR).append(URLEncoder.encode(entry.getValue(), paramCharset)).append(PARAM_SPLIT_CHAR);
                 } catch (UnsupportedEncodingException e) {
                     throw new RuntimeException("请求参数使用[" + paramCharset + "]编码出错!", e);
                 }
