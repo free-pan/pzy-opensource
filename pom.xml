@@ -72,7 +72,7 @@
         <jjwt.version>0.9.1</jjwt.version>
         <hutool.version>5.0.7</hutool.version>
         <commons-io.version>2.6</commons-io.version>
-        <snakeyaml.version>1.25</snakeyaml.version>
+        <snakeyaml.version>1.26</snakeyaml.version>
         <velocity.version>2.1</velocity.version>
 
         <okhttp3.version>4.2.2</okhttp3.version>
